@@ -34,6 +34,7 @@ Desktop.ini
 
 .DS_Store
 .svn
+*/__MACOSX/
 
 # Thumbnails
 ._*
