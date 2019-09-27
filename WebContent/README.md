@@ -24,6 +24,5 @@
 - Product page
 - Shopping cart page
 - Wish list page
-- Checkout page
 - SELLER & ADMIN: Catalogue Maintenance
 - ADMIN: User Maintenance
