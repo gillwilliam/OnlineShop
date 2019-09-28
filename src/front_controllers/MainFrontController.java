@@ -14,18 +14,24 @@ import java.util.HashMap;
 @WebServlet(name = "MainFrontController")
 public class MainFrontController extends HttpServlet {
 
-    // CONST ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public static final String PAGE_NOT_FOUND_PATH = "/page_not_found.jsp";
+	private static final long serialVersionUID = 1L;
+
+	// CONST ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public static final String PAGE_NOT_FOUND_PATH 				= "/page_not_found.jsp";
+    public static final String REQUEST_EXTENSION_PARAM_NAME 	= "main_front_controller_request_extension";
 
     // fields //////////////////////////////////////////////////////////////////////////////////////////////////////////
     private HashMap<String, RequestHandler> mRequestHandlers;
+    private String 							mRequestExtension;
 
 
 
     @Override
     public void init()
     {
-        mRequestHandlers = new HashMap<>();
+        mRequestHandlers 	= new HashMap<>();
+        mRequestExtension 	= this.getInitParameter(REQUEST_EXTENSION_PARAM_NAME);
+        
         addUrlPatternsAndHandlers();
     }
 
@@ -35,7 +41,7 @@ public class MainFrontController extends HttpServlet {
      */
     private void addUrlPatternsAndHandlers()
     {
-       mRequestHandlers.put("/editBuyerProfile.html", new EditBuyerProfileRequestHandler());
+       mRequestHandlers.put("/editBuyerProfile" + mRequestExtension, new EditBuyerProfileRequestHandler());
     }
 
 
@@ -62,7 +68,10 @@ public class MainFrontController extends HttpServlet {
         RequestHandler handler = mRequestHandlers.get(request.getServletPath());
 
         if (handler == null)
-            request.getRequestDispatcher(PAGE_NOT_FOUND_PATH).forward(request, response);
+        {
+        	request.setAttribute("page", request.getServletPath());
+        	request.getRequestDispatcher(PAGE_NOT_FOUND_PATH).forward(request, response);
+        }
         else
             handler.handleRequest(request, response);
     }
