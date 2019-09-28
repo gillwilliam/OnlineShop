@@ -11,6 +11,7 @@
     --input-height:         40px;
     --error-message-color:  red;
     --message-box-height:   60px;
+    --border-color:         #DADADA;
 }
 
 
@@ -20,9 +21,21 @@
 
 
 #header {
-    width:              100%;
-    height:             var(--header-height);
-    background-color:   var(--header-color);
+    border:             0;
+    border-bottom:      1px solid var(--border-color);
+}
+
+
+#but_catalog_maintenance {
+    cursor:             pointer;
+    margin-right:       5px;
+}
+
+
+#but_my_account {
+    display:            inline-block;
+    cursor:             pointer;
+    color:              var(--bright);
 }
 
 
