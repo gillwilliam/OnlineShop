@@ -12,20 +12,20 @@
     <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
 
     <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 
     <!-- Slick -->
-    <link type="text/css" rel="stylesheet" href="css/slick.css" />
-    <link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick-theme.css" />
 
     <!-- nouislider -->
-    <link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/nouislider.min.css" />
 
     <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
 
     <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,7 +35,7 @@
     <![endif]-->
 
     <!-- my custom css -->
-    <link rel="stylesheet" type="text/css" href="css/catalogue_maintenance.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/catalogue_maintenance.css"/>
 
 </head>
 <body>
@@ -61,16 +61,16 @@
         Price price4 = new Price(130, 0, "EUR");
 
         ProductBean prod1 = new ProductBean("Mokasyny", "shoes", price4,
-                "description lorem ipsum et ...", 69, "img/product04.jpg",
+                "description lorem ipsum et ...", 69, application.getRealPath("/") + "img/product04.jpg",
                 "", "");
         ProductBean prod2 = new ProductBean("Kalesony", "underwear", price1, "description lorem ipsum et ...", 10,
-                "img/product05.jpg",
+                "${pageContext.request.contextPath}/img/product05.jpg",
                 "", "");
         ProductBean prod3 = new ProductBean("Kuboty", "shoes", price2, "description lorem ipsum et ...", 11,
-                "img/product06.jpg",
+                "${pageContext.request.contextPath}/img/product06.jpg",
                 "", "");
         ProductBean prod4 = new ProductBean("Wyborowa", "alcohol", price3, "description lorem ipsum et ...", 1000,
-                "img/product07.jpg",
+                "${pageContext.request.contextPath}/img/product07.jpg",
                 "", "");
 
         products.add(prod1);
@@ -81,31 +81,6 @@
 
     <!-- HEADER -->
     <header>
-        <!-- top Header -->
-        <div id="top-header">
-            <div class="container">
-                <div class="pull-right">
-                    <ul class="header-top-links">
-                        <li class="dropdown default-dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
-                            <ul class="custom-menu">
-                                <li><a href="#">English (ENG)</a></li>
-                                <li><a href="#">Spanish (Es)</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown default-dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
-                            <ul class="custom-menu">
-                                <li><a href="#">USD ($)</a></li>
-                                <li><a href="#">EUR (€)</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- /top Header -->
-
         <!-- header -->
         <div id="header">
             <div class="container">
@@ -113,7 +88,7 @@
                     <!-- Logo -->
                     <div class="header-logo">
                         <a class="logo" href="#">
-                            <img src="./img/logo.png" alt="">
+                            <img src="${pageContext.request.contextPath}/img/logo.png" alt="">
                         </a>
                     </div>
                     <!-- /Logo -->
@@ -135,13 +110,13 @@
                 <div class="pull-right">
                     <ul class="header-btns">
                         <!-- catalog maintenance -->
-                        <a>
-                            <b id="but_catalog_maintenance" class="text-uppercase" href="#">Catalog Maintenance</b>
+                        <a href="${pageContext.request.contextPath}<%= application.getInitParameter("catalogue_maintenance_path") %>">
+                            <b id="but_catalog_maintenance" class="text-uppercase">Catalog Maintenance</b>
                         </a>
                         <!-- /catalog maintenance -->
 
                         <!-- Account -->
-                        <a>
+                        <a href="${pageContext.request.contextPath}<%= application.getInitParameter("seller_profile_edit_path") %>">
                             <b id="but_my_account" class="text-uppercase">My Account</b>
                         </a>
                         <!-- /Account -->
@@ -165,6 +140,8 @@
         <section id="search_section">
 
         </section> <!-- section search -->
+        
+        <a id="but_add_new_product">Add new product</a>
 
         <section id="products_list">
             <table id="products_table">
@@ -189,15 +166,15 @@
                                 <td id="td_action">
                                     <a id="but_display_product" class="but_action"
                                        href="<%= product.getDisplayPagePath() %>">
-                                        <img src="img/display_product_icon.png" alt="disp"/>
+                                        <img src="${pageContext.request.contextPath}/img/display_product_icon.png" alt="disp"/>
                                     </a>
 
                                     <a id="but_edit_product" class="but_action" href="<%= product.getEditPagePath() %>">
-                                        <img src="img/edit_icon.png" alt="edit"/>
+                                        <img src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
                                     </a>
 
                                     <a id="but_delete_product" class="but_action">
-                                        <img src="img/delete.png" alt="del"/>
+                                        <img src="${pageContext.request.contextPath}/img/delete.png" alt="del"/>
                                     </a>
                                 </td>
                             </tr>

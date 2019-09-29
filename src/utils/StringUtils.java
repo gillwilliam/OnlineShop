@@ -1,6 +1,6 @@
 package utils;
 
-import com.sun.istack.internal.NotNull;
+import com.sun.istack.NotNull;
 
 public class StringUtils {
 

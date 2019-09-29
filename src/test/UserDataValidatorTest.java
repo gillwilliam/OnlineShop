@@ -1,5 +1,7 @@
 package test;
 
+import org.junit.Test;
+
 import utils.UserDataValidator;
 
 
@@ -7,7 +9,7 @@ import utils.UserDataValidator;
 class UserDataValidatorTest {
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     void isNameValid()
     {
         String invalidName1 = "";
@@ -34,7 +36,7 @@ class UserDataValidatorTest {
 
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     void isSurnameValid()
     {
         String invalidSurname1 = "";
@@ -61,7 +63,7 @@ class UserDataValidatorTest {
 
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     void isPhoneValid()
     {
         String invalidPhone1 = "asdfasfasfsafasfassfa";
@@ -86,7 +88,7 @@ class UserDataValidatorTest {
 
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     void isAddressValid()
     {
         String invalidAddress1 = "sadf";
@@ -101,7 +103,7 @@ class UserDataValidatorTest {
 
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     void isEmailValid()
     {
         String invalidEmail1 = "";
@@ -126,7 +128,7 @@ class UserDataValidatorTest {
 
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     void isPasswordValid()
     {
         String invalidPassword1 = "asdf";
@@ -145,7 +147,7 @@ class UserDataValidatorTest {
 
 
 
-    @org.junit.jupiter.api.Test
+    @Test
     void isNewPasswordValid()
     {
         isPasswordValid();

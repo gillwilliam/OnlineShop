@@ -21,4 +21,77 @@
   	<param-name>main_front_controller_request_extension</param-name>
   	<param-value>.main</param-value>
   </context-param>
+  
+  <!-- general context parameters to use in your jsp if you need parameters with such semantics -->
+    <context-param>
+        <param-name>name</param-name>
+        <param-value>name</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>surname</param-name>
+        <param-value>sur</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>address</param-name>
+        <param-value>add</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>email</param-name>
+        <param-value>email</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>phone</param-name>
+        <param-value>phone</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>password</param-name>
+        <param-value>pass</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>new_password</param-name>
+        <param-value>new_pass</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>confirmed_password</param-name>
+        <param-value>conf_pass</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>buyer_profile_edit_result</param-name>
+        <param-value>edit_res</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>products_list_attr</param-name>
+        <param-value>prod_list</param-value>
+    </context-param>
+    
+    
+    <!-- jsp pathes -->
+    <context-param>
+        <param-name>admin_profile_edit_path</param-name>
+        <param-value>/users/admin/admin_profile.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>buyer_profile_edit_path</param-name>
+        <param-value>/users/buyer/buyer_profile.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>seller_profile_edit_path</param-name>
+        <param-value>/users/seller/seller_profile.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>catalogue_maintenance_path</param-name>
+        <param-value>/catalogue/catalogue_maintenance.jsp</param-value>
+    </context-param>
 </web-app>

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class EditBuyerProfileRequestHandler implements RequestHandler {
+public class EditUserProfileRequestHandler implements RequestHandler {
 	
 	// CONST ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     // params
@@ -32,10 +32,11 @@ public class EditBuyerProfileRequestHandler implements RequestHandler {
     public static final String BAD_CONFIRMED_PASSWORD_MESSAGE_EN = "Passwords must be the same!";
 
     // jsp
-    public static final String BUYER_PROFILE_PATH_PARAM = "buyer_profile_edit_path";
+    public static final String BUYER_PROFILE_PATH_PARAM 	= "buyer_profile_edit_path";
+    public static final String SELLER_PROFILE_PATH_PARAM 	= "seller_profile_edit_path";
+    public static final String ADMIN_PROFILE_PATH_PARAM 	= "admin_profile_edit_path";
 
     // fields //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private ServletContext  mContext;
     private String          mNameParamName;
     private String          mSurnameParamName;
     private String          mPhoneParamName;
@@ -45,24 +46,53 @@ public class EditBuyerProfileRequestHandler implements RequestHandler {
     private String          mConfirmedPassParamName;
     private String          mValidatResultParamName;
     private String 			mBuyerProfilePath;
+    private String			mSellerProfilePath;
+    private String			mAdminProfilePath;
+    private String 			mRequestExtension;
+    private String			mEditBuyerRequest;
+    private String			mEditSellerRequest;
+    private String			mEditAdminRequest;
+    
+    
+    
+    public EditUserProfileRequestHandler(ServletContext context, String requestExtension)
+    {
+    	initParams(context);
+    	
+    	mRequestExtension 	= requestExtension;
+    	mEditBuyerRequest 	= "editBuyerProfile" 	+ mRequestExtension;
+    	mEditSellerRequest 	= "editSellerProfile" 	+ mRequestExtension;
+    	mEditAdminRequest	= "editAdminProfile"	+ mRequestExtension;
+    }
 
 
 
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
-    {
-    	init(request.getServletContext());
-    	
+    { 
     	InputValidationResult validationResult = validateInputs(request);
         request.setAttribute(mValidatResultParamName, validationResult);
-
-        request.getRequestDispatcher(mBuyerProfilePath).forward(request, response);
+  
+        String servletPath = request.getServletPath();
+        
+        String[] pathParts = servletPath.split("/");
+        if (pathParts.length > 0)
+        {
+        	servletPath = pathParts[pathParts.length - 1];
+        	
+            if (servletPath.contentEquals(mEditBuyerRequest))
+            	request.getRequestDispatcher(mBuyerProfilePath).forward(request, response);
+            else if (servletPath.contentEquals(mEditSellerRequest))
+            	request.getRequestDispatcher(mSellerProfilePath).forward(request, response);
+            else if (servletPath.contentEquals(mEditAdminRequest))
+            	request.getRequestDispatcher(mAdminProfilePath).forward(request, response);
+        }
     }
     
     
     
-    private void init(ServletContext context)
+    private void initParams(ServletContext context)
     {
         mNameParamName          = context.getInitParameter(NAME_PARAM);
         mSurnameParamName       = context.getInitParameter(SURNAME_PARAM);
@@ -73,6 +103,8 @@ public class EditBuyerProfileRequestHandler implements RequestHandler {
         mConfirmedPassParamName = context.getInitParameter(CONFIRMED_PASSWORD_PARAM);
         mValidatResultParamName = context.getInitParameter(VALIDATION_RESULT_PARAM);
         mBuyerProfilePath       = context.getInitParameter(BUYER_PROFILE_PATH_PARAM);
+        mSellerProfilePath		= context.getInitParameter(SELLER_PROFILE_PATH_PARAM);
+        mAdminProfilePath		= context.getInitParameter(ADMIN_PROFILE_PATH_PARAM);
     }
     
     
@@ -87,15 +119,23 @@ public class EditBuyerProfileRequestHandler implements RequestHandler {
         String confirmedPassword    = request.getParameter(mConfirmedPassParamName);
 
         InputValidationResult res = new InputValidationResult();
-
-        res.setIsNameValid(UserDataValidator.isNameValid(name));
-        res.setIsSurnameValid(UserDataValidator.isSurnameValid(surname));
-        res.setIsPhoneValid(UserDataValidator.isPhoneValid(phone));
-        res.setIsAddressValid(UserDataValidator.isAddressValid(address));
-        res.setIsEmailValid(UserDataValidator.isEmailValid(email));
-        res.setIsPasswordValid(UserDataValidator.isPasswordValid(newPassword));
-        res.setIsConfirmedPasswordValid(UserDataValidator.isNewPasswordValid(newPassword, confirmedPassword));
-
+        
+        if (name != null)
+        	res.setIsNameValid(UserDataValidator.isNameValid(name));
+        if (surname != null)
+        	res.setIsSurnameValid(UserDataValidator.isSurnameValid(surname));
+        if (phone != null)
+        	res.setIsPhoneValid(UserDataValidator.isPhoneValid(phone));
+        if (address != null)
+        	res.setIsAddressValid(UserDataValidator.isAddressValid(address));
+        if (email != null)
+        	res.setIsEmailValid(UserDataValidator.isEmailValid(email));
+        if (newPassword != null && confirmedPassword != null & (!newPassword.isEmpty() || !confirmedPassword.isEmpty()))
+        {
+        	res.setIsPasswordValid(UserDataValidator.isPasswordValid(newPassword));
+            res.setIsConfirmedPasswordValid(UserDataValidator.isNewPasswordValid(newPassword, confirmedPassword));
+        }
+        
         return res;
     }
     
@@ -125,8 +165,8 @@ public class EditBuyerProfileRequestHandler implements RequestHandler {
 
         InputValidationResult()
         {
-            mIsValid = mIsNameValid = mIsSurnameValid = mIsPhoneValid = mIsAddressValid = mIsEmailValid =
-                    mIsNewPasswordValid = mIsConfirmedPasswordValid = true;
+            mIsValid = mIsNameValid = mIsSurnameValid = mIsPhoneValid = mIsAddressValid = 
+            		mIsEmailValid = mIsNewPasswordValid = mIsConfirmedPasswordValid = true;
 
             mNameMessage = mSurnameMessage = mPhoneMessage = mAddressMessage = mEmailMessage = mNewPasswordMessage =
                     mConfirmedPasswordMessage = "";
@@ -279,5 +319,6 @@ public class EditBuyerProfileRequestHandler implements RequestHandler {
         public String getConfirmedPasswordMessage() {
             return mConfirmedPasswordMessage;
         }
+        
     }
 }

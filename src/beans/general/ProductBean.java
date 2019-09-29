@@ -1,6 +1,8 @@
 package beans.general;
 
-import com.sun.istack.internal.NotNull;
+
+import javax.validation.constraints.NotNull;
+
 import payments.Price;
 
 public class ProductBean {

@@ -1,59 +1,181 @@
-<%@ page import="servlets.users.buyer.BuyerProfileEditServlet" %>
+<%@ page import="request_handlers.users.EditUserProfileRequestHandler" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Buyer's Profile</title>
     <!-- Custom stlylesheet -->
 
-    <link rel="stylesheet" type="text/css" href="css/buyer_profile.css"/>
+    <link rel="stylesheet" type="text/css" href="css/user_profile.css"/>
 
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+
+	<!-- Slick -->
+	<link type="text/css" rel="stylesheet" href="css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
+
+	<!-- nouislider -->
+	<link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
+
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
 
 </head>
 <body>
 
     <!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
     <jsp:useBean id="user" class="beans.session.UserBean">
-
+		<jsp:setProperty name="user" property="name" value="John"/>
+		<jsp:setProperty name="user" property="surname" value="Doe"/>
+		<jsp:setProperty name="user" property="phone" value="+34 875 764 322"/>
+		<jsp:setProperty name="user" property="address" value="calle de las palmas 27, Madrid, Spain"/>
+		<jsp:setProperty name="user" property="email" value="ggg@gmail.com"/>
     </jsp:useBean>
 
     <%
-        BuyerProfileEditServlet.InputValidationResult validationResult =
-                (BuyerProfileEditServlet.InputValidationResult) request.getAttribute(
-                        application.getInitParameter("buyer_profile_edit_result"));
+    	EditUserProfileRequestHandler.InputValidationResult validationResult =
+                    (EditUserProfileRequestHandler.InputValidationResult) request.getAttribute(
+                            application.getInitParameter("buyer_profile_edit_result"));
 
-        String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
-        confirmedPasswordMessage;
+            String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
+            confirmedPasswordMessage;
 
-        if (validationResult != null)
-        {
-            nameMessage                 = validationResult.getNameMessage();
-            surnameMessage              = validationResult.getSurnameMessage();
-            phoneMessage                = validationResult.getPhoneMessage();
-            addressMessage              = validationResult.getAddressMessage();
-            emailMessage                = validationResult.getEmailMessage();
-            passwordMessage             = validationResult.getNewPasswordMessage();
-            confirmedPasswordMessage    = validationResult.getConfirmedPasswordMessage();
-        }
-        else
-        {
-            nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
-            confirmedPasswordMessage = "";
-        }
+            if (validationResult != null)
+            {
+                nameMessage                 = validationResult.getNameMessage();
+                surnameMessage              = validationResult.getSurnameMessage();
+                phoneMessage                = validationResult.getPhoneMessage();
+                addressMessage              = validationResult.getAddressMessage();
+                emailMessage                = validationResult.getEmailMessage();
+                passwordMessage             = validationResult.getNewPasswordMessage();
+                confirmedPasswordMessage    = validationResult.getConfirmedPasswordMessage();
+            }
+            else
+            {
+                nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
+                confirmedPasswordMessage = "";
+            }
     %>
 
     <!-- header |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-    <section id="header">
-        <div id="my_cart">
-            <span id="my_cart_caption">MY CART</span>
-            <span id="cart_sum">32.50$</span>
-        </div>
-    </section>
+    <!-- HEADER -->
+	<header>
+		<!-- header -->
+		<div id="header">
+			<div class="container">
+				<div class="pull-left">
+					<!-- Logo -->
+					<div class="header-logo">
+						<a class="logo" href="#">
+							<img src="${pageContext.request.contextPath}/img/logo.png" alt="">
+						</a>
+					</div>
+					<!-- /Logo -->
+
+					<!-- Search -->
+					<div class="header-search">
+						<form>
+							<input class="input search-input" type="text" placeholder="Enter your keyword">
+							<select class="input search-categories">
+								<option value="0">All Categories</option>
+								<option value="1">Category 01</option>
+								<option value="1">Category 02</option>
+							</select>
+							<button class="search-btn"><i class="fa fa-search"></i></button>
+						</form>
+					</div>
+					<!-- /Search -->
+				</div>
+				<div class="pull-right">
+					<ul class="header-btns">
+						<!-- Account -->
+						<li class="header-account dropdown default-dropdown">
+							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+								<div class="header-btns-icon">
+									<i class="fa fa-user-o"></i>
+								</div>
+								<strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
+							</div>
+							<ul class="custom-menu">
+								<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+								<li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
+								<li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
+								<li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
+								<li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
+								<li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+							</ul>
+						</li>
+						<!-- /Account -->
+
+						<!-- Cart -->
+						<li class="header-cart dropdown default-dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+								<div class="header-btns-icon">
+									<i class="fa fa-shopping-cart"></i>
+									<span class="qty">3</span>
+								</div>
+								<strong class="text-uppercase">My Cart:</strong>
+								<br>
+								<span>35.20$</span>
+							</a>
+							<div class="custom-menu">
+								<div id="shopping-cart">
+									<div class="shopping-cart-list">
+										<div class="product product-widget">
+											<div class="product-thumb">
+												<img src="./img/thumb-product01.jpg" alt="">
+											</div>
+											<div class="product-body">
+												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
+												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+											</div>
+											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
+										</div>
+										<div class="product product-widget">
+											<div class="product-thumb">
+												<img src="./img/thumb-product01.jpg" alt="">
+											</div>
+											<div class="product-body">
+												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
+												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+											</div>
+											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
+										</div>
+									</div>
+									<div class="shopping-cart-btns">
+										<button class="main-btn">View Cart</button>
+										<button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+									</div>
+								</div>
+							</div>
+						</li>
+						<!-- /Cart -->
+
+						<!-- Mobile nav toggle-->
+						<li class="nav-toggle">
+							<button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
+						</li>
+						<!-- / Mobile nav toggle -->
+					</ul>
+				</div>
+			</div>
+			<!-- header -->
+		</div>
+		<!-- container -->
+	</header>
+	<!-- /HEADER -->
 
     <!-- site content container -->
     <div id="container">
 
         <!-- contains message about successful edit. Initially it's invisible -->
-        <div id="message_box" class="<%= validationResult == null ? "invisible" : "" %>">
+        <div id="message_box" class="<%= validationResult == null || validationResult.isValid() ? "invisible" : "" %>">
             <span id="message">
                 <%= validationResult != null && validationResult.isValid() ? "Successful data update" :
                         "Errors occurred during data update" %>
@@ -61,27 +183,37 @@
         </div>
 
         <!--  form for editing user's data -->
-        <form id="user_data_form" action="editBuyerProfile" method="post">
+        <form id="user_data_form" action="editBuyerProfile.main" method="post">
             <!--  section with users's personal data used for order purposes -->
             <section id="personal_data_section">
                 <h1>Personal data</h1>
-                <input id="name" 	type="text" name="<%= application.getInitParameter("name")%>"		placeholder="Name"/>
+                <input id="name" 	type="text" name="<%= application.getInitParameter("name")%>"		placeholder="Name"
+                value="<jsp:getProperty name="user" property="name"/>"/>
+                
                 <span class="error"><%= nameMessage %></span>
 
-                <input id="surname" type="text" name="<%= application.getInitParameter("surname")%>"	placeholder="Surname"/>
+                <input id="surname" type="text" name="<%= application.getInitParameter("surname")%>"	placeholder="Surname"
+                value="<jsp:getProperty name="user" property="surname"/>"/>
+                
                 <span class="error"><%= surnameMessage %></span>
 
-                <input id="phone" 	type="tel" 	name="<%= application.getInitParameter("phone")%>"	    placeholder="Phone number"/>
+                <input id="phone" 	type="tel" 	name="<%= application.getInitParameter("phone")%>"	    placeholder="Phone number"
+                value="<jsp:getProperty name="user" property="phone"/>"/>
                 <span class="error"><%= phoneMessage %></span>
 
-                <input id="address" type="text" name="<%= application.getInitParameter("address")%>"	placeholder="Address"/>
+                <input id="address" type="text" name="<%= application.getInitParameter("address")%>"	placeholder="Address"
+                value="<jsp:getProperty name="user" property="address"/>"/>
+                
                 <span class="error"><%= addressMessage %></span>
+                
             </section>
             <!-- sections with data used to sign in -->
             <section id="login_data_section">
                 <h1>Login data</h1>
                 <input id="email" type="email" 	name="<%= application.getInitParameter("email")%>"
-                       placeholder="Email" readonly/>
+                       placeholder="Email" 
+                       value="<jsp:getProperty name="user" property="email"/>"
+                       readonly/>
                 <span class="error"><%= emailMessage %></span>
 
                 <input id="new_password" type="password" name="<%= application.getInitParameter("new_password")%>"

@@ -1,20 +1,20 @@
 package utils;
 
-import com.sun.istack.internal.NotNull;
+import com.sun.istack.NotNull;
 
 public class UserDataValidator {
 
     // CONST ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private static final int MIN_NAME_LEN 		= 2;
-    private static final int MAX_NAME_LEN 		= 60;
-    private static final int MIN_SURNAME_LEN 	= 2;
-    private static final int MAX_SURNAME_LEN 	= 60;
-    private static final int MIN_PHONE_LEN		= 5;
-    private static final int MAX_PHONE_LEN	    = 15;
-    private static final int MIN_ADDR_LEN		= 10;
-    private static final int MAX_ADDR_LEN		= 200;
-    private static final int MIN_PASS_LEN		= 6;
-    private static final int MAX_PASS_LEN		= 50;
+    public static final int MIN_NAME_LEN 		= 2;
+    public static final int MAX_NAME_LEN 		= 60;
+    public static final int MIN_SURNAME_LEN 	= 2;
+    public static final int MAX_SURNAME_LEN 	= 60;
+    public static final int MIN_PHONE_LEN		= 5;
+    public static final int MAX_PHONE_LEN	    = 15;
+    public static final int MIN_ADDR_LEN		= 10;
+    public static final int MAX_ADDR_LEN		= 200;
+    public static final int MIN_PASS_LEN		= 6;
+    public static final int MAX_PASS_LEN		= 50;
 
 
 
@@ -55,6 +55,8 @@ public class UserDataValidator {
      */
     public static boolean isPhoneValid(@NotNull String phone)
     {
+    	phone = phone.replaceAll("\\s+", "");
+    	System.out.println(phone);
         boolean isLengthValid = StringUtils.isInRange(phone, MIN_PHONE_LEN, MAX_PHONE_LEN);
 
         if (isLengthValid)

@@ -66,6 +66,26 @@
 }
 
 
+#but_add_new_product {
+    display:            block;
+    width:              200px;
+    height:             50px;
+    margin-bottom:		50px;
+    background-color:   var(--bright);
+    color:              var(--text-on-dark-color);
+    text-align:         center;
+    line-height:        50px;
+    cursor:				pointer;
+}
+
+
+#but_add_new_product:hover {
+    animation:          	button_hover;
+    animation-duration: 	0.3s;
+    animation-fill-mode:    forwards;
+}
+
+
 #products_list {
     display:            flex;
     flex-direction:     column;
@@ -154,12 +174,13 @@
     height:             var(--but-action-dim);
     box-shadow:         inset 0 0 2px rgba(255, 255, 255, 0.5);
     border-radius:      10px;
+    cursor:				pointer;
 }
 
 
 #but_display_product:hover, #but_edit_product:hover, #but_delete_product:hover {
-    animation:          button_hover;
-    animation-duration: 0.3s;
+    animation:          	button_hover;
+    animation-duration: 	0.3s;
     animation-fill-mode:    forwards;
 }
 

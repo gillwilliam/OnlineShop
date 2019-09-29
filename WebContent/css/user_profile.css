@@ -72,7 +72,7 @@
     margin-left:        auto;
     margin-right:       auto;
     margin-bottom:      100px;
-    border:             1px solid gray;
+    border:             1px solid var(--border-color);
     border-top:         0;
 }
 

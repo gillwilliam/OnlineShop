@@ -1,8 +1,9 @@
 package front_controllers;
 
-import request_handlers.EditBuyerProfileRequestHandler;
+import request_handlers.users.EditUserProfileRequestHandler;
 import request_handlers.RequestHandler;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,8 +31,7 @@ public class MainFrontController extends HttpServlet {
     public void init()
     {
         mRequestHandlers 	= new HashMap<>();
-        mRequestExtension 	= this.getInitParameter(REQUEST_EXTENSION_PARAM_NAME);
-        
+        mRequestExtension 	= getServletContext().getInitParameter(REQUEST_EXTENSION_PARAM_NAME);
         addUrlPatternsAndHandlers();
     }
 
@@ -41,7 +41,17 @@ public class MainFrontController extends HttpServlet {
      */
     private void addUrlPatternsAndHandlers()
     {
-       mRequestHandlers.put("/editBuyerProfile" + mRequestExtension, new EditBuyerProfileRequestHandler());
+    	ServletContext context = getServletContext();
+    	mRequestHandlers.put("/editBuyerProfile" + mRequestExtension, 
+    		   new EditUserProfileRequestHandler(context, mRequestExtension));
+    	mRequestHandlers.put("/editSellerProfile" + mRequestExtension, 
+    		   new EditUserProfileRequestHandler(context, mRequestExtension));
+    	mRequestHandlers.put("/users/seller/editSellerProfile" + mRequestExtension, 
+     		   new EditUserProfileRequestHandler(context, mRequestExtension));
+    	mRequestHandlers.put("/editAdminProfile" + mRequestExtension, 
+     		   new EditUserProfileRequestHandler(context, mRequestExtension));
+     	mRequestHandlers.put("/users/admin/editAdminProfile" + mRequestExtension, 
+      		   new EditUserProfileRequestHandler(context, mRequestExtension));
     }
 
 
