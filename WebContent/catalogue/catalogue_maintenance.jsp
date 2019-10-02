@@ -109,23 +109,27 @@
                 </div>
                 <div class="pull-right">
                     <ul class="header-btns">
+                    
+                    	<!-- users maintenance -->
+	                	<a id="but_users_maintenance"
+	                	 href="${pageContext.request.contextPath}<%= application.getInitParameter("users_maintenance_path") %>">
+	                		<b class="text-uppercase">Users maintenance</b>
+	                	</a>
+	                	<!-- /users maintenance -->
+	                	
                         <!-- catalog maintenance -->
-                        <a href="${pageContext.request.contextPath}<%= application.getInitParameter("catalogue_maintenance_path") %>">
-                            <b id="but_catalog_maintenance" class="text-uppercase">Catalog Maintenance</b>
+                        <a id="but_catalog_maintenance" id="but_catalog_maintenance"
+                         href="${pageContext.request.contextPath}<%= application.getInitParameter("catalogue_maintenance_path") %>">
+                            <b class="text-uppercase">Catalog Maintenance</b>
                         </a>
                         <!-- /catalog maintenance -->
 
                         <!-- Account -->
-                        <a href="${pageContext.request.contextPath}<%= application.getInitParameter("seller_profile_edit_path") %>">
-                            <b id="but_my_account" class="text-uppercase">My Account</b>
+                        <a id="but_my_account"
+                         href="${pageContext.request.contextPath}<%= application.getInitParameter("seller_profile_edit_path") %>">
+                            <b class="text-uppercase">My Account</b>
                         </a>
                         <!-- /Account -->
-
-                        <!-- Mobile nav toggle-->
-                        <li class="nav-toggle">
-                            <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
-                        </li>
-                        <!-- / Mobile nav toggle -->
                     </ul>
                 </div>
             </div>

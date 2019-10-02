@@ -19,6 +19,7 @@
     --products-list-min-height: 200px;
     --but-action-dim:           40px;
     --border-color:             #DADADA;
+    --top-navigation-buttons-margin:	8px;
 }
 
 
@@ -28,10 +29,17 @@
 }
 
 
+#but_users_maintenance {
+	display:			inline-block;
+	margin-right:		var(--top-navigation-buttons-margin);
+}
+
+
 #but_catalog_maintenance {
-    color:              var(--bright);
+	display:			inline-block;
     cursor:             pointer;
-    margin-right:       5px;
+    margin-right:       var(--top-navigation-buttons-margin); 
+    color:              var(--bright);
 }
 
 

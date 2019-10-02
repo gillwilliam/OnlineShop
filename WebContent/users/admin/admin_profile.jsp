@@ -4,7 +4,7 @@
 <head>
     <title>Admin's profile</title>
     
-<!-- header -->
+	<!-- header -->
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
 
@@ -38,7 +38,7 @@
 <body>
 
 <!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-<jsp:useBean id="user" class="beans.session.UserBean">
+<jsp:useBean id="user" class="beans.session.AdminBean">
 	<jsp:setProperty name="user" property="name" value="John"/>
 	<jsp:setProperty name="user" property="surname" value="Doe"/>
 	<jsp:setProperty name="user" property="phone" value="+34 875 764 322"/>
@@ -100,15 +100,23 @@
             </div>
             <div class="pull-right">
                 <ul class="header-btns">
+                	<!-- users maintenance -->
+	                <a id="but_users_maintenance"
+	                	href="${pageContext.request.contextPath}<%= application.getInitParameter("users_maintenance_path") %>">
+	                	<b class="text-uppercase">Users maintenance</b>
+	                </a>
+	                <!-- /users maintenance -->
+	                	
                     <!-- catalog maintenance -->
-                    <a href="${pageContext.request.contextPath}<%= application.getInitParameter("catalogue_maintenance_path") %>">
-                        <b id="but_catalog_maintenance" class="text-uppercase">Catalog Maintenance</b>
+                    <a id="but_catalog_maintenance" href="${pageContext.request.contextPath}<%= application.getInitParameter("catalogue_maintenance_path") %>">
+                        <b class="text-uppercase">Catalog Maintenance</b>
                     </a>
                     <!-- /catalog maintenance -->
 
                     <!-- Account -->
-                    <a href="${pageContext.request.contextPath}<%= application.getInitParameter("admin_profile_edit_path") %>">
-                        <b id="but_my_account" class="text-uppercase">My Account</b>
+                    <a id="but_my_account"
+                     href="${pageContext.request.contextPath}<%= application.getInitParameter("admin_profile_edit_path") %>">
+                        <b class="text-uppercase">My Account</b>
                     </a>
                     <!-- /Account -->
 

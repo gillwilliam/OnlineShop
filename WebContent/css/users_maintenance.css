@@ -1,0 +1,55 @@
+* {
+	box-sizing:			border-box;
+	padding:			0;
+	margin:				0;
+	
+	/* variables */
+	--bright:               #f8694a;
+	--border-color:         #DADADA;
+	--top-navigation-buttons-margin:	8px;
+}
+
+
+#header {
+    border:             0;
+    border-bottom:      1px solid var(--border-color);
+}
+
+
+.header-btns a {
+	text-decoration:	none;
+	color:				black;
+}
+
+
+#but_users_maintenance {
+	margin-right:		var(--top-navigation-buttons-margin);
+    color:              var(--bright);
+}
+
+
+#but_catalog_maintenance {
+    cursor:             pointer;
+    margin-right:		var(--top-navigation-buttons-margin);
+}
+
+
+#but_my_account {
+    cursor:             pointer;
+    margin-right:		var(--top-navigation-buttons-margin);
+}
+
+
+/* content */
+
+
+#content {
+    display:            flex;
+    flex-direction:     column;
+    width:              75%;
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-bottom:      100px;
+    border:             1px solid var(--border-color);
+    border-top:         0;
+}

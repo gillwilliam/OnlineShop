@@ -7,6 +7,10 @@
     <welcome-file>main.html</welcome-file>
   </welcome-file-list>
   
+  
+  <!-- servlets -->
+  
+  
   <servlet>
   	<servlet-name>MainFrontController</servlet-name>
   	<servlet-class>front_controllers.MainFrontController</servlet-class>
@@ -20,7 +24,7 @@
   <context-param>
   	<param-name>main_front_controller_request_extension</param-name>
   	<param-value>.main</param-value>
-  </context-param>
+  </context-param>      
   
   <!-- general context parameters to use in your jsp if you need parameters with such semantics -->
     <context-param>
@@ -73,11 +77,23 @@
         <param-value>prod_list</param-value>
     </context-param>
     
+    <context-param>
+    	<param-name>max_num_of_results</param-name>
+    	<param-value>max_res</param-value>
+    </context-param>
+    
     
     <!-- jsp pathes -->
+    
+    
     <context-param>
         <param-name>admin_profile_edit_path</param-name>
         <param-value>/users/admin/admin_profile.jsp</param-value>
+    </context-param>
+          
+    <context-param>
+    	<param-name>users_maintenance_path</param-name>
+    	<param-value>/users/admin/users_maintenance.jsp</param-value>
     </context-param>
     
     <context-param>
@@ -94,4 +110,5 @@
         <param-name>catalogue_maintenance_path</param-name>
         <param-value>/catalogue/catalogue_maintenance.jsp</param-value>
     </context-param>
+    
 </web-app>

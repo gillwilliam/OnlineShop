@@ -30,7 +30,7 @@
 <body>
 
     <!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-    <jsp:useBean id="user" class="beans.session.UserBean">
+    <jsp:useBean id="user" class="beans.session.BuyerBean">
 		<jsp:setProperty name="user" property="name" value="John"/>
 		<jsp:setProperty name="user" property="surname" value="Doe"/>
 		<jsp:setProperty name="user" property="phone" value="+34 875 764 322"/>
