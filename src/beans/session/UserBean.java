@@ -1,4 +1,4 @@
-package entities;
+package beans.session;
 
 import java.io.Serializable;
 

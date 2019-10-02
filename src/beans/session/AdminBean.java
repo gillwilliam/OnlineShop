@@ -1,7 +1,5 @@
 package beans.session;
 
-import entities.UserBean;
-
 public class AdminBean extends UserBean {
 
 	// CONST ///////////////////////////////////////////////////////////////

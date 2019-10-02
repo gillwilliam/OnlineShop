@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import beans.session.AdminBean;
 import beans.session.BuyerBean;
 import beans.session.SellerBean;
-import beans.session.UserType;
-import entities.UserBean;
+import beans.session.UserBean;
+import entities.UserType;
 import request_handlers.RequestHandler;
 
 public class SearchUsersRequestHandler implements RequestHandler {
