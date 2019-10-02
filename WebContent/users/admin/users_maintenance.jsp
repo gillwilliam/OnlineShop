@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="entities.UserBean" %>
+    <%@ page import="beans.session.UserBean" %>
+    <%@ page import="beans.session.BuyerBean" %>
+    <%@ page import="beans.session.SellerBean" %>
+    <%@ page import="beans.session.AdminBean" %>
+    <%@ page import="entities.UserType" %>
+    <%@ page import="java.util.HashMap" %>
     <%@ page import="java.util.ArrayList" %>
-    <%@ page import="beans.session.UserType" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,11 +48,25 @@
 <body>
 	
 	<%
-		Object maxNumOfDisplayedUsersObj 	= request.getAttribute("max_disp_users");
-		int maxNumOfDisplayedUsers 			= maxNumOfDisplayedUsersObj != null ? (Integer) maxNumOfDisplayedUsersObj : 40;
-		ArrayList<UserBean> buyers;
-		ArrayList<UserBean> sellers;
-		ArrayList<UserBean> admins;
+		ArrayList<BuyerBean> buyers		= null;
+		ArrayList<SellerBean> sellers 	= null;
+		ArrayList<AdminBean> admins		= null;
+	
+		Object usersToDisplayObj = request.getAttribute("found_users");
+		if (usersToDisplayObj != null && usersToDisplayObj instanceof HashMap)
+		{
+			HashMap<UserType, ArrayList<UserBean>> usersToDisplay = (HashMap) usersToDisplayObj;
+			buyers 	= (ArrayList) usersToDisplay.get(UserType.BUYER);
+			sellers = (ArrayList) usersToDisplay.get(UserType.SELLER);
+			admins 	= (ArrayList) usersToDisplay.get(UserType.ADMIN);
+		}
+		
+		if (buyers == null)
+			buyers = new ArrayList<BuyerBean>();
+		if (sellers == null)
+			sellers = new ArrayList<SellerBean>();
+		if (admins == null)
+			admins = new ArrayList<AdminBean>();
 		
 	%>
 
@@ -143,8 +161,79 @@
 			</nav><!--  /bar for choosing user type  -->
 			
 			<!--  users list  -->
-			<div id="users_list">
-			</div><!--  /users list  -->
+			<table id="buyers_table" class="users_table">
+				<tr>
+					<th>Name</th>
+					<th>Surname</th>
+					<th>Phone</th>
+					<th>Address</th>
+					<th>Email</th>
+					<th>Password</th>
+				</tr>
+				<%
+					for (BuyerBean buyer : buyers)
+					{
+						%>
+							<tr>
+								<td><%= buyer.getName() %></td>
+								<td><%= buyer.getSurname() %></td>
+								<td><%= buyer.getPhone() %></td>
+								<td><%= buyer.getAddress() %></td>
+								<td><%= buyer.getEmail() %></td>
+								<td><%= buyer.getPassword() %></td>
+							</tr>
+						<%
+					}
+				%>
+			</table>
+			
+			<table id="sellers_table" class="users_table">
+				<tr>
+					<th>Name</th>
+					<th>Surname</th>
+					<th>Phone</th>
+					<th>Email</th>
+					<th>Password</th>
+				</tr>
+				<%
+					for (SellerBean seller : sellers)
+					{
+						%>
+							<tr>
+								<td><%= seller.getName() %></td>
+								<td><%= seller.getSurname() %></td>
+								<td><%= seller.getPhone() %></td>
+								<td><%= seller.getEmail() %></td>
+								<td><%= seller.getPassword() %></td>
+							</tr>
+						<%
+					}
+				%>
+			</table>
+			
+			<table id="admins_table" class="users_table">
+				<tr>
+					<th>Name</th>
+					<th>Surname</th>
+					<th>Phone</th>
+					<th>Email</th>
+					<th>Password</th>
+				</tr>
+				<%
+					for (AdminBean admin : admins)
+					{
+						%>
+							<tr>
+								<td><%= admin.getName() %></td>
+								<td><%= admin.getSurname() %></td>
+								<td><%= admin.getPhone() %></td>
+								<td><%= admin.getEmail() %></td>
+								<td><%= admin.getPassword() %></td>
+							</tr>
+						<%
+					}
+				%>
+			</table>
 			
 		</section><!--  /displaying users list  -->
 		
