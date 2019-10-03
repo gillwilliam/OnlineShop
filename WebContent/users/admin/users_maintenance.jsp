@@ -140,12 +140,16 @@
 			
 			<!--  search user form  -->
 			<form id="search_user_form">
-				<input id="input_user_name" type="text" name="<%= application.getInitParameter("name") %>" 
-					placeholder="name"/>
-				<input id="input_user_surname" type="text" name="<%= application.getInitParameter("surname") %>"
-					placeholder="surname"/>
-				<input id="input_user_email" type="email" name="<%= application.getInitParameter("email") %>"
-					placeholder="email"/>	
+				<div id="search_inputs_container">
+					<input id="input_user_name" type="text" name="<%= application.getInitParameter("name") %>" 
+						placeholder="name"/>
+					<input id="input_user_surname" type="text" name="<%= application.getInitParameter("surname") %>"
+						placeholder="surname"/>
+					<input id="input_user_email" type="email" name="<%= application.getInitParameter("email") %>"
+						placeholder="email"/>	
+				</div>
+				
+				<input id="but_search" type="submit" value="Search"/>
 			</form><!--  /search user form  -->
 		</section><!--  /section for searching users -->
 		
@@ -153,7 +157,7 @@
 		<section id="section_users_list">
 			<!--  bar for choosing user type  -->
 			<nav>
-				<ul>
+				<ul id="ul_navigation_between_user_types">
 					<li>Buyers</li>
 					<li>Sellers</li>
 					<li>Administrators</li>
@@ -169,6 +173,7 @@
 					<th>Address</th>
 					<th>Email</th>
 					<th>Password</th>
+					<th>Action</th>
 				</tr>
 				<%
 					for (BuyerBean buyer : buyers)
@@ -181,6 +186,7 @@
 								<td><%= buyer.getAddress() %></td>
 								<td><%= buyer.getEmail() %></td>
 								<td><%= buyer.getPassword() %></td>
+								<td></td>
 							</tr>
 						<%
 					}
@@ -194,6 +200,7 @@
 					<th>Phone</th>
 					<th>Email</th>
 					<th>Password</th>
+					<th>Action</th>
 				</tr>
 				<%
 					for (SellerBean seller : sellers)
@@ -205,6 +212,7 @@
 								<td><%= seller.getPhone() %></td>
 								<td><%= seller.getEmail() %></td>
 								<td><%= seller.getPassword() %></td>
+								<td></td>
 							</tr>
 						<%
 					}
@@ -218,6 +226,7 @@
 					<th>Phone</th>
 					<th>Email</th>
 					<th>Password</th>
+					<th>Action</th>
 				</tr>
 				<%
 					for (AdminBean admin : admins)
@@ -229,6 +238,7 @@
 								<td><%= admin.getPhone() %></td>
 								<td><%= admin.getEmail() %></td>
 								<td><%= admin.getPassword() %></td>
+								<td></td>
 							</tr>
 						<%
 					}
