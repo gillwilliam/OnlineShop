@@ -146,9 +146,18 @@
 	height:				var(--user-type-nav-height);
 	line-height:		var(--user-type-nav-height);
 	text-align:			center;
-	background-color:	var(--bright);
 	color:				var(--text-color-on-bright);
 	font-weight:		bold;
+}
+
+
+#ul_navigation_between_user_types li:not(#buyers_nav) {	
+	background-color:	var(--bright);
+}
+
+
+#buyers_nav {
+	background-color:	var(--users-table-header-color);
 }
 
 

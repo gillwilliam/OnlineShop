@@ -162,9 +162,9 @@
 			<!--  bar for choosing user type  -->
 			<nav>
 				<ul id="ul_navigation_between_user_types">
-					<li onclick="showBuyers()">Buyers</li>
-					<li onclick="showSellers()">Sellers</li>
-					<li onclick="showAdmins()">Administrators</li>
+					<li id="buyers_nav" class="users_nav" onclick="showBuyers()">Buyers</li>
+					<li id="sellers_nav" class="users_nav" onclick="showSellers()">Sellers</li>
+					<li id="admins_nav" class="users_nav" onclick="showAdmins()">Administrators</li>
 				</ul>
 			</nav><!--  /bar for choosing user type  -->
 			
@@ -273,7 +273,9 @@
 	function showBuyers()
 	{
 		hideAllTables();
+		resetAllColors();
 		document.getElementById("buyers_table").style.display = "table";
+		setSelectedColor(document.getElementById("buyers_nav"));
 	}
 	
 	
@@ -281,7 +283,9 @@
 	function showSellers()
 	{
 		hideAllTables();
+		resetAllColors();
 		document.getElementById("sellers_table").style.display = "table";
+		setSelectedColor(document.getElementById("sellers_nav"));
 	}
 	
 	
@@ -289,7 +293,9 @@
 	function showAdmins()
 	{
 		hideAllTables();
+		resetAllColors();
 		document.getElementById("admins_table").style.display = "table";
+		setSelectedColor(document.getElementById("admins_nav"));
 	}
 	
 	
@@ -302,6 +308,24 @@
 		{
 			tables[i].style.display = "none";
 		}
+	}
+	
+	
+	function resetAllColors()
+	{
+		var headers = document.getElementsByClassName("users_nav");
+		var i;
+		for (i = 0; i < 3; i++)
+		{
+			headers[i].style.backgroundColor = "#f8694a";
+		}
+	}
+	
+	
+	
+	function setSelectedColor(id)
+	{
+		id.style.backgroundColor = "#6f7387";
 	}
 
 </script>
