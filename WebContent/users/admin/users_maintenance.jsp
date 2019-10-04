@@ -7,6 +7,7 @@
     <%@ page import="entities.UserType" %>
     <%@ page import="java.util.HashMap" %>
     <%@ page import="java.util.ArrayList" %>
+    <%@ page import="java.lang.Math" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,6 +52,8 @@
 		ArrayList<BuyerBean> buyers		= null;
 		ArrayList<SellerBean> sellers 	= null;
 		ArrayList<AdminBean> admins		= null;
+		
+		int currMaxAmountOfDisplayedUsers = 0;
 	
 		Object usersToDisplayObj = request.getAttribute("found_users");
 		if (usersToDisplayObj != null && usersToDisplayObj instanceof HashMap)
@@ -68,6 +71,7 @@
 		if (admins == null)
 			admins = new ArrayList<AdminBean>();
 		
+		currMaxAmountOfDisplayedUsers = Math.max(buyers.size(), Math.max(sellers.size(), admins.size()));
 	%>
 
 
@@ -139,7 +143,7 @@
 			<h1>Search</h1>
 			
 			<!--  search user form  -->
-			<form id="search_user_form">
+			<form id="search_user_form" action="${pageContext.request.contextPath}/searchUsers.main" method="post">
 				<div id="search_inputs_container">
 					<input id="input_user_name" type="text" name="<%= application.getInitParameter("name") %>" 
 						placeholder="name"/>
@@ -158,9 +162,9 @@
 			<!--  bar for choosing user type  -->
 			<nav>
 				<ul id="ul_navigation_between_user_types">
-					<li>Buyers</li>
-					<li>Sellers</li>
-					<li>Administrators</li>
+					<li onclick="showBuyers()">Buyers</li>
+					<li onclick="showSellers()">Sellers</li>
+					<li onclick="showAdmins()">Administrators</li>
 				</ul>
 			</nav><!--  /bar for choosing user type  -->
 			
@@ -186,7 +190,15 @@
 								<td><%= buyer.getAddress() %></td>
 								<td><%= buyer.getEmail() %></td>
 								<td><%= buyer.getPassword() %></td>
-								<td></td>
+								<td class="td_action">
+									<a id="but_edit_user" class="but_action" href="#">
+                                        <img src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
+                                    </a>
+
+                                    <a id="but_delete_user" class="but_action" href="#">
+                                        <img src="${pageContext.request.contextPath}/img/delete.png" alt="del"/>
+                                    </a>
+								</td>
 							</tr>
 						<%
 					}
@@ -212,7 +224,7 @@
 								<td><%= seller.getPhone() %></td>
 								<td><%= seller.getEmail() %></td>
 								<td><%= seller.getPassword() %></td>
-								<td></td>
+								<td class="td_action"></td>
 							</tr>
 						<%
 					}
@@ -238,7 +250,7 @@
 								<td><%= admin.getPhone() %></td>
 								<td><%= admin.getEmail() %></td>
 								<td><%= admin.getPassword() %></td>
-								<td></td>
+								<td class="td_action"></td>
 							</tr>
 						<%
 					}
@@ -246,7 +258,54 @@
 			</table>
 			
 		</section><!--  /displaying users list  -->
+			
+			<form>
+				<input name="current_amount" value="<%= currMaxAmountOfDisplayedUsers %>" style="display: none;"/>
+				<input name="requested_additional_amount" value="40" style="display: none;"/>
+				<input id="but_load_more" type="submit" value="Load more"/>
+			</form>
 		
 	</div> <!--  /content  -->
+	
+	
+
+<script>
+	function showBuyers()
+	{
+		hideAllTables();
+		document.getElementById("buyers_table").style.display = "table";
+	}
+	
+	
+	
+	function showSellers()
+	{
+		hideAllTables();
+		document.getElementById("sellers_table").style.display = "table";
+	}
+	
+	
+	
+	function showAdmins()
+	{
+		hideAllTables();
+		document.getElementById("admins_table").style.display = "table";
+	}
+	
+	
+	
+	function hideAllTables()
+	{
+		var tables = document.getElementsByClassName("users_table");
+		var i;
+		for (i = 0; i < 3; i++)
+		{
+			tables[i].style.display = "none";
+		}
+	}
+
+</script>
+
+
 </body>
 </html>

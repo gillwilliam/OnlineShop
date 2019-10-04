@@ -98,11 +98,17 @@ public class SearchUsersRequestHandler implements RequestHandler {
 		
 		BuyerBean buyer1 	= new BuyerBean("Jan", "Kowalski", "", "", "", "");
 		BuyerBean buyer2 	= new BuyerBean("Anna", "Krzak", "", "", "", "");	
+		BuyerBean buyer3	= new BuyerBean("Justyna", "Kowalczyk", "+48 696 463 622", "Folwarczna 23, 50-013 Wrocław, Moldawia", 
+				"justynakowalska@gmail.com", "qurwa123");
+		BuyerBean buyer4	= new BuyerBean("Zbyszko", "Z Bogdanca", "123 765 322", "Bolesława Chrobrego, Bogdaniec, Slovakia", 
+				"zibidibi@grunwald.pl", "1234567");
 		SellerBean seller1 	= new SellerBean("Mirek", "Handlarz", "", "", "");
 		AdminBean admin1 	= new AdminBean("ad", "min", "", "", "");
 		
 		buyers.add(buyer1);
 		buyers.add(buyer2);
+		buyers.add(buyer3);
+		buyers.add(buyer4);
 		sellers.add(seller1);
 		admins.add(admin1);
 		
