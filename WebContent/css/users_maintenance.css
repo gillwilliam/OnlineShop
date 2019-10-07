@@ -239,12 +239,14 @@
     width:              var(--but-action-dim);
     height:             var(--but-action-dim);
     box-shadow:         inset 0 0 2px rgba(255, 255, 255, 0.5);
+    border:				none;
     border-radius:      10px;
     cursor:				pointer;
+    padding:			15%;
 }
 
 
-#but_edit_user:hover, #but_delete_user:hover {
+.but_edit_user:hover, .but_delete_user:hover {
     animation:          	button_hover;
     animation-duration: 	0.3s;
     animation-fill-mode:    forwards;
@@ -256,25 +258,12 @@
 }
 
 
-.but_action img {
-    display:            inline-block;
-    width:              80%;
-    height:             80%;
-}
-
-
-#but_edit_user {
+.but_edit_user {
     background-color:   #C38D9E;
 }
 
 
-#but_edit_user img {
-    width:              60%;
-    height:             60%;
-}
-
-
-#but_delete_user {
+.but_delete_user {
     background-color:   #E8A87C;
 }
 

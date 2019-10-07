@@ -1,4 +1,5 @@
 <%@ page import="request_handlers.users.EditUserProfileRequestHandler" %>
+<%@ page import="beans.session.BuyerBean" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -30,6 +31,7 @@
 <body>
 
     <!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
+    <!-- mock bean, will be removed once login page is implemented -->
     <jsp:useBean id="user" class="beans.session.BuyerBean">
 		<jsp:setProperty name="user" property="name" value="John"/>
 		<jsp:setProperty name="user" property="surname" value="Doe"/>
@@ -39,7 +41,31 @@
     </jsp:useBean>
 
     <%
-    	EditUserProfileRequestHandler.InputValidationResult validationResult =
+    		boolean useOtherUser = false;	// if false, then this page concerns currently signed in user. 
+    										// if true, then the page concerns user, that was passed in
+    										// request. This is used when admin edits some other user data
+    							
+    		if (request != null)
+    		{
+    			String param = request.getParameter("otherUser");
+    			useOtherUser = param != null ? param.equals("true") : false;
+    		}
+    		
+    		BuyerBean otherBuyer = new BuyerBean();
+    		
+    		if (useOtherUser)
+    		{
+    			otherBuyer.setName(request.getParameter(application.getInitParameter("name")));
+    			otherBuyer.setSurname(request.getParameter(application.getInitParameter("surname")));
+    			otherBuyer.setAddress(request.getParameter(application.getInitParameter("address")));
+    			otherBuyer.setPhone(request.getParameter(application.getInitParameter("phone")));
+    			otherBuyer.setEmail(request.getParameter(application.getInitParameter("email")));
+    		}
+    		
+    		// after data edit /////////////////////////////////////////////////////////////////////////////
+    		// if user has changed data, then he is redirected to this page again and in case some errors
+    		// occured he is informed about that. Information 
+    		EditUserProfileRequestHandler.InputValidationResult validationResult =
                     (EditUserProfileRequestHandler.InputValidationResult) request.getAttribute(
                             application.getInitParameter("buyer_profile_edit_result"));
 
@@ -188,21 +214,21 @@
             <section id="personal_data_section">
                 <h1>Personal data</h1>
                 <input id="name" 	type="text" name="<%= application.getInitParameter("name")%>"		placeholder="Name"
-                value="<jsp:getProperty name="user" property="name"/>"/>
+                value="<%= useOtherUser ? otherBuyer.getName() : user.getName() %>"/>
                 
                 <span class="error"><%= nameMessage %></span>
 
                 <input id="surname" type="text" name="<%= application.getInitParameter("surname")%>"	placeholder="Surname"
-                value="<jsp:getProperty name="user" property="surname"/>"/>
+                value="<%= useOtherUser ? otherBuyer.getSurname() : user.getSurname() %>"/>
                 
                 <span class="error"><%= surnameMessage %></span>
 
                 <input id="phone" 	type="tel" 	name="<%= application.getInitParameter("phone")%>"	    placeholder="Phone number"
-                value="<jsp:getProperty name="user" property="phone"/>"/>
+                value="<%= useOtherUser ? otherBuyer.getPhone() : user.getPhone() %>"/>
                 <span class="error"><%= phoneMessage %></span>
 
                 <input id="address" type="text" name="<%= application.getInitParameter("address")%>"	placeholder="Address"
-                value="<jsp:getProperty name="user" property="address"/>"/>
+                value="<%= useOtherUser ? otherBuyer.getAddress() : user.getAddress() %>"/>
                 
                 <span class="error"><%= addressMessage %></span>
                 
@@ -212,7 +238,7 @@
                 <h1>Login data</h1>
                 <input id="email" type="email" 	name="<%= application.getInitParameter("email")%>"
                        placeholder="Email" 
-                       value="<jsp:getProperty name="user" property="email"/>"
+                       value="<%= useOtherUser ? otherBuyer.getEmail() : user.getEmail() %>"
                        readonly/>
                 <span class="error"><%= emailMessage %></span>
 

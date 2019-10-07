@@ -1,4 +1,5 @@
 <%@ page import="request_handlers.users.EditUserProfileRequestHandler" %>
+<%@ page import="beans.session.AdminBean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -46,6 +47,29 @@
 </jsp:useBean>
 
 <%
+	boolean useOtherUser = false;	// if false, then this page concerns currently signed in user. 
+	// if true, then the page concerns user, that was passed in
+	// request. This is used when admin edits some other user data
+	
+	if (request != null)
+	{
+		String param = request.getParameter("otherUser");
+		useOtherUser = param != null ? param.equals("true") : false;
+	}
+	
+	AdminBean otherAdmin = new AdminBean();
+	
+	if (useOtherUser)
+	{
+		otherAdmin.setName(request.getParameter(application.getInitParameter("name")));
+		otherAdmin.setSurname(request.getParameter(application.getInitParameter("surname")));
+		otherAdmin.setPhone(request.getParameter(application.getInitParameter("phone")));
+		otherAdmin.setEmail(request.getParameter(application.getInitParameter("email")));
+	}
+	
+	// after data edit /////////////////////////////////////////////////////////////////////////////
+	// if user has changed data, then he is redirected to this page again and in case some errors
+	// occured he is informed about that. Information 
     EditUserProfileRequestHandler.InputValidationResult validationResult =
     		(EditUserProfileRequestHandler.InputValidationResult) request
     		.getAttribute(application.getInitParameter("buyer_profile_edit_result"));
@@ -151,17 +175,17 @@
         <section id="personal_data_section">
             <h1>Personal data</h1>
             <input id="name" 	type="text" name="<%= application.getInitParameter("name")%>"		placeholder="Name"
-            value="<jsp:getProperty name="user" property="name"/>">
+            value="<%= useOtherUser ? otherAdmin.getName() : user.getName() %>">
     
             <span class="error"><%= nameMessage %></span>
 
             <input id="surname" type="text" name="<%= application.getInitParameter("surname")%>"	placeholder="Surname"
-            value="<jsp:getProperty name="user" property="surname"/>"/>
+            value="<%= useOtherUser ? otherAdmin.getSurname() : user.getSurname() %>"/>
             
             <span class="error"><%= surnameMessage %></span>
 
             <input id="phone" 	type="tel" 	name="<%= application.getInitParameter("phone")%>"	    placeholder="Phone number"
-            value="<jsp:getProperty name="user" property="phone"/>"/>
+            value="<%= useOtherUser ? otherAdmin.getPhone() : user.getPhone() %>"/>
             
             <span class="error"><%= phoneMessage %></span>
             
@@ -170,7 +194,7 @@
         <section id="login_data_section">
             <h1>Login data</h1>
             <input id="email" type="email" 	name="<%= application.getInitParameter("email")%>"
-                   placeholder="Email" value="<jsp:getProperty name="user" property="email"/>" readonly/>
+                   placeholder="Email" value="<%= useOtherUser ? otherAdmin.getEmail() : user.getEmail() %>" readonly/>
             <span class="error"><%= emailMessage %></span>
 
             <input id="new_password" type="password" name="<%= application.getInitParameter("new_password")%>"

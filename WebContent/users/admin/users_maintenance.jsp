@@ -191,13 +191,36 @@
 								<td><%= buyer.getEmail() %></td>
 								<td><%= buyer.getPassword() %></td>
 								<td class="td_action">
-									<a id="but_edit_user" class="but_action" href="#">
-                                        <img src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
-                                    </a>
+									
+									<!--  button edit profile  -->
+									<form action="${pageContext.request.contextPath}/editBuyerProfile.main">
+										<!-- just to make buyers page display this user -->
+										<input type="text" name="otherUser" value="true" style="display:none"/>
+										<input type="text" name="<%= application.getInitParameter("name") %>" 
+										value="<%= buyer.getName() %>" style="display:none"/>
+										<input type="text" name="<%= application.getInitParameter("surname") %>"
+										value="<%= buyer.getSurname() %>" style="display:none"/>
+										<input type="text" name="<%= application.getInitParameter("phone") %>"
+										value="<%= buyer.getPhone() %>" style="display:none" />
+										<input type="text" name="<%= application.getInitParameter("address") %>"
+										value="<%= buyer.getAddress() %>" style="display:none" />
+										<input type="text" name="<%= application.getInitParameter("email") %>"
+										value="<%= buyer.getEmail() %>" style="display:none" />
+										
+										<input class="but_action but_edit_user" type="image"
+											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
+									
+									</form>
 
-                                    <a id="but_delete_user" class="but_action" href="#">
-                                        <img src="${pageContext.request.contextPath}/img/delete.png" alt="del"/>
-                                    </a>
+									<!--  button delete  -->
+									<form action="/deleteBuyer.main">
+										<input type="text" name="<%= application.getInitParameter("email") %>" 
+										value="<%= buyer.getEmail() %>" style="display:none"/>
+										
+										<input type="image" class="but_action but_delete_user"
+											src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
+									</form>
+                                    
 								</td>
 							</tr>
 						<%
@@ -224,7 +247,33 @@
 								<td><%= seller.getPhone() %></td>
 								<td><%= seller.getEmail() %></td>
 								<td><%= seller.getPassword() %></td>
-								<td class="td_action"></td>
+								<td class="td_action">
+									<!--  button edit profile  -->
+									<form action="${pageContext.request.contextPath}/editSellerProfile.main">
+										<!-- just to make buyers page display this user -->
+										<input type="text" name="otherUser" value="true" style="display:none"/>
+										<input type="text" name="<%= application.getInitParameter("name") %>" 
+										value="<%= seller.getName() %>" style="display:none"/>
+										<input type="text" name="<%= application.getInitParameter("surname") %>"
+										value="<%= seller.getSurname() %>" style="display:none" />
+										<input type="text" name="<%= application.getInitParameter("phone") %>"
+										value="<%= seller.getPhone() %>" style="display:none" />
+										<input type="text" name="<%= application.getInitParameter("email") %>"
+										value="<%= seller.getEmail() %>" style="display:none" />
+										
+										<input class="but_action but_edit_user" type="image"
+											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
+									</form>
+									
+									<!--  button delete  -->
+									<form action="/deleteSeller.main">
+										<input type="text" name="<%= application.getInitParameter("email") %>" 
+										value="<%= seller.getEmail() %>" style="display:none"/>
+										
+										<input type="image" class="but_action but_delete_user"
+											src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
+									</form>
+								</td>
 							</tr>
 						<%
 					}
@@ -250,7 +299,33 @@
 								<td><%= admin.getPhone() %></td>
 								<td><%= admin.getEmail() %></td>
 								<td><%= admin.getPassword() %></td>
-								<td class="td_action"></td>
+								<td class="td_action">
+									<!--  button edit profile  -->
+									<form action="${pageContext.request.contextPath}/editAdminProfile.main">
+										<!-- just to make buyers page display this user -->
+										<input type="text" name="otherUser" value="true" style="display:none"/>
+										<input type="text" name="<%= application.getInitParameter("name") %>" 
+										value="<%= admin.getName() %>" style="display:none"/>
+										<input type="text" name="<%= application.getInitParameter("surname") %>"
+										value="<%= admin.getSurname() %>" style="display:none" />
+										<input type="text" name="<%= application.getInitParameter("phone") %>"
+										value="<%= admin.getPhone() %>" style="display:none" />
+										<input type="text" name="<%= application.getInitParameter("email") %>"
+										value="<%= admin.getEmail() %>" style="display:none" />
+										
+										<input class="but_action but_edit_user" type="image"
+											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
+									</form>
+									
+									<!--  button delete  -->
+									<form action="/deleteAdmin.main">
+										<input type="text" name="<%= application.getInitParameter("email") %>" 
+										value="<%= admin.getEmail() %>" style="display:none"/>
+										
+										<input type="image" class="but_action but_delete_user"
+											src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
+									</form>
+								</td>
 							</tr>
 						<%
 					}
