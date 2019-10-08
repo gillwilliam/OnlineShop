@@ -10,8 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
+
+import request_handlers.RequestHandler;
+import request_handlers.users.EditUserProfileRequestHandler;
+import request_handlers.users.ProductDetailsRequestHandler;
 
 @WebServlet(name = "MainFrontController")
 public class MainFrontController extends HttpServlet {
