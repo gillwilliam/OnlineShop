@@ -1,8 +1,7 @@
 package front_controllers;
 
-import request_handlers.users.EditUserProfileRequestHandler;
-import request_handlers.users.maintenance.SearchUsersRequestHandler;
-import request_handlers.RequestHandler;
+import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import request_handlers.RequestHandler;
 import request_handlers.users.EditUserProfileRequestHandler;
-import request_handlers.users.ProductDetailsRequestHandler;
+import request_handlers.users.maintenance.SearchUsersRequestHandler;
 
 @WebServlet(name = "MainFrontController")
 public class MainFrontController extends HttpServlet {
