@@ -2,7 +2,7 @@ package beans.session;
 
 import java.io.Serializable;
 
-public class UserBean implements Serializable {
+public abstract class UserBean implements Serializable {
 
     // CONST ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static final long serialVersionUID = 1;
@@ -11,17 +11,25 @@ public class UserBean implements Serializable {
     private String      name;
     private String      surname;
     private String      phone;
-    private String      address;
     private String      email;
     private String      password;
-    private UserType    userType;
 
 
 
     public UserBean()
     {
-        name = surname = phone = address = email = password = "";
-        userType = UserType.UNREGISTERED;
+        name = surname = phone = email = password = "";
+    }
+    
+    
+    
+    public UserBean(String name, String surname, String phone, String email, String password)
+    {
+    	this.name 		= name;
+    	this.surname 	= surname;
+    	this.phone 		= phone;
+    	this.email 		= email;
+    	this.password 	= password;
     }
 
 
@@ -54,14 +62,6 @@ public class UserBean implements Serializable {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -76,13 +76,5 @@ public class UserBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
     }
 }

@@ -12,6 +12,7 @@
     --error-message-color:  red;
     --message-box-height:   60px;
     --border-color:         #DADADA;
+    --top-navigation-buttons-margin:	8px;
 }
 
 
@@ -26,9 +27,17 @@
 }
 
 
+#but_users_maintenance {
+	display:			inline-block;
+	margin-right:		var(--top-navigation-buttons-margin);
+}
+
+
 #but_catalog_maintenance {
+	display:			inline-block;
     cursor:             pointer;
-    margin-right:       5px;
+    margin-right:       var(--top-navigation-buttons-margin);
+    color:				black;
 }
 
 

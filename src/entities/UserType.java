@@ -1,4 +1,4 @@
-package beans.session;
+package entities;
 
 public enum UserType {
     UNREGISTERED,

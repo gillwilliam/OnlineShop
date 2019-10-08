@@ -1,7 +1,8 @@
 package front_controllers;
 
-import java.io.IOException;
-import java.util.HashMap;
+import request_handlers.users.EditUserProfileRequestHandler;
+import request_handlers.users.maintenance.SearchUsersRequestHandler;
+import request_handlers.RequestHandler;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -54,10 +55,8 @@ public class MainFrontController extends HttpServlet {
      		   new EditUserProfileRequestHandler(context, mRequestExtension));
      	mRequestHandlers.put("/users/admin/editAdminProfile" + mRequestExtension, 
       		   new EditUserProfileRequestHandler(context, mRequestExtension));
-     	
-     	mRequestHandlers.put("/products" + mRequestExtension, 
-       		   new ProductDetailsRequestHandler(context, mRequestExtension));
-     	
+     	mRequestHandlers.put("/searchUsers" + mRequestExtension,
+     			new SearchUsersRequestHandler(context));
     }
 
 
