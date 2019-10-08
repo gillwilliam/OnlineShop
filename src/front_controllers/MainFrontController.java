@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import request_handlers.RequestHandler;
+import request_handlers.users.DeleteAdminRequestHandler;
+import request_handlers.users.DeleteBuyerRequestHandler;
+import request_handlers.users.DeleteSellerRequestHandler;
 import request_handlers.users.EditUserProfileRequestHandler;
 import request_handlers.users.maintenance.SearchUsersRequestHandler;
 
@@ -56,6 +59,12 @@ public class MainFrontController extends HttpServlet {
       		   new EditUserProfileRequestHandler(context, mRequestExtension));
      	mRequestHandlers.put("/searchUsers" + mRequestExtension,
      			new SearchUsersRequestHandler(context));
+     	mRequestHandlers.put("/deleteBuyer" + mRequestExtension,
+     			new DeleteBuyerRequestHandler(context, mRequestExtension));
+     	mRequestHandlers.put("/deleteSeller" + mRequestExtension,
+     			new DeleteSellerRequestHandler(context, mRequestExtension));
+     	mRequestHandlers.put("/deleteAdmin" + mRequestExtension,
+     			new DeleteAdminRequestHandler(context, mRequestExtension));
     }
 
 

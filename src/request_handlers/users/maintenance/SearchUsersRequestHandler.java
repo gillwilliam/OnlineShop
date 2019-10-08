@@ -53,6 +53,14 @@ public class SearchUsersRequestHandler implements RequestHandler {
 		String searchedSurname 	= request.getParameter(mContext.getInitParameter(SURNAME_INIT_PARAM_NAME));
 		String searchedEmail 	= request.getParameter(mContext.getInitParameter(EMAIL_INIT_PARAM_NAME));
 		
+		// if search was initiated in request handler, not jsp form
+		if (searchedName == null)
+			searchedName = (String) request.getAttribute(mContext.getInitParameter(NAME_INIT_PARAM_NAME));
+		if (searchedSurname == null)
+			searchedSurname = (String) request.getAttribute(mContext.getInitParameter(SURNAME_INIT_PARAM_NAME));
+		if (searchedEmail == null)
+			searchedEmail = (String) request.getAttribute(mContext.getInitParameter(EMAIL_INIT_PARAM_NAME));
+		
 		HashMap<UserType, ArrayList<UserBean>> searchResult = searchForUsers(searchedName, searchedSurname, searchedEmail, 
 				maxNumOfResults);
 		
@@ -96,14 +104,14 @@ public class SearchUsersRequestHandler implements RequestHandler {
 		ArrayList<UserBean> sellers	= new ArrayList<>();
 		ArrayList<UserBean> admins		= new ArrayList<>();
 		
-		BuyerBean buyer1 	= new BuyerBean("Jan", "Kowalski", "", "", "", "");
-		BuyerBean buyer2 	= new BuyerBean("Anna", "Krzak", "", "", "", "");	
+		BuyerBean buyer1 	= new BuyerBean("Jan", "Kowalski", "2345352", "sdgfdsgdsg", "jankowalski@jonek.cz", "123456");
+		BuyerBean buyer2 	= new BuyerBean("Anna", "Krzak", "325253", "address", "a.krzak@gmail.com", "123456");	
 		BuyerBean buyer3	= new BuyerBean("Justyna", "Kowalczyk", "+48 696 463 622", "Folwarczna 23, 50-013 Wrocław, Moldawia", 
 				"justynakowalska@gmail.com", "qurwa123");
 		BuyerBean buyer4	= new BuyerBean("Zbyszko", "Z Bogdanca", "123 765 322", "Bolesława Chrobrego, Bogdaniec, Slovakia", 
 				"zibidibi@grunwald.pl", "1234567");
-		SellerBean seller1 	= new SellerBean("Mirek", "Handlarz", "", "", "");
-		AdminBean admin1 	= new AdminBean("ad", "min", "", "", "");
+		SellerBean seller1 	= new SellerBean("Mirek", "Handlarz", "123 765 433", "miro@naciagacz.com", "123456");
+		AdminBean admin1 	= new AdminBean("ad", "min", "443212321", "adm1@shop.com", "123456");
 		
 		buyers.add(buyer1);
 		buyers.add(buyer2);

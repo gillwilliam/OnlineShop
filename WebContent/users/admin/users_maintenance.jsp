@@ -141,9 +141,10 @@
 		<!--  section for searching users -->
 		<section id="section_search_user">
 			<h1>Search</h1>
-			
+			<p>Leave field empty if you want it to match any value</p>
 			<!--  search user form  -->
-			<form id="search_user_form" action="${pageContext.request.contextPath}/searchUsers.main" method="post">
+			<form id="search_user_form" action="${pageContext.request.contextPath}/searchUsers
+				<%= application.getInitParameter("main_front_controller_request_extension") %>" method="get">
 				<div id="search_inputs_container">
 					<input id="input_user_name" type="text" name="<%= application.getInitParameter("name") %>" 
 						placeholder="name"/>
@@ -193,32 +194,60 @@
 								<td class="td_action">
 									
 									<!--  button edit profile  -->
-									<form action="${pageContext.request.contextPath}/editBuyerProfile.main">
+									<form action="${pageContext.request.contextPath}/editBuyerProfile
+										<%= application.getInitParameter("main_front_controller_request_extension") %>">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
 										<input type="text" name="<%= application.getInitParameter("name") %>" 
-										value="<%= buyer.getName() %>" style="display:none"/>
+											value="<%= buyer.getName() %>" style="display:none"/>
 										<input type="text" name="<%= application.getInitParameter("surname") %>"
-										value="<%= buyer.getSurname() %>" style="display:none"/>
+											value="<%= buyer.getSurname() %>" style="display:none"/>
 										<input type="text" name="<%= application.getInitParameter("phone") %>"
-										value="<%= buyer.getPhone() %>" style="display:none" />
+											value="<%= buyer.getPhone() %>" style="display:none" />
 										<input type="text" name="<%= application.getInitParameter("address") %>"
-										value="<%= buyer.getAddress() %>" style="display:none" />
+											value="<%= buyer.getAddress() %>" style="display:none" />
 										<input type="text" name="<%= application.getInitParameter("email") %>"
-										value="<%= buyer.getEmail() %>" style="display:none" />
+											value="<%= buyer.getEmail() %>" style="display:none" />
 										
 										<input class="but_action but_edit_user" type="image"
 											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
-									
 									</form>
 
 									<!--  button delete  -->
-									<form action="/deleteBuyer.main">
+									<form action="${pageContext.request.contextPath}/deleteBuyer
+										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
 										<input type="text" name="<%= application.getInitParameter("email") %>" 
-										value="<%= buyer.getEmail() %>" style="display:none"/>
+											value="<%= buyer.getEmail() %>" style="display:none"/>
+			
+										<!-- inputs that keep value from previous search -->										
+										<input type="text" name="search_name" 
+											value="<%= request.getParameter(application.getInitParameter("name")) %>" 
+											style="display:none"/>
 										
-										<input type="image" class="but_action but_delete_user"
-											src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
+										<input type="text" name="search_surname"
+											value="<%= request.getParameter(application.getInitParameter("surname")) %>"
+											style="display:none" />
+										
+										<input type="text" name="search_email"
+											value="<%= request.getParameter(application.getInitParameter("email")) %>"
+											style="display:none" />
+										
+										
+										<!-- button for beginning user deletion (after clicking confirmation button will appear -->
+										<div class="but_action but_delete_user" 
+											onclick="showFlex('<%= "confirm_" + buyer.getEmail() %>')">
+											<img src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
+										</div>
+										
+										<!-- box for confirming user deletion -->
+										<div id="confirm_<%= buyer.getEmail() %>" class="confirm_delete_box">
+											<img src="${pageContext.request.contextPath}/img/close_icon.png" alt="close"
+												onclick="hideClass('confirm_delete_box')"/>
+											<p>Are you sure that you want to delete 
+											<%= buyer.getName() + " " + buyer.getSurname() %>?</p>
+											<input type="submit" value="Yes" />
+										</div>
+										
 									</form>
                                     
 								</td>
@@ -249,29 +278,58 @@
 								<td><%= seller.getPassword() %></td>
 								<td class="td_action">
 									<!--  button edit profile  -->
-									<form action="${pageContext.request.contextPath}/editSellerProfile.main">
+									<form action="${pageContext.request.contextPath}/editSellerProfile
+										<%= application.getInitParameter("main_front_controller_request_extension") %>">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
 										<input type="text" name="<%= application.getInitParameter("name") %>" 
-										value="<%= seller.getName() %>" style="display:none"/>
+											value="<%= seller.getName() %>" style="display:none"/>
 										<input type="text" name="<%= application.getInitParameter("surname") %>"
-										value="<%= seller.getSurname() %>" style="display:none" />
+											value="<%= seller.getSurname() %>" style="display:none" />
 										<input type="text" name="<%= application.getInitParameter("phone") %>"
-										value="<%= seller.getPhone() %>" style="display:none" />
+											value="<%= seller.getPhone() %>" style="display:none" />
 										<input type="text" name="<%= application.getInitParameter("email") %>"
-										value="<%= seller.getEmail() %>" style="display:none" />
+											value="<%= seller.getEmail() %>" style="display:none" />
 										
 										<input class="but_action but_edit_user" type="image"
 											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
 									</form>
 									
 									<!--  button delete  -->
-									<form action="/deleteSeller.main">
+									<form action="${pageContext.request.contextPath}/deleteSeller
+										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
 										<input type="text" name="<%= application.getInitParameter("email") %>" 
-										value="<%= seller.getEmail() %>" style="display:none"/>
+											value="<%= seller.getEmail() %>" style="display:none"/>
+			
+										<!-- inputs that keep value from previous search -->										
+										<input type="text" name="search_name" 
+											value="<%= request.getParameter(application.getInitParameter("name")) %>" 
+											style="display:none"/>
 										
-										<input type="image" class="but_action but_delete_user"
-											src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
+										<input type="text" name="search_surname"
+											value="<%= request.getParameter(application.getInitParameter("surname")) %>"
+											style="display:none" />
+										
+										<input type="text" name="search_email"
+											value="<%= request.getParameter(application.getInitParameter("email")) %>"
+											style="display:none" />
+										
+										
+										<!-- button for beginning user deletion (after clicking confirmation button will appear -->
+										<div class="but_action but_delete_user" 
+											onclick="showFlex('<%= "confirm_" + seller.getEmail() %>')">
+											<img src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
+										</div>
+										
+										<!-- box for confirming user deletion -->
+										<div id="confirm_<%= seller.getEmail() %>" class="confirm_delete_box">
+											<img src="${pageContext.request.contextPath}/img/close_icon.png" alt="close"
+												onclick="hideClass('confirm_delete_box')"/>
+											<p>Are you sure that you want to delete 
+											<%= seller.getName() + " " + seller.getSurname() %>?</p>
+											<input type="submit" value="Yes" />
+										</div>
+										
 									</form>
 								</td>
 							</tr>
@@ -301,29 +359,58 @@
 								<td><%= admin.getPassword() %></td>
 								<td class="td_action">
 									<!--  button edit profile  -->
-									<form action="${pageContext.request.contextPath}/editAdminProfile.main">
+									<form action="${pageContext.request.contextPath}/editAdminProfile
+										<%= application.getInitParameter("main_front_controller_request_extension") %>">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
 										<input type="text" name="<%= application.getInitParameter("name") %>" 
-										value="<%= admin.getName() %>" style="display:none"/>
+											value="<%= admin.getName() %>" style="display:none"/>
 										<input type="text" name="<%= application.getInitParameter("surname") %>"
-										value="<%= admin.getSurname() %>" style="display:none" />
+											value="<%= admin.getSurname() %>" style="display:none" />
 										<input type="text" name="<%= application.getInitParameter("phone") %>"
-										value="<%= admin.getPhone() %>" style="display:none" />
+											value="<%= admin.getPhone() %>" style="display:none" />
 										<input type="text" name="<%= application.getInitParameter("email") %>"
-										value="<%= admin.getEmail() %>" style="display:none" />
+											value="<%= admin.getEmail() %>" style="display:none" />
 										
 										<input class="but_action but_edit_user" type="image"
 											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
 									</form>
 									
 									<!--  button delete  -->
-									<form action="/deleteAdmin.main">
+									<form action="${pageContext.request.contextPath}/deleteAdmin
+										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
 										<input type="text" name="<%= application.getInitParameter("email") %>" 
-										value="<%= admin.getEmail() %>" style="display:none"/>
+											value="<%= admin.getEmail() %>" style="display:none"/>
+			
+										<!-- inputs that keep value from previous search -->										
+										<input type="text" name="search_name" 
+											value="<%= request.getParameter(application.getInitParameter("name")) %>" 
+											style="display:none"/>
 										
-										<input type="image" class="but_action but_delete_user"
-											src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
+										<input type="text" name="search_surname"
+											value="<%= request.getParameter(application.getInitParameter("surname")) %>"
+											style="display:none" />
+										
+										<input type="text" name="search_email"
+											value="<%= request.getParameter(application.getInitParameter("email")) %>"
+											style="display:none" />
+										
+										
+										<!-- button for beginning user deletion (after clicking confirmation button will appear -->
+										<div class="but_action but_delete_user" 
+											onclick="showFlex('<%= "confirm_" + admin.getEmail() %>')">
+											<img src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
+										</div>
+										
+										<!-- box for confirming user deletion -->
+										<div id="confirm_<%= admin.getEmail() %>" class="confirm_delete_box">
+											<img src="${pageContext.request.contextPath}/img/close_icon.png" alt="close"
+												onclick="hideClass('confirm_delete_box')"/>
+											<p>Are you sure that you want to delete 
+											<%= admin.getName() + " " + admin.getSurname() %>?</p>
+											<input type="submit" value="Yes" />
+										</div>
+										
 									</form>
 								</td>
 							</tr>
@@ -334,9 +421,20 @@
 			
 		</section><!--  /displaying users list  -->
 			
-			<form>
-				<input name="current_amount" value="<%= currMaxAmountOfDisplayedUsers %>" style="display: none;"/>
-				<input name="requested_additional_amount" value="40" style="display: none;"/>
+			<form action="${pageContext.request.contextPath}/searchUsers<%= application.getInitParameter("main_front_controller_request_extension") %>" 
+				method="post">
+				<input type="text" name="<%= application.getInitParameter("name") %>" 
+					value="<%= request.getParameter(application.getInitParameter("name")) %>"
+					style="display:none" />
+				<input type="text" name="<%= application.getInitParameter("surname") %>" 
+					value="<%= request.getParameter(application.getInitParameter("surname")) %>"
+					style="display:none" />
+				<input type="text" name="<%= application.getInitParameter("email") %>" 
+					value="<%= request.getParameter(application.getInitParameter("email")) %>"
+					style="display:none" />	
+				<input name="<%= application.getInitParameter("max_num_of_results") %>" 
+					value="<%= currMaxAmountOfDisplayedUsers + 200 %>" style="display: none;"/>
+					
 				<input id="but_load_more" type="submit" value="Load more"/>
 			</form>
 		
@@ -398,9 +496,28 @@
 	
 	
 	
-	function setSelectedColor(id)
+	function setSelectedColor(item)
 	{
-		id.style.backgroundColor = "#6f7387";
+		item.style.backgroundColor = "#6f7387";
+	}
+	
+	
+	
+	function showFlex(id)
+	{
+		document.getElementById(id).style.display = "flex";
+	}
+	
+	
+	
+	function hideClass(className)
+	{
+		toHide = document.getElementsByClassName(className);
+		var i;
+		for (i = 0; i < toHide.length; i++)
+		{
+			toHide[i].style.display = "none"
+		}
 	}
 
 </script>

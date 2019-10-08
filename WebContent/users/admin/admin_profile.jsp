@@ -12,18 +12,7 @@
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 
-    <!-- Slick -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick.css" />
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick-theme.css" />
-
-    <!-- nouislider -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/nouislider.min.css" />
-
-    <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
-
-    <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -70,28 +59,28 @@
 	// after data edit /////////////////////////////////////////////////////////////////////////////
 	// if user has changed data, then he is redirected to this page again and in case some errors
 	// occured he is informed about that. Information 
-    EditUserProfileRequestHandler.InputValidationResult validationResult =
-    		(EditUserProfileRequestHandler.InputValidationResult) request
-    		.getAttribute(application.getInitParameter("buyer_profile_edit_result"));
-
-    String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
-            confirmedPasswordMessage;
-
-    if (validationResult != null)
-    {
-        nameMessage                 = validationResult.getNameMessage();
-        surnameMessage              = validationResult.getSurnameMessage();
-        phoneMessage                = validationResult.getPhoneMessage();
-        addressMessage              = validationResult.getAddressMessage();
-        emailMessage                = validationResult.getEmailMessage();
-        passwordMessage             = validationResult.getNewPasswordMessage();
-        confirmedPasswordMessage    = validationResult.getConfirmedPasswordMessage();
-    }
-    else
-    {
-        nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
-                confirmedPasswordMessage = "";
-    }
+	EditUserProfileRequestHandler.InputValidationResult validationResult =
+			(EditUserProfileRequestHandler.InputValidationResult) request
+			.getAttribute(application.getInitParameter("buyer_profile_edit_result"));
+	
+	String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
+	        confirmedPasswordMessage;
+	
+	if (validationResult != null)
+	{
+	    nameMessage                 = validationResult.getNameMessage();
+	    surnameMessage              = validationResult.getSurnameMessage();
+	    phoneMessage                = validationResult.getPhoneMessage();
+	    addressMessage              = validationResult.getAddressMessage();
+	    emailMessage                = validationResult.getEmailMessage();
+	    passwordMessage             = validationResult.getNewPasswordMessage();
+	    confirmedPasswordMessage    = validationResult.getConfirmedPasswordMessage();
+	}
+	else
+	{
+	    nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
+	            confirmedPasswordMessage = "";
+	}
 %>
 
 <!-- HEADER -->
@@ -146,6 +135,10 @@
             <span class="error"><%= confirmedPasswordMessage %></span>
         </section>
 
+		<!-- hidden input for passing useOtherUser variable value -->
+		<input type="text" name="otherUser" value="<%= useOtherUser %>" />
+			
+		<!-- submit -->
         <input id="but_save" type="submit" value="save"/>
     </form>
 

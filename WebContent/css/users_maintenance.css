@@ -268,6 +268,44 @@
 }
 
 
+.confirm_delete_box {
+	display:			none;
+	flex-direction:		column;
+	align-items:		center;
+	justify-content:	space-between;
+	position:			fixed;
+	z-index:			100;
+	width:				20vw;
+	height:				fit-content;
+	left:				40vw;
+	top:				30vh;
+	background-color:	white;
+	box-shadow:			0 0 16px black;
+}
+
+
+.confirm_delete_box input {
+	background-color:   #E8A87C;
+	width:				70px;
+    height:				30px;
+    margin-bottom:		20px;
+}
+
+
+.confirm_delete_box p {
+	margin:				40px 20px;
+}
+
+
+.confirm_delete_box img {
+	position:			absolute;
+	top:				5px;
+	right:				5px;
+	width:				20px;
+	height:				auto;
+}
+
+
 #but_load_more {
 	width:				100px;
 	height:				50px;
