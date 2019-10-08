@@ -26,6 +26,7 @@
 
 #header {
     border:             0;
+    margin-left:		16px;
     border-bottom:      1px solid var(--border-color);
 }
 
