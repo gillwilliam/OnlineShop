@@ -53,7 +53,11 @@
 
                     <!-- Account -->
                     <a id="but_my_account"
-                     href="${pageContext.request.contextPath}<%= application.getInitParameter("admin_profile_edit_path") %>">
+                     href="${pageContext.request.contextPath}<%= 
+                     	session.getAttribute(application.getInitParameter("signed_user_attribute_name")) instanceof AdminBean ?
+                     			application.getInitParameter("admin_profile_edit_path")
+                     			:
+                     			application.getInitParameter("seller_profile_edit_path") %>">
                         <b class="text-uppercase">My Account</b>
                     </a>
                     <!-- /Account -->
