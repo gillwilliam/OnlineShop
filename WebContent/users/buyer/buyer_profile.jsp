@@ -6,38 +6,34 @@
     <title>Buyer's Profile</title>
     <!-- Custom stlylesheet -->
 
-    <link rel="stylesheet" type="text/css" href="css/user_profile.css"/>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/user_profile.css"/>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
 
 	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 
 	<!-- Slick -->
-	<link type="text/css" rel="stylesheet" href="css/slick.css" />
-	<link type="text/css" rel="stylesheet" href="css/slick-theme.css" />
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick-theme.css" />
 
 	<!-- nouislider -->
-	<link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/nouislider.min.css" />
 
 	<!-- Font Awesome Icon -->
-	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="css/style.css" />
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 
 </head>
 <body>
 
     <!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
     <!-- mock bean, will be removed once login page is implemented -->
-    <jsp:useBean id="user" class="beans.session.BuyerBean">
-		<jsp:setProperty name="user" property="name" value="John"/>
-		<jsp:setProperty name="user" property="surname" value="Doe"/>
-		<jsp:setProperty name="user" property="phone" value="+34 875 764 322"/>
-		<jsp:setProperty name="user" property="address" value="calle de las palmas 27, Madrid, Spain"/>
-		<jsp:setProperty name="user" property="email" value="ggg@gmail.com"/>
+    <jsp:useBean id="user" class="beans.session.BuyerBean" scope="session">
+		<jsp:setProperty name="user" property="*" />
     </jsp:useBean>
 
     <%
@@ -252,7 +248,7 @@
             </section>
 
 			<!-- hidden input for passing useOtherUser variable value -->
-			<input type="text" name="otherUser" value="<%= useOtherUser %>" />
+			<input type="text" name="otherUser" value="<%= useOtherUser %>" style="display:none"/>
 			
 			<!--  submit -->
             <input id="but_save" type="submit" value="save"/>

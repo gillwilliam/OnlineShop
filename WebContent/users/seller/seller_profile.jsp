@@ -39,11 +39,8 @@
 <body>
 
 <!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-<jsp:useBean id="user" class="beans.session.SellerBean">
-	<jsp:setProperty name="user" property="name" value="John"/>
-	<jsp:setProperty name="user" property="surname" value="Doe"/>
-	<jsp:setProperty name="user" property="phone" value="+34 875 764 322"/>
-	<jsp:setProperty name="user" property="email" value="ggg@gmail.com"/>
+<jsp:useBean id="user" class="beans.session.SellerBean" scope="session">
+	<jsp:setProperty name="user" property="*" />
 </jsp:useBean>
 
 <%
@@ -199,7 +196,7 @@
         </section>
 
 		<!-- hidden input for passing useOtherUser variable value -->
-		<input type="text" name="otherUser" value="<%= useOtherUser %>" />
+		<input type="text" name="otherUser" value="<%= useOtherUser %>" style="display:none"/>
 			
 		<!-- submit -->	
         <input id="but_save" type="submit" value="save"/>
