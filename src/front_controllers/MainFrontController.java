@@ -1,7 +1,7 @@
 package front_controllers;
 
-import request_handlers.users.EditUserProfileRequestHandler;
-import request_handlers.RequestHandler;
+import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -9,8 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
+
+import request_handlers.RequestHandler;
+import request_handlers.users.EditUserProfileRequestHandler;
+import request_handlers.users.ProductDetailsRequestHandler;
 
 @WebServlet(name = "MainFrontController")
 public class MainFrontController extends HttpServlet {
@@ -52,6 +54,10 @@ public class MainFrontController extends HttpServlet {
      		   new EditUserProfileRequestHandler(context, mRequestExtension));
      	mRequestHandlers.put("/users/admin/editAdminProfile" + mRequestExtension, 
       		   new EditUserProfileRequestHandler(context, mRequestExtension));
+     	
+     	mRequestHandlers.put("/products" + mRequestExtension, 
+       		   new ProductDetailsRequestHandler(context, mRequestExtension));
+     	
     }
 
 
