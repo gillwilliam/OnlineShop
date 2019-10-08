@@ -1,6 +1,8 @@
 <%@ page import="beans.general.ProductBean" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="payments.Price" %>
+<%@ page import="beans.session.UserBean" %>
+<%@ page import="beans.session.AdminBean" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>

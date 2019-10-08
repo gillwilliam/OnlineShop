@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="beans.session.AdminBean" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
 </head>
 <body>
 <header>
@@ -38,7 +38,9 @@
                 <ul class="header-btns">
                 	<!-- users maintenance -->
 	                <a id="but_users_maintenance"
-	                	href="${pageContext.request.contextPath}<%= application.getInitParameter("users_maintenance_path") %>">
+	                	href="${pageContext.request.contextPath}<%= application.getInitParameter("users_maintenance_path") %>"
+	                	style="display:<%= session.getAttribute(application.getInitParameter("signed_user_attribute_name"))
+	                		instanceof AdminBean ? "inline" : "none" %>">
 	                	<b class="text-uppercase">Users maintenance</b>
 	                </a>
 	                <!-- /users maintenance -->

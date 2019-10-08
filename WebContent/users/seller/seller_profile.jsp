@@ -92,59 +92,7 @@
 %>
 
 <!-- HEADER -->
-<header>
-    <!-- header -->
-    <div id="header">
-        <div class="container">
-            <div class="pull-left">
-                <!-- Logo -->
-                <div class="header-logo">
-                    <a class="logo" href="#">
-                        <img src="${pageContext.request.contextPath}/img/logo.png" alt="">
-                    </a>
-                </div>
-                <!-- /Logo -->
-
-                <!-- Search -->
-                <div class="header-search">
-                    <form>
-                        <input class="input search-input" type="text" placeholder="Enter your keyword">
-                        <select class="input search-categories">
-                            <option value="0">All Categories</option>
-                            <option value="1">Category 01</option>
-                            <option value="1">Category 02</option>
-                        </select>
-                        <button class="search-btn"><i class="fa fa-search"></i></button>
-                    </form>
-                </div>
-                <!-- /Search -->
-            </div>
-            <div class="pull-right">
-                <ul class="header-btns">
-                    <!-- catalog maintenance -->
-                    <a href="${pageContext.request.contextPath}<%= application.getInitParameter("catalogue_maintenance_path") %>">
-                        <b id="but_catalog_maintenance" class="text-uppercase">Catalog Maintenance</b>
-                    </a>
-                    <!-- /catalog maintenance -->
-
-                    <!-- Account -->
-                    <a href="${pageContext.request.contextPath}<%= application.getInitParameter("seller_profile_edit_path") %>">
-                        <b id="but_my_account" class="text-uppercase">My Account</b>
-                    </a>
-                    <!-- /Account -->
-
-                    <!-- Mobile nav toggle-->
-                    <li class="nav-toggle">
-                        <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
-                    </li>
-                    <!-- / Mobile nav toggle -->
-                </ul>
-            </div>
-        </div>
-        <!-- header -->
-    </div>
-    <!-- container -->
-</header>
+<jsp:include page="../../Header.jsp"/>
 <!-- /HEADER -->
 
 <!-- site content container -->

@@ -256,7 +256,7 @@
 
         <!-- delete account button -->
         <div id="but_delete_account">
-            <img src="img/delete.png" alt=""/>
+            <img src="${pageContext.request.contextPath}/img/delete.png" alt=""/>
             <span>Delete account</span>
         </div>
 
