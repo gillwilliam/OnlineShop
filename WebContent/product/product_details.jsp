@@ -60,7 +60,7 @@
     %>
 
     <!-- /HEADER -->
-
+	<jsp:include page="../Header.jsp"/>
     <!-- div containing content of the page -->
     <section id="content">
         
