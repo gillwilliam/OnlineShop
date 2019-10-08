@@ -2,6 +2,9 @@ package beans.session;
 
 import java.io.Serializable;
 
+import javax.ejb.Stateful;
+
+@Stateful
 public abstract class UserBean implements Serializable {
 
     // CONST ///////////////////////////////////////////////////////////////////////////////////////////////////////////

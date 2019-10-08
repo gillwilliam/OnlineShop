@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import request_handlers.RequestHandler;
+import request_handlers.authorization.SignInRequestHandler;
 import request_handlers.users.DeleteAdminRequestHandler;
 import request_handlers.users.DeleteBuyerRequestHandler;
 import request_handlers.users.DeleteSellerRequestHandler;
@@ -65,6 +66,8 @@ public class MainFrontController extends HttpServlet {
      			new DeleteSellerRequestHandler(context, mRequestExtension));
      	mRequestHandlers.put("/deleteAdmin" + mRequestExtension,
      			new DeleteAdminRequestHandler(context, mRequestExtension));
+     	mRequestHandlers.put("/signIn" + mRequestExtension,
+     			new SignInRequestHandler(context));
     }
 
 
