@@ -4,7 +4,7 @@
   <display-name>OnlineShop</display-name>
   
   <welcome-file-list>
-    <welcome-file>users/admin/users_maintenance.jsp</welcome-file>
+    <welcome-file>login.jsp</welcome-file>
   </welcome-file-list>
   
   
