@@ -91,6 +91,17 @@ public class CategoryTree {
 	public boolean loadFromDatabase()
 	{
 		// TODO implement
+		Category cat1 = new Category(1, "cat1", this);
+		Category cat11 = new Category(2, "cat11", this);
+		Category cat12 = new Category(5, "cat12", this);
+		cat1.addSubcategory(cat11);
+		cat1.addSubcategory(cat12);
+		Category cat111 = new Category(4, "cat111", this);
+		cat11.addSubcategory(cat111);
+		Category cat2 = new Category(3, "cat3", this);
+		
+		mRootCategories.add(cat1);
+		mRootCategories.add(cat2);
 		return false;
 	}
 	

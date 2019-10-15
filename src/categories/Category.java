@@ -1,6 +1,7 @@
 package categories;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
@@ -50,14 +51,11 @@ public class Category {
 	 * that contains only white characters
 	 * @param id unique id in whole category tree
 	 * @param name non-null and non-empty string
-	 * @param parent direct ancestor of this category, if null, then the category
-	 * is a rootCategory
 	 * @param tree tree to which this category belongs
 	 */
 	public Category(
 			int id, 
 			@NotNull String name, 
-			@Nullable Category parent,
 			@NotNull CategoryTree tree)
 	{
 		if (name.trim().isEmpty()) throw new IllegalArgumentException(BAD_NAME_EXCEPTION);
@@ -65,7 +63,6 @@ public class Category {
 		mId 			= id;
 		mName 			= name.trim();
 		mSubcategories 	= new ArrayList<Category>();
-		mParent 		= parent;
 		mTree 			= tree;
 	}
 	
@@ -89,6 +86,7 @@ public class Category {
 		if (isProper)
 		{
 			mSubcategories.add(category);
+			category.setParent(this);
 			return true;
 		}
 		else
@@ -148,6 +146,63 @@ public class Category {
 	
 	
 	
+	/**
+	 * @return true, if the category hasn't got parent,
+	 * false otherwise
+	 */
+	public boolean isRootCategory()
+	{
+		return mParent == null;
+	}
+	
+	
+	
+	/**
+	 * @return string representing Javascript array, that contains
+	 * all subcategories of this category
+	 */
+	public String getSubcategoriesAsJavascriptArray()
+	{
+		StringBuilder res = new StringBuilder();
+		res.append("[");
+		for (Category subcategory : mSubcategories)
+		{
+			res.append(subcategory.getId() + ",");
+		}
+		
+		if (res.length() > 1)
+			res = res.deleteCharAt(res.length() - 1);
+
+		return res.toString() + "]";
+	}
+	
+	
+	
+	public String getAllDescendantsAsJavascriptArray()
+	{
+		return "[" + getDescendantsComaSeparated() + "]";
+	}
+	
+	
+	
+	private String getDescendantsComaSeparated()
+	{
+		if (isLeaf())
+			return "";
+		else
+		{
+			StringBuilder res = new StringBuilder();
+			for (Category subcategory : mSubcategories)
+				res.append(subcategory.getDescendantsComaSeparated() + ",");
+
+			res.deleteCharAt(res.length() - 1);
+			
+			return res.toString();
+		}
+	}
+	
+	
+	
 	// getters && setters //////////////////////////////////////////////////
 	
 	
@@ -186,5 +241,12 @@ public class Category {
 	public void setName(@NotNull String newName)
 	{
 		mName = newName;
+	}
+	
+	
+	
+	void setParent(@NotNull Category parent)
+	{
+		mParent = parent;
 	}
 }
