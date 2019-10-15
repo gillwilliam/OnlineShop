@@ -74,6 +74,7 @@
 	<jsp:include page="../Header.jsp"/>
 </div>
 <div class="container">
+		<div style="margin-top:100px">
 		<%for(ProductBean product : products) { %>
       	<div class="row">
        		<div class="col-md-6">
@@ -101,8 +102,9 @@
        	</div>
        	<hr />
        	<%}%>
+       	</div>
        	<div class="row">
-	      	<div class="col-md-3 offset-md-9" style="margin-bottom: 10px">
+	      	<div class="col-md-3 offset-md-10" style="margin-bottom: 10px">
 	      		<button class="btn btn-primary">Check out</button>
 	      	</div>
        	</div>
