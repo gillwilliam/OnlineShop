@@ -81,6 +81,7 @@
     margin-left:        auto;
     margin-right:       auto;
     margin-bottom:      100px;
+    padding-bottom:		30px;
     border:             1px solid var(--border-color);
     border-top:         0;
 }
@@ -190,7 +191,7 @@
     background-color:   var(--bright);
     color:              var(--header-text-color);
     border-radius:      30px;
-    margin:             30px;
+    margin:             30px 30px 0 30px;
 }
 
 
