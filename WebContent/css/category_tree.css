@@ -56,7 +56,7 @@
 }
 
 
-input {
+#category_edit_dialog input {
 	display:				block;
 	margin-left:			auto;
 	margin-right:			auto;
@@ -64,7 +64,7 @@ input {
 }
 
 
-input[type="submit"] {
+#category_edit_dialog input[type="submit"] {
 	width:					var(--category-edit-dialog-but-width);
 	height:					var(--category-edit-dialog-but-height);
 	background-color:		var(--bright);
@@ -73,7 +73,7 @@ input[type="submit"] {
 }
 
 
-input[type="submit"]:hover {
+#category_edit_dialog input[type="submit"]:hover {
 	animation:				button_hover;
 	animation-duration:		0.3s;
 	animation-fill-mode:	forwards;
@@ -87,7 +87,7 @@ input[type="submit"]:hover {
 }
 
 
-input[type="text"] {
+#category_edit_dialog input[type="text"] {
 	width:					100%;
 	border:					none;
 	border-bottom:			1px solid var(--bright);

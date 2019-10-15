@@ -178,31 +178,6 @@ public class Category {
 	
 	
 	
-	public String getAllDescendantsAsJavascriptArray()
-	{
-		return "[" + getDescendantsComaSeparated() + "]";
-	}
-	
-	
-	
-	private String getDescendantsComaSeparated()
-	{
-		if (isLeaf())
-			return "";
-		else
-		{
-			StringBuilder res = new StringBuilder();
-			for (Category subcategory : mSubcategories)
-				res.append(subcategory.getDescendantsComaSeparated() + ",");
-
-			res.deleteCharAt(res.length() - 1);
-			
-			return res.toString();
-		}
-	}
-	
-	
-	
 	// getters && setters //////////////////////////////////////////////////
 	
 	

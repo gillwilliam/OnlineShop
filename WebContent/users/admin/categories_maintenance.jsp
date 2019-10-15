@@ -5,8 +5,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+	<meta charset="ISO-8859-1">
+	<title>Categories maintenance</title>
+
 </head>
 <body>
 
@@ -22,7 +23,7 @@
 	
 	<!-- site content -->
 	<div id="content">
-
+		<jsp:include page="category_tree.jsp"/>
 	</div>
 
 </body>
