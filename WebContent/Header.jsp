@@ -40,7 +40,7 @@
 <body>
 <header>
     <!-- header -->
-    <div id="header">
+    <div id="header" style="padding-bottom: 100px">
         <div class="container-fluid">
             <div class="pull-left">
                 <!-- Logo -->
