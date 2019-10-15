@@ -4,7 +4,7 @@
     <%@ page import="beans.session.BuyerBean" %>
     <%@ page import="beans.session.SellerBean" %>
     <%@ page import="beans.session.AdminBean" %>
-    <%@ page import="entities.UserType" %>
+    <%@ page import="enums.UserType" %>
     <%@ page import="java.util.HashMap" %>
     <%@ page import="java.util.ArrayList" %>
     <%@ page import="java.lang.Math" %>
