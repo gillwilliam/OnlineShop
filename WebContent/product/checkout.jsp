@@ -1,4 +1,5 @@
 <%@ page import="beans.general.ProductBean" %>
+<%@ page import="beans.session.CheckoutBean" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="payments.Price" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -42,22 +43,12 @@
 
 </head>
 <body>
-
-    <%
-        ArrayList<ProductBean> products = new ArrayList<ProductBean>();
-
-
-        Price price1 = new Price(10, 50, "EUR");
-        Price price2 = new Price(30, 12, "EUR");
-        Price price3 = new Price(11, 34, "EUR");
-        Price price4 = new Price(130, 0, "EUR");
-
-        ProductBean product = new ProductBean("Mokasyny", "shoes", price4,
-                "description lorem ipsum et ...", 69, application.getRealPath("/") + "img/product04.jpg",
-                "", "");
-        
+	<jsp:useBean id="checkout" class="beans.session.CheckoutBean" scope="session">
+		<jsp:setProperty name="name" property="*" />
+    </jsp:useBean>    <%
        
     %>
+
 
     <!-- /HEADER -->
 	<jsp:include page="../Header.jsp"/>
@@ -67,13 +58,13 @@
     <div class="row">
   <div class="col-75">
     <div class="container">
-      <form action="/action_page.php">
+      <form action="checkout.main" method="post">
 
         <div class="row">
           <div class="col-50">
             <h3>Billing Address</h3>
             <label for="fname"><i class="fa fa-user"></i> Full Name</label>
-            <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
+            <input type="text" id="fname" name="name" placeholder="John M. Doe">
             <label for="email"><i class="fa fa-envelope"></i> Email</label>
             <input type="text" id="email" name="email" placeholder="john@example.com">
             <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
