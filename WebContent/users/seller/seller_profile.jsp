@@ -10,11 +10,6 @@
 </head>
 <body>
 
-<!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-<jsp:useBean id="user" class="beans.session.SellerBean" scope="session">
-	<jsp:setProperty name="user" property="*" />
-</jsp:useBean>
-
 <%
 	boolean useOtherUser = false;	// if false, then this page concerns currently signed in user. 
 	// if true, then the page concerns user, that was passed in
@@ -27,6 +22,7 @@
 	}
 	
 	SellerBean otherSeller = new SellerBean();
+	SellerBean user		   = new SellerBean();
 	
 	if (useOtherUser)
 	{
@@ -35,6 +31,8 @@
 		otherSeller.setPhone(request.getParameter(application.getInitParameter("phone")));
 		otherSeller.setEmail(request.getParameter(application.getInitParameter("email")));
 	}
+	else
+		user = (SellerBean) session.getAttribute("user");
 	
 	// after data edit /////////////////////////////////////////////////////////////////////////////
 	// if user has changed data, then he is redirected to this page again and in case some errors
