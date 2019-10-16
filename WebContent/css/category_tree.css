@@ -1,0 +1,102 @@
+@charset "ISO-8859-1";
+
+* {
+	box-sizing:				border-box;
+	margin:					0;
+	padding:				0;
+	
+	/* variables */
+	/* colors */
+	--bright:               	#f8694a;
+	--text-color-on-bright:		white;	
+	--bright-hover:				#30323a;
+	/* dimensions */
+	--extend-icon-dim:						16px;
+	--category-edit-dialog-width:			380px;
+	--category-edit-dialog-height:			240px;
+	--category-edit-dialog-close-but-dim: 	15px;
+	--category-edit-dialog-but-width:		120px;
+	--category-edit-dialog-but-height:		30px;
+	--category-input-text-height:			var(--category-edit-dialog-but-height);
+}
+
+
+.category {
+	font-size:				20px;
+}
+
+
+.icon_extend {
+	display:				inline-block;
+	width:					var(--extend-icon-dim);
+	height:					var(--extend-icon-dim);
+	background-image:		url("../img/icon_extend.png");
+	background-size:		var(--extend-icon-dim) var(--extend-icon-dim);
+}
+
+
+#category_edit_dialog {
+	display:				none;
+	position:				fixed;
+	top:					calc(50% - var(--category-edit-dialog-height) / 2);
+	left:					calc(50% - var(--category-edit-dialog-width) / 2);
+	width:					var(--category-edit-dialog-width);
+	height:					var(--category-edit-dialog-height);
+	box-shadow:				0 0 5px gray;
+	padding:				20px;
+}
+
+
+#category_edit_dialog img {
+	position:				absolute;
+	top:					5px;
+	right:					5px;
+	widht:					var(--category-edit-dialog-close-but-dim);
+	height:					var(--category-edit-dialog-close-but-dim);
+}
+
+
+#category_edit_dialog input {
+	display:				block;
+	margin-left:			auto;
+	margin-right:			auto;
+	margin-bottom:			10px;
+}
+
+
+#category_edit_dialog input[type="submit"] {
+	width:					var(--category-edit-dialog-but-width);
+	height:					var(--category-edit-dialog-but-height);
+	background-color:		var(--bright);
+	color:					var(--text-color-on-bright);
+	border:					none;
+}
+
+
+#category_edit_dialog input[type="submit"]:hover {
+	animation:				button_hover;
+	animation-duration:		0.3s;
+	animation-fill-mode:	forwards;
+}
+
+
+@keyframes button_hover {
+	to {
+		background-color:	var(--bright-hover);
+	}
+}
+
+
+#category_edit_dialog input[type="text"] {
+	width:					100%;
+	border:					none;
+	border-bottom:			1px solid var(--bright);
+	height:					var(--category-input-text-height);
+}
+
+
+
+
+
+
+

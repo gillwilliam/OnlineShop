@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import request_handlers.RequestHandler;
 import request_handlers.authorization.SignInRequestHandler;
 import request_handlers.product.CheckoutRequestHandler;
+import request_handlers.categories.AddCategoryRequestHandler;
+import request_handlers.categories.DeleteCategoryRequestHandler;
+import request_handlers.categories.RenameCategoryRequestHandler;
 import request_handlers.users.DeleteAdminRequestHandler;
 import request_handlers.users.DeleteBuyerRequestHandler;
 import request_handlers.users.DeleteSellerRequestHandler;
@@ -71,6 +74,12 @@ public class MainFrontController extends HttpServlet {
      			new SignInRequestHandler(context));
      	mRequestHandlers.put("/product/checkout" + mRequestExtension,
      			new CheckoutRequestHandler(context, mRequestExtension));
+     	mRequestHandlers.put("/addCategory" + mRequestExtension,
+     			new AddCategoryRequestHandler());
+     	mRequestHandlers.put("/renameCategory" + mRequestExtension,
+     			new RenameCategoryRequestHandler());
+     	mRequestHandlers.put("/deleteCategory" + mRequestExtension,
+     			new DeleteCategoryRequestHandler());
     }
 
 

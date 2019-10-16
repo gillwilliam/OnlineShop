@@ -30,12 +30,6 @@
 </head>
 <body>
 
-    <!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-    <!-- mock bean, will be removed once login page is implemented -->
-    <jsp:useBean id="user" class="beans.session.BuyerBean" scope="session">
-		<jsp:setProperty name="user" property="*" />
-    </jsp:useBean>
-
     <%
 		boolean useOtherUser = false;	// if false, then this page concerns currently signed in user. 
 		// if true, then the page concerns user, that was passed in
@@ -48,6 +42,7 @@
 		}
 		
 		BuyerBean otherBuyer = new BuyerBean();
+		BuyerBean user	     = new BuyerBean();
 		
 		if (useOtherUser)
 		{
@@ -57,6 +52,8 @@
 			otherBuyer.setPhone(request.getParameter(application.getInitParameter("phone")));
 			otherBuyer.setEmail(request.getParameter(application.getInitParameter("email")));
 		}
+		else
+			user = (BuyerBean) session.getAttribute("user");
 		
 		// after data edit /////////////////////////////////////////////////////////////////////////////
 		// if user has changed data, then he is redirected to this page again and in case some errors

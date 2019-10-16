@@ -1,41 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="beans.session.AdminBean" %>
-<!DOCTYPE html>
-<html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<%--     <!-- Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+	<title>Totally l33t Shop</title>
 
- 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Slick -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick.css" />
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick-theme.css" />
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
 
-    <!-- nouislider -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/nouislider.min.css" />
+	<!-- Bootstrap -->
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 
-    <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
+	<!-- Slick -->
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick.css" />
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick-theme.css" />
 
-    <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
+	<!-- nouislider -->
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/nouislider.min.css" />
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
 
-    <!-- my custom css -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/product_details.css"/>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/catalogue_maintenance.css"/> --%>
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
 </head>
 <body>
 <header>
@@ -105,5 +97,3 @@
     </div>
     <!-- container -->
 </header>
-</body>
-</html>

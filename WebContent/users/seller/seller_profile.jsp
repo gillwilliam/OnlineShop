@@ -5,43 +5,10 @@
 <head>
     <title>Seller's profile</title>
 
-    <!-- header -->
-    <!-- Google font -->
-    <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
-
-    <!-- Slick -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick.css" />
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick-theme.css" />
-
-    <!-- nouislider -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/nouislider.min.css" />
-
-    <!-- Font Awesome Icon -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
-
-    <!-- Custom stlylesheet -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-
     <!-- my custom css -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/user_profile.css"/>
 </head>
 <body>
-
-<!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-<jsp:useBean id="user" class="beans.session.SellerBean" scope="session">
-	<jsp:setProperty name="user" property="*" />
-</jsp:useBean>
 
 <%
 	boolean useOtherUser = false;	// if false, then this page concerns currently signed in user. 
@@ -55,6 +22,7 @@
 	}
 	
 	SellerBean otherSeller = new SellerBean();
+	SellerBean user		   = new SellerBean();
 	
 	if (useOtherUser)
 	{
@@ -63,6 +31,8 @@
 		otherSeller.setPhone(request.getParameter(application.getInitParameter("phone")));
 		otherSeller.setEmail(request.getParameter(application.getInitParameter("email")));
 	}
+	else
+		user = (SellerBean) session.getAttribute("user");
 	
 	// after data edit /////////////////////////////////////////////////////////////////////////////
 	// if user has changed data, then he is redirected to this page again and in case some errors
