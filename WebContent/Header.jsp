@@ -33,7 +33,7 @@
 <header>
     <!-- header -->
     <div id="header">
-        <div class="container">
+        <div class="container-fluid">
             <div class="pull-left">
                 <!-- Logo -->
                 <div class="header-logo">
