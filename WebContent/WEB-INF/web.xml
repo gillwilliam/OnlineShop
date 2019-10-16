@@ -4,7 +4,7 @@
   <display-name>OnlineShop</display-name>
   
   <welcome-file-list>
-    <welcome-file>login.jsp</welcome-file>
+    <welcome-file>main.jsp</welcome-file>
   </welcome-file-list>
   
   
@@ -90,6 +90,16 @@
     
     <!-- jsp pathes -->
     
+    
+    <context-param>
+    	<param-name>homepage_path</param-name>
+    	<param-value>/main.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>login_path</param-name>
+    	<param-value>/login.jsp</param-value>
+    </context-param>
     
     <context-param>
         <param-name>admin_profile_edit_path</param-name>

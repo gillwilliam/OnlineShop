@@ -26,32 +26,12 @@
 
 #header {
     border:             0;
-    margin-left:		16px;
     border-bottom:      1px solid var(--border-color);
 }
 
 
-.header-btns a {
-	text-decoration:	none;
-	color:				black;
-}
-
-
 #but_users_maintenance {
-	margin-right:		var(--top-navigation-buttons-margin);
     color:              var(--bright);
-}
-
-
-#but_catalog_maintenance {
-    cursor:             pointer;
-    margin-right:		var(--top-navigation-buttons-margin);
-}
-
-
-#but_my_account {
-    cursor:             pointer;
-    margin-right:		var(--top-navigation-buttons-margin);
 }
 
 

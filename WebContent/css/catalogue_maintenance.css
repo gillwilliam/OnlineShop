@@ -29,24 +29,12 @@
 }
 
 
-#but_users_maintenance {
-	display:			inline-block;
-	margin-right:		var(--top-navigation-buttons-margin);
-}
-
-
 #but_catalog_maintenance {
-	display:			inline-block;
-    cursor:             pointer;
-    margin-right:       var(--top-navigation-buttons-margin); 
     color:              var(--bright);
 }
 
 
-#but_my_account {
-    display:            inline-block;
-    cursor:             pointer;
-}
+/* content /////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
 #content {

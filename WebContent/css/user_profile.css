@@ -2,6 +2,7 @@
 	box-sizing:			border-box;
     padding:            0;
     margin:             0;
+    --bright:				#f8694a;
     --header-height:        50px;
     --header-color:         #30323a;
     --header-bright:        #3d404a;
@@ -27,24 +28,8 @@
 }
 
 
-#but_users_maintenance {
-	display:			inline-block;
-	margin-right:		var(--top-navigation-buttons-margin);
-}
-
-
-#but_catalog_maintenance {
-	display:			inline-block;
-    cursor:             pointer;
-    margin-right:       var(--top-navigation-buttons-margin);
-    color:				black;
-}
-
-
 #but_my_account {
-    display:            inline-block;
-    cursor:             pointer;
-    color:              var(--bright);
+	color:				var(--bright);
 }
 
 

@@ -20,6 +20,7 @@ public class SignInRequestHandler implements RequestHandler {
 	private String mEmailParamName;
 	private String mPasswordParamName;
 	private String mUserAttrName;
+	private String mHomepagePath;
 	
 	
 	
@@ -28,6 +29,7 @@ public class SignInRequestHandler implements RequestHandler {
 		mEmailParamName		= context.getInitParameter("email");
 		mPasswordParamName 	= context.getInitParameter("password");
 		mUserAttrName		= context.getInitParameter("signed_user_attribute_name");
+		mHomepagePath		= context.getInitParameter("homepage_path");
 	}
 	
 	
@@ -50,7 +52,7 @@ public class SignInRequestHandler implements RequestHandler {
 		else
 		{
 			request.getSession().setAttribute(mUserAttrName, user);
-			request.getRequestDispatcher("main.html").forward(request, response);
+			request.getRequestDispatcher(mHomepagePath).forward(request, response);
 		}
 	}
 	

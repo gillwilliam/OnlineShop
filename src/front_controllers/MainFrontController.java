@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import request_handlers.RequestHandler;
 import request_handlers.authorization.SignInRequestHandler;
+import request_handlers.authorization.SignOutRequestHandler;
 import request_handlers.product.CheckoutRequestHandler;
 import request_handlers.categories.AddCategoryRequestHandler;
 import request_handlers.categories.DeleteCategoryRequestHandler;
@@ -80,6 +81,8 @@ public class MainFrontController extends HttpServlet {
      			new RenameCategoryRequestHandler());
      	mRequestHandlers.put("/deleteCategory" + mRequestExtension,
      			new DeleteCategoryRequestHandler());
+     	mRequestHandlers.put("/signOut" + mRequestExtension,
+     			new SignOutRequestHandler(context));
     }
 
 
