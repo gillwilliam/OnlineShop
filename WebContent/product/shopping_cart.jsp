@@ -105,7 +105,8 @@
        	</div>
        	<div class="row">
 	      	<div class="col-md-3 offset-md-10" style="margin-bottom: 10px">
-	      		<button class="btn btn-primary">Check out</button>
+	      		<a class="btn btn-primary" href=<%=request.getContextPath() +
+	      				"/product/checkout.jsp"%>>Check out</a>
 	      	</div>
        	</div>
 </div>
