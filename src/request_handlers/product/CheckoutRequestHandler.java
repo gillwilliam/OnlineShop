@@ -17,6 +17,8 @@ public class CheckoutRequestHandler implements RequestHandler {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String CHECKOUT_JSP = "/product/checkout.jsp";
+	private static final String MAIN_JSP = "/main.jsp";
+
 	private ServletConfig config;
 
 	private String mRequestExtension;
@@ -42,7 +44,7 @@ public class CheckoutRequestHandler implements RequestHandler {
 				
 		//redirect to home?
 		response.sendRedirect(request.getContextPath() +
-				CHECKOUT_JSP);
+				MAIN_JSP);
 		
 	}
 

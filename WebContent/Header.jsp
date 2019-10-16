@@ -32,7 +32,7 @@
 <body>
 <header>
     <!-- header -->
-    <div id="header" style="padding-bottom: 100px">
+    <div id="header">
         <div class="container-fluid">
             <div class="pull-left">
                 <!-- Logo -->
