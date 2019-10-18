@@ -1,4 +1,8 @@
-CREATE TABLE IF NOT EXISTS `mydb`.`Product` (
+CREATE DATABASE IF NOT EXISTS `shopdb`;
+
+USE `shopdb`;
+
+CREATE TABLE IF NOT EXISTS `shopdb`.`Product` (
   `idProduct` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `category` VARCHAR(45) NULL,
@@ -9,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Product` (
   PRIMARY KEY (`idProduct`),
   UNIQUE INDEX `idProduct_UNIQUE` (`idProduct` ASC))
 ENGINE = InnoDB;
-CREATE TABLE IF NOT EXISTS `mydb`.`User` (
+CREATE TABLE IF NOT EXISTS `shopdb`.`User` (
   `email` NVARCHAR(255) NOT NULL,
   `password` VARCHAR(45) NULL,
   `first_name` NVARCHAR(30) NULL,
@@ -21,14 +25,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`User` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Buyer` (
+CREATE TABLE IF NOT EXISTS `shopdb`.`Buyer` (
   `email` NVARCHAR(255) NOT NULL,
   `shoppingCart` MEDIUMTEXT NULL,
   `wishList` MEDIUMTEXT NULL,
   PRIMARY KEY (`email`),
   CONSTRAINT `fk_email`
     FOREIGN KEY (`email`)
-    REFERENCES `mydb`.`User` (`email`)
+    REFERENCES `shopdb`.`User` (`email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
