@@ -3,20 +3,22 @@ package entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 
 /**
- * The persistent class for the Product database table.
+ * The persistent class for the products database table.
  * 
  */
 @Entity
+@Table(name="products")
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int idProduct;
+	private int id;
 
 	private String category;
 
@@ -31,15 +33,28 @@ public class Product implements Serializable {
 
 	private int quantity;
 
+	//bi-directional many-to-many association to ProductList
+	@ManyToMany
+	@JoinTable(
+		name="lists_to_products"
+		, joinColumns={
+			@JoinColumn(name="productId")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="listId")
+			}
+		)
+	private List<ProductList> productLists;
+
 	public Product() {
 	}
 
-	public int getIdProduct() {
-		return this.idProduct;
+	public int getId() {
+		return this.id;
 	}
 
-	public void setIdProduct(int idProduct) {
-		this.idProduct = idProduct;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getCategory() {
@@ -88,6 +103,14 @@ public class Product implements Serializable {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public List<ProductList> getProductLists() {
+		return this.productLists;
+	}
+
+	public void setProductLists(List<ProductList> productLists) {
+		this.productLists = productLists;
 	}
 
 }
