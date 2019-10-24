@@ -107,6 +107,17 @@
                     	</a>
                     </li>
                     <!-- /catalog maintenance --------------------------------------------------------------------------- -->
+                    
+                    <!-- catalog maintenance ---------------------------------------------------------------------------- -->
+                    <li  
+                    	style="display:<%= user instanceof AdminBean || user instanceof SellerBean ? 
+                    			"inline" : "none" %>">
+                    	<a id="but_catalog_maintenance"
+                    		href="${pageContext.request.contextPath}<%= application.getInitParameter("catalogue_maintenance_path") %>">
+                    		<b class="text-uppercase">Catalog Maintenance</b>
+                    	</a>
+                    </li>
+                    <!-- /catalog maintenance --------------------------------------------------------------------------- -->
 
                     <!-- Account ---------------------------------------------------------------------------------------- -->
                     <li 
