@@ -81,8 +81,8 @@ public class MainFrontController extends HttpServlet {
      			new RenameCategoryRequestHandler());
      	mRequestHandlers.put("/deleteCategory" + mRequestExtension,
      			new DeleteCategoryRequestHandler());
-     	mRequestHandlers.put("/signOut" + mRequestExtension,
-     			new SignOutRequestHandler(context));
+//     	mRequestHandlers.put("/signOut" + mRequestExtension,
+//     			new SignOutRequestHandler(context));
     }
 
 

@@ -72,7 +72,7 @@ public class SearchUsersRequestHandler implements RequestHandler {
 	
 	/**
 	 * 
-	 * @param request request containting maximum number of results parameters
+	 * @param request request containing maximum number of results parameters
 	 * @return maximum number of results acquired from request. In case that no such parameter was found
 	 * or it wasn't greater than 0 then DEFAULT_MAX_NUM_OF_RESULTS is returned
 	 */

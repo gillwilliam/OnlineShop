@@ -169,47 +169,11 @@
                     <!-- /Sign out button ----------------------------------------------------------------------------- -->
                     
 					<!-- Cart -->
-					<li class="header-cart dropdown default-dropdown"
-						style="display:<%= user instanceof BuyerBean ? "inline-block" : "none" %>">
-						<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-							<div class="header-btns-icon">
-								<i class="fa fa-shopping-cart"></i>
-								<span class="qty">3</span>
-							</div>
-							<strong class="text-uppercase">My Cart:</strong>
-							<br>
-							<span>35.20$</span>
+					<li
+						style="display:<%= user instanceof BuyerBean ? "inline" : "none" %>">
+						<a href="${pageContext.request.contextPath}/product/shopping_cart.jsp">
+							<b class="text-uppercase">My Cart</b>
 						</a>
-						<div class="custom-menu">
-							<div id="shopping-cart">
-								<div class="shopping-cart-list">
-									<div class="product product-widget">
-										<div class="product-thumb">
-											<img src="./img/thumb-product01.jpg" alt="">
-										</div>
-										<div class="product-body">
-											<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-											<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-										</div>
-										<button class="cancel-btn"><i class="fa fa-trash"></i></button>
-									</div>
-									<div class="product product-widget">
-										<div class="product-thumb">
-											<img src="./img/thumb-product01.jpg" alt="">
-										</div>
-										<div class="product-body">
-											<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-											<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-										</div>
-										<button class="cancel-btn"><i class="fa fa-trash"></i></button>
-									</div>
-								</div>
-								<div class="shopping-cart-btns">
-									<button class="main-btn">View Cart</button>
-									<button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
-								</div>
-							</div>
-						</div>
 					</li>
 						<!-- /Cart -->
                     <!-- Mobile nav toggle-->
