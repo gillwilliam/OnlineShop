@@ -21,9 +21,6 @@
         
        
     %>
-
-    <!-- /HEADER -->
-	<jsp:include page="../Header.jsp"/>
     <!-- div containing content of the page -->
     <section id="content">
         
@@ -50,7 +47,6 @@
 	        			<button class="primary-btn">Add to Cart</button>
 		        	</div>
 	        	</div>
-        
         </div>
        
     </section> <!-- section content -->
