@@ -71,7 +71,8 @@
                 	<!-- messaging -------------------------------------------------------------------------------------- -->
                 	<li 
                 		style="display:<%= user != null ? "inline" : "none" %>">
-                		<a id="but_messages" href="#">
+                		<a id="but_messages" 
+                			href="${pageContext.request.contextPath}<%=application.getInitParameter("messages_path")%>">
                 			<b class="text-uppercase">Messages</b>
                 		</a>
                 	</li>

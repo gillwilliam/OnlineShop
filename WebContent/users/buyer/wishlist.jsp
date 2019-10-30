@@ -2,9 +2,9 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-	<jsp:include page="Header.jsp"/>
+	<jsp:include page="../../Header.jsp"/>
 <body>
-	<jsp:include page="Navigation.jsp"/>
+	<jsp:include page="../../Navigation.jsp"/>
 	<!-- BREADCRUMB -->
 	<div id="breadcrumb">
 		<div class="container">

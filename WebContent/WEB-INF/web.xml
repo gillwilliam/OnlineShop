@@ -126,4 +126,9 @@
         <param-value>/catalogue/catalogue_maintenance.jsp</param-value>
     </context-param>
     
+    <context-param>
+    	<param-name>messages_path</param-name>
+    	<param-value>/users/mailbox.jsp</param-value>
+    </context-param>
+    
 </web-app>
