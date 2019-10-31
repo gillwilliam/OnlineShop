@@ -26,12 +26,12 @@ pageEncoding="ISO-8859-1"%>
                  <div class="mail-box">
                                   <aside class="sm-side">
                                       <div class="inbox-body">
-                                          <!-- Modal -->
+                                          <!-- Modal: Compose Message -->
                                           <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade" style="display: none;">
                                               <div class="modal-dialog">
                                                   <div class="modal-content">
                                                       <div class="modal-header">
-                                                          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                                          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">X</button>
                                                           <h4 class="modal-title">Compose</h4>
                                                       </div>
                                                       <div class="modal-body">
@@ -63,11 +63,9 @@ pageEncoding="ISO-8859-1"%>
                 
                                                               <div class="form-group">
                                                                   <div class="col-lg-offset-2 col-lg-10">
-                                                                      <span class="btn green fileinput-button">
-                                                                        <i class="fa fa-plus fa fa-white"></i>
-                                                                        <span>Attachment</span>
-                                                                        <input type="file" name="files[]" multiple="">
-                                                                      </span>
+                                                                  
+                                                                  <!-- TODO: Add form to Send button for JMS --> 
+                                                                                                                                   
                                                                       <button class="btn btn-send" type="submit">Send</button>
                                                                   </div>
                                                               </div>
@@ -76,17 +74,68 @@ pageEncoding="ISO-8859-1"%>
                                                   </div><!-- /.modal-content -->
                                               </div><!-- /.modal-dialog -->
                                           </div><!-- /.modal -->
+                                          
+                                          <!-- Modal: Read Message -->
+                                          <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="readModal" class="modal fade" style="display: none;">
+                                              <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                      <div class="modal-header">
+                                                          <button aria-hidden="true" data-dismiss="modal" class="close" type="button">X</button>
+                                                          <h4 class="modal-title">Message Title Here</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                          <form role="form" class="form-horizontal">
+                                                              <div class="form-group">
+                                                                  <label class="col-lg-2 control-label">To</label>
+                                                                  <div class="col-lg-10">
+                                                                      <input type="text" placeholder="" id="inputEmail1" class="form-control">
+                                                                  </div>
+                                                              </div>
+                                                              <div class="form-group">
+                                                                  <label class="col-lg-2 control-label">Cc / Bcc</label>
+                                                                  <div class="col-lg-10">
+                                                                      <input type="text" placeholder="" id="cc" class="form-control">
+                                                                  </div>
+                                                              </div>
+                                                              <div class="form-group">
+                                                                  <label class="col-lg-2 control-label">Subject</label>
+                                                                  <div class="col-lg-10">
+                                                                      <input type="text" placeholder="" id="inputPassword1" class="form-control">
+                                                                  </div>
+                                                              </div>
+                                                              <div class="form-group">
+                                                                  <label class="col-lg-2 control-label">Message</label>
+                                                                  <div class="col-lg-10">
+                                                                      <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
+                                                                  </div>
+                                                              </div>
+                
+                                                              <div class="form-group">
+                                                                  <div class="col-lg-offset-2 col-lg-10">
+                                                                  
+                                                                  <!-- TODO: Add form to Send button for JMS --> 
+                                                                                                                                   
+                                                                      <button class="btn btn-send" type="submit">Send</button>
+                                                                  </div>
+                                                              </div>
+                                                          </form>
+                                                      </div>
+                                                  </div><!-- /.modal-content -->
+                                              </div><!-- /.modal-dialog -->
+                                          </div><!-- /.modal -->
+                                          
                                       </div>
                 
                                   </aside>
                                   <aside class="lg-side">
                                       <div class="inbox-head">
                                           <h3 style="float: left;">Messages</h3>
-                                          <button class="main-btn" style="float: right;" a href="#myModal" data-toggle="modal"  title="Compose">
+                                          <button class="main-btn" style="float: right;" a href="#myModal" data-toggle="modal"  title="Compose" id="Compose">
                                                 Compose
                                           </button>
                                           <p>
                                       </div>
+                                      <br>
                                       <div class="inbox-body">
                                          <div class="mail-option">
                                          </div>
@@ -275,11 +324,12 @@ pageEncoding="ISO-8859-1"%>
     <!-- /FOOTER -->
 
     <!-- jQuery Plugins -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/nouislider.min.js"></script>
-    <script src="js/jquery.zoom.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/slick.min.js"></script>
+    <script src="../../js/nouislider.min.js"></script>
+    <script src="../../js/jquery.zoom.min.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../js/compose.js"></script>
   </body>
 </html>
