@@ -2,14 +2,14 @@
 pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
-  <jsp:include page="../Header.jsp" />
+  <jsp:include page="../../Header.jsp" />
   <body>
-    <jsp:include page="../Navigation.jsp" />
+    <jsp:include page="../../Navigation.jsp" />
     <!-- BREADCRUMB -->
     <div id="breadcrumb">
       <div class="container">
         <ul class="breadcrumb">
-          <li><a href="#">Home</a></li>
+          <li><a href="${pageContext.request.contextPath}">Home</a></li>
           <li class="active">Messages</li>
         </ul>
       </div>

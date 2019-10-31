@@ -128,7 +128,7 @@
     
     <context-param>
     	<param-name>messages_path</param-name>
-    	<param-value>/users/mailbox.jsp</param-value>
+    	<param-value>/users/mailbox/mailbox.jsp</param-value>
     </context-param>
     
 </web-app>
