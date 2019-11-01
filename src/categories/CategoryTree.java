@@ -3,6 +3,7 @@ package categories;
 import java.util.ArrayList;
 
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 
 public class CategoryTree {
 	
@@ -71,16 +72,68 @@ public class CategoryTree {
 	
 	
 	
+	boolean removeCategory(int categoryId)
+	{
+		for (int i = 0; i < mAllCategories.size(); i++)
+		{
+			if (mAllCategories.get(i).getId() == categoryId)
+			{
+				mAllCategories.remove(i);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	
 	public boolean addRootCategory(@NotNull Category category)
 	{
 		if (isCategoryUnique(category))
 		{
-			mAllCategories.add(category);
 			mRootCategories.add(category);
 			return true;
 		}
 		else
 			return false;
+	}
+	
+	
+	
+	public boolean removeRootCategory(int categoryId)
+	{
+		for (int i = 0; i < mRootCategories.size(); i++)
+		{
+			if (mRootCategories.get(i).getId() == categoryId)
+			{
+				mRootCategories.remove(i);
+				mAllCategories.remove(i);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	
+	/**
+	 * returns category from this tree with specified id
+	 * @param categoryId id of category to be found
+	 * @return category with categoryId or null if there is not
+	 * such category
+	 */
+	@Nullable
+	public Category find(int categoryId)
+	{		
+		for (Category category : mAllCategories)
+		{
+			if (category.getId() == categoryId)
+				return category;
+		}
+		
+		return null;
 	}
 	
 	
@@ -102,6 +155,7 @@ public class CategoryTree {
 		
 		mRootCategories.add(cat1);
 		mRootCategories.add(cat2);
+
 		return false;
 	}
 	
@@ -114,7 +168,7 @@ public class CategoryTree {
 	public boolean updateInDatabase()
 	{
 		// TODO implement
-		return false;
+		return true;
 	}
 	
 	

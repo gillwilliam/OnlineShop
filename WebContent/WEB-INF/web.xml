@@ -66,6 +66,16 @@
         <param-name>confirmed_password</param-name>
         <param-value>conf_pass</param-value>
     </context-param>
+    
+    <context-param>
+    	<param-name>id</param-name>
+    	<param-value>id</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>category_tree_attr</param-name>
+    	<param-value>category_tree</param-value>
+    </context-param>
 
     <context-param>
         <param-name>buyer_profile_edit_result</param-name>
@@ -85,6 +95,11 @@
     <context-param>
     	<param-name>signed_user_attribute_name</param-name>
     	<param-value>user</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>category_rename_result_param</param-name>
+    	<param-value>error_message</param-value>
     </context-param>
     
     
@@ -124,6 +139,11 @@
     <context-param>
         <param-name>catalogue_maintenance_path</param-name>
         <param-value>/catalogue/catalogue_maintenance.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>category_maintenance_path</param-name>
+    	<param-value>/users/admin/categories_maintenance.jsp</param-value>
     </context-param>
     
 </web-app>

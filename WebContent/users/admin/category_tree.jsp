@@ -17,8 +17,13 @@
 	
 	<%
 		// obtain category tree
-		CategoryTree tree = new CategoryTree();
-		tree.loadFromDatabase();
+		CategoryTree tree =  (CategoryTree) application.getAttribute("category_tree_attr");
+		if (tree == null)
+		{
+			tree = new CategoryTree();
+			tree.loadFromDatabase();
+			application.setAttribute("category_tree_attr", tree);
+		}
 	%>
 	
 	<%!
@@ -88,8 +93,10 @@
 			/renameCategory<%= application.getInitParameter("main_front_controller_request_extension") %>"
 			method="post">
 			
-			<input id="input_id_of_category_to_rename" type="text" name="id" style="display:none"/>
-			<input id="input_category_current_name" type="text" placeholder="new category name"/>
+			<input id="input_id_of_category_to_rename" type="text" name="<%= application.getInitParameter("id") %>" 
+				style="display:none"/>
+			<input id="input_category_current_name" type="text" name="<%= application.getInitParameter("name") %>" 
+				placeholder="new category name"/>
 			<input type="submit" value="rename"/>
 		</form>
 		

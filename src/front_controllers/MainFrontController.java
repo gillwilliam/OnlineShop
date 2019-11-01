@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import categories.CategoryTree;
 import request_handlers.RequestHandler;
 import request_handlers.authorization.SignInRequestHandler;
 import request_handlers.authorization.SignOutRequestHandler;
@@ -43,7 +44,25 @@ public class MainFrontController extends HttpServlet {
     {
         mRequestHandlers 	= new HashMap<>();
         mRequestExtension 	= getServletContext().getInitParameter(REQUEST_EXTENSION_PARAM_NAME);
+        
+        initCategoryTree();
         addUrlPatternsAndHandlers();
+    }
+    
+    
+    
+    private void initCategoryTree()
+    {
+    	ServletContext context 	= getServletContext();
+    	CategoryTree tree 		= (CategoryTree) context.getAttribute("category_tree_attr");
+    	
+    	if (tree == null)
+    	{
+    		tree = new CategoryTree();
+    		tree.loadFromDatabase();
+    		
+            getServletContext().setAttribute("category_tree_attr", tree);
+    	}
     }
 
 
@@ -78,7 +97,7 @@ public class MainFrontController extends HttpServlet {
      	mRequestHandlers.put("/addCategory" + mRequestExtension,
      			new AddCategoryRequestHandler());
      	mRequestHandlers.put("/renameCategory" + mRequestExtension,
-     			new RenameCategoryRequestHandler());
+     			new RenameCategoryRequestHandler(context));
      	mRequestHandlers.put("/deleteCategory" + mRequestExtension,
      			new DeleteCategoryRequestHandler());
      	mRequestHandlers.put("/signOut" + mRequestExtension,
