@@ -15,26 +15,24 @@
 </head>
 <body>
 
-<%
-	// obtain current category tree
-	CategoryTree tree = (CategoryTree) application.getAttribute("category_tree_attr");
-	if (tree == null)
-	{
-		tree = new CategoryTree();
-		tree.loadFromDatabase();
-		application.setAttribute("category_tree_attr", tree);
-	}
-	
-	String message = (String) request.getAttribute(application.getInitParameter("category_rename_result_param"));
-%>
+	<%
+		// obtain current category tree
+		CategoryTree tree = (CategoryTree) application.getAttribute("category_tree_attr");
+		if (tree == null)
+		{
+			tree = new CategoryTree();
+			tree.loadFromDatabase();
+			application.setAttribute("category_tree_attr", tree);
+		}
+		
+		String message = (String) request.getAttribute(application.getInitParameter("category_maintenance_result_param"));
+		boolean success = Boolean.parseBoolean((String) request.getAttribute(application.getInitParameter("category_maintenance_result")));
+	%>
 
 	<!-- header -->
 	<jsp:include page="../../Header.jsp"/>
 	<!-- /header -->
 	
-	<h1>message: <%= message %></h1>
-	
-	<!-- site content -->
 	<%!
 		// function, that creates hierarchy of categories for specific category
 		// and shows only top category
@@ -83,53 +81,67 @@
 		}
 	%>
 	
-	<%
-		ArrayList<Category> rootCategories = tree.getRootCategories();
 	
-		for (Category rootCategory : rootCategories)
-		{
-			createHierarchy(rootCategory, out, 0);
-		}
-	%>
+	<!-- site content ------------------------------------------------------------------------------------------------------- -->
+	<div id="content">
 	
-	
-	<div id="category_edit_dialog">
-	
-		<img id="close_dialog" onclick="closeDialog()" src="${pageContext.request.contextPath}/img/close_icon.png"/>
+		<!-- contains message about successful edit. Initially it's invisible -->
+	    <section id="message_box" class="<%= message == null ? "invisible" : "" %>"
+	    	style="background-color: <%= success ? "#4ed93f" : "#f8694a" %>">
+	            <span id="message">
+	                <%= message %>
+	            </span>
+	    </section>
+	    
+	    <section id="category_tree">
+	    	<%
+				ArrayList<Category> rootCategories = tree.getRootCategories();
 		
-		<form id="form_rename" 
-			action="${pageContext.request.contextPath}
-			/renameCategory<%= application.getInitParameter("main_front_controller_request_extension") %>"
-			method="post">
+				for (Category rootCategory : rootCategories)
+				{
+					createHierarchy(rootCategory, out, 0);
+				}
+			%>
+	    </section>
+    
+		<div id="category_edit_dialog">
+	
+			<img id="close_dialog" onclick="closeDialog()" src="${pageContext.request.contextPath}/img/close_icon.png"/>
 			
-			<input id="input_id_of_category_to_rename" type="text" name="<%= application.getInitParameter("id") %>" 
-				style="display:none"/>
-			<input id="input_category_current_name" type="text" name="<%= application.getInitParameter("name") %>" 
-				placeholder="new category name"/>
-			<input type="submit" value="rename"/>
-		</form>
-		
-		<form id="form_add_subcategory"
-			action="${pageContext.request.contextPath}
-			/addCategory<%= application.getInitParameter("main_front_controller_request_extension") %>"
-			method="post">
+			<form id="form_rename" 
+				action="${pageContext.request.contextPath}
+				/renameCategory<%= application.getInitParameter("main_front_controller_request_extension") %>"
+				method="post">
+				
+				<input id="input_id_of_category_to_rename" type="text" name="<%= application.getInitParameter("id") %>" 
+					style="display:none"/>
+				<input id="input_category_current_name" type="text" name="<%= application.getInitParameter("name") %>" 
+					placeholder="new category name"/>
+				<input type="submit" value="rename"/>
+			</form>
 			
-			<!-- id of parent category -->
-			<input id="input_id_of_parent_category" type="text" name="id" style="display:none"/>
-			<input type="text" name="<%= application.getInitParameter("name") %>" placeholder="subcategory name"/>
-			<input type="submit" value="add subcategory"/>
-		</form>
-		
-		<form id="form_delete"
-			action="${pageContext.request.contextPath}
-			/deleteCategory<%= application.getInitParameter("main_front_controller_request_extension") %>"
-			method="post">
+			<form id="form_add_subcategory"
+				action="${pageContext.request.contextPath}
+				/addCategory<%= application.getInitParameter("main_front_controller_request_extension") %>"
+				method="post">
+				
+				<!-- id of parent category -->
+				<input id="input_id_of_parent_category" type="text" name="id" style="display:none"/>
+				<input type="text" name="<%= application.getInitParameter("name") %>" placeholder="subcategory name"/>
+				<input type="submit" value="add subcategory"/>
+			</form>
 			
-			<input id="input_id_of_category_to_delete" type="text" name="id" style="display:none"/>
-			<input type="submit" value="delete"/>
-		</form>
+			<form id="form_delete"
+				action="${pageContext.request.contextPath}
+				/deleteCategory<%= application.getInitParameter("main_front_controller_request_extension") %>"
+				method="post">
+				
+				<input id="input_id_of_category_to_delete" type="text" name="id" style="display:none"/>
+				<input type="submit" value="delete"/>
+			</form>
 
-	</div>
+		</div> <!-- category edit dialog -->
+	</div> <!-- content -->
 	
 	
 	<script>

@@ -98,8 +98,13 @@
     </context-param>
     
     <context-param>
-    	<param-name>category_rename_result_param</param-name>
+    	<param-name>category_maintenance_result_param</param-name>
     	<param-value>error_message</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>category_maintenance_result</param-name>
+    	<param-value>res</param-value>
     </context-param>
     
     

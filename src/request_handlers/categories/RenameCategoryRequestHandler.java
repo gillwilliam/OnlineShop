@@ -22,6 +22,7 @@ public class RenameCategoryRequestHandler implements RequestHandler {
 	String mIdParamName;
 	String mNameParamName;
 	String mResultParamName;
+	String mResultSuccessParamName;
 	String mCategoryMaintenancePath;
 	
 	
@@ -33,8 +34,9 @@ public class RenameCategoryRequestHandler implements RequestHandler {
 		
 		mIdParamName 				= context.getInitParameter("id");
 		mNameParamName 				= context.getInitParameter("name");
-		mResultParamName 			= context.getInitParameter("category_rename_result_param");
+		mResultParamName 			= context.getInitParameter("category_maintenance_result_param");
 		mCategoryMaintenancePath 	= context.getInitParameter("category_maintenance_path");
+		mResultSuccessParamName		= context.getInitParameter("category_maintenance_result");
 	}
 	
 	
@@ -78,6 +80,7 @@ public class RenameCategoryRequestHandler implements RequestHandler {
 	{
 		String errorMessage = "Category with id \"" + id + "\" and name \"" + name + "\" could not be found"; 
 		request.setAttribute(mResultParamName, errorMessage);
+		request.setAttribute(mResultSuccessParamName, "false");
 		
 		request.getRequestDispatcher(mCategoryMaintenancePath).forward(request, response);
 	}
@@ -99,6 +102,7 @@ public class RenameCategoryRequestHandler implements RequestHandler {
 			message.append("Name cannot be the same as other category's name that is in the same parent category");
 		
 		request.setAttribute(mResultParamName, message.toString());
+		request.setAttribute(mResultSuccessParamName, "false");
 		
 		request.getRequestDispatcher(mCategoryMaintenancePath).forward(request, response);
 	}
@@ -115,6 +119,7 @@ public class RenameCategoryRequestHandler implements RequestHandler {
 		
 		String message = "Name successfully changed";
 		request.setAttribute(mResultParamName, message);
+		request.setAttribute(mResultSuccessParamName, "true");
 		
 		request.getRequestDispatcher(mCategoryMaintenancePath).forward(request, response);
 	}

@@ -10,6 +10,7 @@
 	--bright:               	#f8694a;
 	--text-color-on-bright:		white;	
 	--bright-hover:				#30323a;
+	--border-color:         	#DADADA;
 	/* dimensions */
 	--extend-icon-dim:						16px;
 	--category-edit-dialog-width:			380px;
@@ -21,8 +22,60 @@
 }
 
 
+
+.invisible {
+	visibitlity:			hidden;
+}
+
+
+#header {
+    border:             0;
+    border-bottom:      1px solid var(--border-color);
+}
+
+
+#content {
+    display:            flex;
+    flex-direction:     column;
+    width:              75%;
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-bottom:      100px;
+    padding-bottom:		30px;
+    border:             1px solid var(--border-color);
+    border-top:         0;
+}
+
+
+#message_box {
+    width:              100%;
+    height:             var(--message-box-height);
+    background-color:   var(--bright);
+    color:              white;
+    padding-left:       10px;
+}
+
+
+#message_box span {
+    line-height:        var(--message-box-height);
+    font-size:          medium;
+}
+
+
+#category_tree {
+	margin:				30px;
+}
+
+
 .category {
 	font-size:				20px;
+}
+
+
+.category_name:hover {
+	color:					var(--bright);
+	text-decoration:		underline;
+	cursor:					pointer;
 }
 
 
@@ -32,6 +85,7 @@
 	height:					var(--extend-icon-dim);
 	background-image:		url("../img/icon_extend.png");
 	background-size:		var(--extend-icon-dim) var(--extend-icon-dim);
+	cursor:					pointer;
 }
 
 
@@ -44,6 +98,8 @@
 	height:					var(--category-edit-dialog-height);
 	box-shadow:				0 0 5px gray;
 	padding:				20px;
+	background-color:		white;
+	z-index:				1000;
 }
 
 
