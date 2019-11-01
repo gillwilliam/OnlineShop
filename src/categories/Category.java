@@ -12,7 +12,7 @@ public class Category {
 	private static final String BAD_NAME_EXCEPTION 	= "name must not containt only white characters";
 	private static final char PATH_NODES_SEPARATOR 	= '/';
 	public static final int MAX_CATEGORY_NAME_LEN 	= 16;
-	private static final String CATEGORY_NAME_REGEX = "^[a-zA-Z]{1," + MAX_CATEGORY_NAME_LEN + "}$";
+	public static final String CATEGORY_NAME_REGEX 	= "^[a-zA-Z]{1," + MAX_CATEGORY_NAME_LEN + "}$";
 
 	// fields ///////////////////////////////////////////////////////////////
 	/**

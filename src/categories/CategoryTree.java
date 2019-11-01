@@ -1,11 +1,15 @@
 package categories;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 
 public class CategoryTree {
+	
+	// CONST ///////////////////////////////////////////////////////////////
+	public static final int MAX_NUM_OF_CATEGORIES = 1000000;
 	
 	// fields //////////////////////////////////////////////////////////////
 	@NotNull
@@ -54,14 +58,16 @@ public class CategoryTree {
 	/**
 	 * checks whether category is unique in this tree and if so, then
 	 * stores the category, to make sure that in the future new categories
-	 * have different ids.
+	 * have different ids. Also doesn't let adding new category if maximum
+	 * number of categories was reached
 	 * @param category category that is supposed to be added
 	 * @return true, if category is unique and was successfully added,
-	 * false, if category hadn't got unique id.
+	 * false, if category hadn't got unique id or maximum number of categoireies
+	 * is reached.
 	 */
 	boolean addCategory(@NotNull Category category)
 	{
-		if (isCategoryUnique(category))
+		if (mAllCategories.size() < MAX_NUM_OF_CATEGORIES && isCategoryUnique(category))
 		{
 			mAllCategories.add(category);
 			return true;
@@ -169,6 +175,31 @@ public class CategoryTree {
 	{
 		// TODO implement
 		return true;
+	}
+	
+	
+	
+	/**
+	 * @return an ID that haven't occurred so far
+	 */
+	public int getUniqueId()
+	{
+		HashSet<Integer> idsInUsage = new HashSet<>();
+		
+		for (Category category : mAllCategories)
+			idsInUsage.add(category.getId());
+		
+		boolean found 	= false;
+		int proposedId 	= -1;
+		while (!found)				// maximum number of categories is set, so it won't overflow and always will find a number
+		{
+			proposedId++;
+			
+			if (!idsInUsage.contains(proposedId))
+				found = true;
+		}
+		
+		return proposedId;
 	}
 	
 	

@@ -95,7 +95,7 @@ public class MainFrontController extends HttpServlet {
      	mRequestHandlers.put("/product/checkout" + mRequestExtension,
      			new CheckoutRequestHandler(context, mRequestExtension));
      	mRequestHandlers.put("/addCategory" + mRequestExtension,
-     			new AddCategoryRequestHandler());
+     			new AddCategoryRequestHandler(context));
      	mRequestHandlers.put("/renameCategory" + mRequestExtension,
      			new RenameCategoryRequestHandler(context));
      	mRequestHandlers.put("/deleteCategory" + mRequestExtension,

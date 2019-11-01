@@ -126,7 +126,8 @@
 				method="post">
 				
 				<!-- id of parent category -->
-				<input id="input_id_of_parent_category" type="text" name="id" style="display:none"/>
+				<input id="input_id_of_parent_category" type="text" name="<%= application.getInitParameter("id") %>" 
+					style="display:none"/>
 				<input type="text" name="<%= application.getInitParameter("name") %>" placeholder="subcategory name"/>
 				<input type="submit" value="add subcategory"/>
 			</form>
