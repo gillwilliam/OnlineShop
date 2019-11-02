@@ -12,7 +12,7 @@ public class Category {
 	private static final String BAD_NAME_EXCEPTION 	= "name must not containt only white characters";
 	private static final char PATH_NODES_SEPARATOR 	= '/';
 	public static final int MAX_CATEGORY_NAME_LEN 	= 16;
-	public static final String CATEGORY_NAME_REGEX 	= "^[a-zA-Z]{1," + MAX_CATEGORY_NAME_LEN + "}$";
+	public static final String CATEGORY_NAME_REGEX 	= "^[a-zA-Z]{1}[a-zA-Z  ]{0," + MAX_CATEGORY_NAME_LEN + "}$";
 
 	// fields ///////////////////////////////////////////////////////////////
 	/**
@@ -132,7 +132,7 @@ public class Category {
 		if (mParent != null)
 			isUnique = mParent.isNameUniqueInSubcategories(name);
 		else
-			isUnique = true;
+			isUnique = mTree.isNameUniqueInRoot(name);
 		
 		return new NameValidationResult(contentCorrect, isUnique);
 	}
@@ -155,8 +155,20 @@ public class Category {
 			boolean isInTheSameTree = category.setParent(this);
 			if (isInTheSameTree)
 			{
-				mSubcategories.add(category);
-				return true;
+				if (mSubcategories.add(category))
+				{
+					boolean dbSuccess = mTree.updateInDatabase();
+					
+					if (dbSuccess)
+						return true;
+					else
+					{
+						mSubcategories.remove(category);
+						return false;
+					}
+				}
+				else
+					return false;
 			}
 			
 			return false;
@@ -186,7 +198,7 @@ public class Category {
 	 * @return true if category was successfully removed,
 	 * false if category with such id was not found
 	 */
-	public boolean removeSubcategory(int categoryId)
+	boolean removeSubcategory(int categoryId)
 	{
 		Category currCategory 	= null;
 		int size 				= mSubcategories.size();
@@ -197,8 +209,18 @@ public class Category {
 			
 			if (currCategory.getId() == categoryId)
 			{
+				currCategory.mParent = null;
 				mSubcategories.remove(i);
-				return true;
+				
+				boolean dbSuccess = mTree.updateInDatabase();
+				if (dbSuccess)
+					return true;
+				else
+				{
+					mSubcategories.add(currCategory);
+					currCategory.mParent = this;
+					return false;
+				}
 			}
 		}
 		

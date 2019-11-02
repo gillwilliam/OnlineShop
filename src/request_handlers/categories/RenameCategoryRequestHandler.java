@@ -95,8 +95,8 @@ public class RenameCategoryRequestHandler implements RequestHandler {
 		StringBuilder message = new StringBuilder();
 		
 		if (!valRes.isContentValid)
-			message.append("Name must contain only letters and cannot be empty or longer than " + Category.MAX_CATEGORY_NAME_LEN
-					+ " characters. ");
+			message.append("Name must contain only letters, spaces, and cannot be empty or longer than " 
+					+ Category.MAX_CATEGORY_NAME_LEN + " characters. ");
 		
 		if (!valRes.isUnique)
 			message.append("Name cannot be the same as other category's name that is in the same parent category");

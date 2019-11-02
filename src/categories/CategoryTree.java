@@ -78,28 +78,71 @@ public class CategoryTree {
 	
 	
 	
-	boolean removeCategory(int categoryId)
+	/**
+	 * removes category from this tree
+	 * @param categoryId
+	 * @return
+	 */
+	public boolean removeCategory(int categoryId)
 	{
+		boolean result = false;
+		
+		Category currCategory = null;
 		for (int i = 0; i < mAllCategories.size(); i++)
 		{
-			if (mAllCategories.get(i).getId() == categoryId)
-			{
-				mAllCategories.remove(i);
-				return true;
+			currCategory = mAllCategories.get(i);
+			
+			if (currCategory.getId() == categoryId)
+			{	
+				removeChildren(currCategory.getSubcategories());
+				result = removeCategoryAt(i, categoryId);
 			}
 		}
 		
-		return false;
+		return result;
+	}
+	
+	
+	
+	private boolean removeCategoryAt(int idx, int categoryId)
+	{
+		Category parent = mAllCategories.get(idx).getParent();
+		if (parent != null)
+		{
+			parent.removeSubcategory(categoryId);
+			mAllCategories.remove(idx);	
+			
+			return true;
+		}
+		else
+			return removeRootCategory(categoryId);
+	}
+	
+	
+	
+	private void removeChildren(ArrayList<Category> children)
+	{
+		while(!children.isEmpty())
+			removeCategory(children.get(children.size() - 1).getId());
 	}
 	
 	
 	
 	public boolean addRootCategory(@NotNull Category category)
 	{
-		if (isCategoryUnique(category))
+		String name = category.getName();
+		if (isNameUniqueInRoot(name) && name.matches(Category.CATEGORY_NAME_REGEX))
 		{
 			mRootCategories.add(category);
-			return true;
+			
+			boolean dbSuccess = updateInDatabase();
+			if (dbSuccess)
+				return true;
+			else
+			{
+				mRootCategories.remove(category);
+				return false;
+			}
 		}
 		else
 			return false;
@@ -107,15 +150,40 @@ public class CategoryTree {
 	
 	
 	
-	public boolean removeRootCategory(int categoryId)
+	public boolean isNameUniqueInRoot(String name)
 	{
+		for (Category rootCategory : mRootCategories)
+		{
+			if (rootCategory.getName().equals(name))
+				return false;
+		}
+		
+		return true;
+	}
+	
+	
+	
+	private boolean removeRootCategory(int categoryId)
+	{
+		if (mRootCategories.size() == 1)	// there must be at least one root category
+			return false;
+		
 		for (int i = 0; i < mRootCategories.size(); i++)
 		{
 			if (mRootCategories.get(i).getId() == categoryId)
 			{
 				mRootCategories.remove(i);
-				mAllCategories.remove(i);
-				return true;
+				
+				for (int j = 0; j < mAllCategories.size(); j++)
+				{
+					if (mAllCategories.get(j).getId() == categoryId)
+					{
+						mAllCategories.remove(j);
+						return true;
+					}	
+				}
+				
+				return false;	// only way this code is reached is some serious logic error
 			}
 		}
 		
@@ -212,6 +280,21 @@ public class CategoryTree {
 	public ArrayList<Category> getRootCategories()
 	{
 		return mRootCategories;
+	}
+	
+	
+	
+	public int getNumOfCategories()
+	{
+		return mAllCategories.size();
+	}
+	
+	
+	
+	@NotNull
+	public ArrayList<Category> getAllCategories()
+	{
+		return mAllCategories;
 	}
 }
 

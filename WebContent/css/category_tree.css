@@ -62,6 +62,33 @@
 }
 
 
+#add_root_category_but {
+	width:				200px;
+	height:				40px;
+	background-color:	var(--bright);
+	color:				white;
+	font-weight:		bold;
+	font-size:			16px;
+	text-align:			center;
+	line-height:		40px;
+	margin:				10px auto;
+}
+
+
+#add_root_category_but:hover {
+	animation:				button_hover;
+	animation-duration:		0.3s;
+	animation-fill-mode:	forwards;
+}
+
+
+@keyframes button_hover {
+	to {
+		background-color:	var(--bright-hover);
+	}
+}
+
+
 #category_tree {
 	margin:				30px;
 }
@@ -89,7 +116,7 @@
 }
 
 
-#category_edit_dialog {
+#category_edit_dialog, #root_category_creation_dialog {
 	display:				none;
 	position:				fixed;
 	top:					calc(50% - var(--category-edit-dialog-height) / 2);
@@ -103,7 +130,13 @@
 }
 
 
-#category_edit_dialog img {
+#root_category_creation_dialog form {
+	display:				block;
+	margin:					auto auto;
+}
+
+
+#category_edit_dialog img, #root_category_creation_dialog img {
 	position:				absolute;
 	top:					5px;
 	right:					5px;
@@ -112,7 +145,7 @@
 }
 
 
-#category_edit_dialog input {
+#category_edit_dialog input, #root_category_creation_dialog input {
 	display:				block;
 	margin-left:			auto;
 	margin-right:			auto;
@@ -120,7 +153,7 @@
 }
 
 
-#category_edit_dialog input[type="submit"] {
+#category_edit_dialog input[type="submit"], #root_category_creation_dialog input[type="submit"] {
 	width:					var(--category-edit-dialog-but-width);
 	height:					var(--category-edit-dialog-but-height);
 	background-color:		var(--bright);
@@ -129,7 +162,7 @@
 }
 
 
-#category_edit_dialog input[type="submit"]:hover {
+#category_edit_dialog input[type="submit"]:hover, #root_category_creation_dialog input[type="submit"]:hover {
 	animation:				button_hover;
 	animation-duration:		0.3s;
 	animation-fill-mode:	forwards;
@@ -143,7 +176,7 @@
 }
 
 
-#category_edit_dialog input[type="text"] {
+#category_edit_dialog input[type="text"], #root_category_creation_dialog input[type="text"] {
 	width:					100%;
 	border:					none;
 	border-bottom:			1px solid var(--bright);

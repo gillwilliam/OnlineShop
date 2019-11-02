@@ -44,28 +44,34 @@ public class AddCategoryRequestHandler implements RequestHandler {
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException 
 	{
-		Category parent = obtainParent(request, response);
-		if (parent == null) return;
-		
 		String name = obtainName(request, response);
 		if (name == null) return;
+		
+		Category parent = obtainParent(request, response);
 		
 		int id 					= mCategoryTree.getUniqueId();
 		Category newCategory 	= new Category(id, name, mCategoryTree);
 		
-		if (parent.addSubcategory(newCategory))
+		if (parent == null)
+		{
+			mCategoryTree.addRootCategory(newCategory);
 			successfulFinish(request, response);
+		}
 		else
-			dealWithWrongName(request, response, name);	// name is not unique in parent
+		{
+			if (parent.addSubcategory(newCategory))
+				successfulFinish(request, response);
+			else
+				dealWithWrongNameOrDBError(request, response, name);	// name is not unique in parent
+		}
 	}
 	
 	
 	
 	/**
-	 * tries to obtain parent from category tree, if can't then takes control of redirection to jsp
 	 * @param request
 	 * @param response
-	 * @return parent or null. If returns null then also deals with redirections to jsps
+	 * @return parent or null
 	 * @throws ServletException
 	 * @throws IOException
 	 */
@@ -74,20 +80,11 @@ public class AddCategoryRequestHandler implements RequestHandler {
 			HttpServletResponse response) throws ServletException, IOException
 	{
 		String parentIdStr = request.getParameter(mParentIdParamName);
-		if (parentIdStr == null)
-		{
-			dealWithWrongParent(request, response, -1);
-			return null;
-		}
+		if (parentIdStr == null) return null;
 		
 		int parentId = Integer.parseInt(parentIdStr);
 		
 		Category parent = mCategoryTree.find(parentId);
-		if (parent == null)
-		{
-			dealWithWrongParent(request, response, parentId);
-			return null;
-		}
 		
 		return parent;
 	}
@@ -111,7 +108,7 @@ public class AddCategoryRequestHandler implements RequestHandler {
 		
 		if (name == null || !name.matches(Category.CATEGORY_NAME_REGEX))
 		{
-			dealWithWrongName(request, response, name);
+			dealWithWrongNameOrDBError(request, response, name);
 			return null;
 		}
 		else
@@ -120,27 +117,13 @@ public class AddCategoryRequestHandler implements RequestHandler {
 	
 	
 	
-	private void dealWithWrongParent(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			int parentId) throws ServletException, IOException
-	{
-		String message = "Couldn't find parent category with id \"" + parentId + "\"";
-		request.setAttribute(mResultParamName, message);
-		request.setAttribute(mResultSuccessParamName, "false");
-		
-		request.getRequestDispatcher(mCategoryMaintenancePath).forward(request, response);
-	}
-	
-	
-	
-	private void dealWithWrongName(
+	private void dealWithWrongNameOrDBError(
 			HttpServletRequest request, 
 			HttpServletResponse response,
 			String name) throws ServletException, IOException
 	{
 		String message = "The name \"" + name + "\" is wrong. It must have 1 - " + Category.MAX_CATEGORY_NAME_LEN 
-				+ " characters and must contain only letters";
+				+ " characters and must contain only letters and spaces. If it meets requirements then try later";
 		request.setAttribute(mResultParamName, message);
 		request.setAttribute(mResultSuccessParamName, "false");
 		
@@ -153,7 +136,7 @@ public class AddCategoryRequestHandler implements RequestHandler {
 			HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException
 	{
-		String message = "You successfully added a new subcategory";
+		String message = "You successfully added a new category";
 		request.setAttribute(mResultParamName, message);
 		request.setAttribute(mResultSuccessParamName, "true");
 		

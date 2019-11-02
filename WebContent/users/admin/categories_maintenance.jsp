@@ -51,12 +51,8 @@
 				
 				// icon to show descendants
 				out.println("<div class='icon_extend'" +
-						"onclick=" + (
-								category.isLeaf() ? 
-								 "showProducts(" + category.getId() + ")" 
-								 :
-								 "showCategories(this," + category.getSubcategoriesAsJavascriptArray() + ")"
-								 ) + 
+						"onclick='showCategories(this," + category.getSubcategoriesAsJavascriptArray() + ")'"
+						+
 						" style='display:" + (
 								 category.isLeaf() ?
 								 "none"
@@ -64,15 +60,15 @@
 								 "inline-block"
 								)
 						+ "'></div>");
-						
+				
 				// stop condition
 				if (!category.isLeaf())
 				{
 					// printing children
 					ArrayList<Category> children = category.getSubcategories();
-			
+					
 					for (Category child : children)
-					createHierarchy(child, out, indentation + 10);
+						createHierarchy(child, out, indentation);
 				}
 				
 			// close div that contains category and all it's descendants
@@ -93,13 +89,17 @@
 	            </span>
 	    </section>
 	    
+	    <div id="add_root_category_but" onclick="showRootCategoryDialog()">
+	    	<span>add root category</span>
+	    </div>
+	    
 	    <section id="category_tree">
 	    	<%
 				ArrayList<Category> rootCategories = tree.getRootCategories();
 		
 				for (Category rootCategory : rootCategories)
 				{
-					createHierarchy(rootCategory, out, 0);
+					createHierarchy(rootCategory, out, 10);
 				}
 			%>
 	    </section>
@@ -137,20 +137,34 @@
 				/deleteCategory<%= application.getInitParameter("main_front_controller_request_extension") %>"
 				method="post">
 				
-				<input id="input_id_of_category_to_delete" type="text" name="id" style="display:none"/>
+				<input id="input_id_of_category_to_delete" type="text" name="<%= application.getInitParameter("id") %>" 
+					style="display:none"/>
 				<input type="submit" value="delete"/>
 			</form>
 
 		</div> <!-- category edit dialog -->
+		
+		<div id="root_category_creation_dialog">
+		
+			<img id="close_dialog" onclick="closeDialog()" src="${pageContext.request.contextPath}/img/close_icon.png"/>
+		
+			<form id="form_add_root_category"
+				action="${pageContext.request.contextPath}
+				/addCategory<%= application.getInitParameter("main_front_controller_request_extension") %>"
+				method="post">
+				
+				<!-- id of parent category -->
+				<input id="input_id_of_parent_category" type="text" name="<%= application.getInitParameter("id") %>" 
+					style="display:none" value="-100"/>
+				<input type="text" name="<%= application.getInitParameter("name") %>" placeholder="subcategory name"/>
+				<input type="submit" value="add root category"/>
+			</form>
+		</div>
+		
 	</div> <!-- content -->
 	
 	
 	<script>
-	
-		function showProducts(categoryId)
-		{
-			
-		}
 		
 		
 		
@@ -223,8 +237,18 @@
 		
 		function closeDialog()
 		{
-			var dialog = document.getElementById("category_edit_dialog");
-			dialog.style.display = "none";
+			var dialogCategoryEdit = document.getElementById("category_edit_dialog");
+			var dialogRootCategoryCreation = document.getElementById("root_category_creation_dialog");
+			dialogCategoryEdit.style.display = "none";
+			dialogRootCategoryCreation.style.display = "none";
+		}
+		
+		
+		
+		function showRootCategoryDialog()
+		{
+			var dialog = document.getElementById("root_category_creation_dialog");
+			dialog.style.display = "inline-block";
 		}
 		
 	</script>
