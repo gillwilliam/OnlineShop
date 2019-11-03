@@ -41,6 +41,11 @@
   	<url-pattern>/users/admin/categories_maintenance.jsp</url-pattern>
   </filter-mapping>
   
+  <filter-mapping>
+  	<filter-name>OnlyAdminFilter</filter-name>
+  	<url-pattern>/users/admin/admin_profile.jsp</url-pattern>
+  </filter-mapping>
+  
   
   <!-- seller and admin -->
   <filter>
