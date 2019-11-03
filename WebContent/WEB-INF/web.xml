@@ -58,6 +58,18 @@
   	<url-pattern>/catalogue/catalogue_maintenance.jsp</url-pattern>
   </filter-mapping>
   
+  
+  <!-- only seller -->
+  <filter>
+  	<filter-name>OnlySellerFilter</filter-name>
+  	<filter-class>filters.authentication.OnlySellerFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>OnlySellerFilter</filter-name>
+  	<url-pattern>/users/seller/seller_profile.jsp</url-pattern>
+  </filter-mapping>
+  
      
      
   <!-- general context parameters to use in your jsp if you need parameters with such semantics -->
