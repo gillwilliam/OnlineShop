@@ -6,6 +6,12 @@ import javax.validation.constraints.NotNull;
 import payments.Price;
 
 public class ProductBean {
+	
+	
+	// CONST //////////////////////////////////////////////////////////////////////////////////////////////////
+	public static final int MAX_NAME_LEN 	= 100;
+	public static final String NAME_REGEX 	= "^[a-zA-Z0-9  ]{1," + MAX_NAME_LEN + "}$";
+	
 
     private String  name;
     private String  category;
@@ -30,6 +36,8 @@ public class ProductBean {
                        @NotNull String description, int quantity, @NotNull String imagePath,
                        @NotNull String displayPagePath, @NotNull String editPagePath)
     {
+    	if (!name.matches(NAME_REGEX)) throw new IllegalArgumentException();
+    	
         this.name               = name;
         this.category           = category;
         this.price              = price;
@@ -38,6 +46,13 @@ public class ProductBean {
         this.imagePath          = imagePath;
         this.displayPagePath    = displayPagePath;
         this.editPagePath       = editPagePath;
+    }
+    
+    
+    
+    public boolean isNameValid(String name)
+    {
+    	return name.matches(NAME_REGEX);
     }
 
 

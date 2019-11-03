@@ -139,6 +139,21 @@
     </context-param>
     
     <context-param>
+    	<param-name>description</param-name>
+    	<param-value>desc</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>price</param-name>
+    	<param-value>price</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>quantity</param-name>
+    	<param-value>quantity</param-value>
+    </context-param>
+    
+    <context-param>
     	<param-name>category_tree_attr</param-name>
     	<param-value>category_tree</param-value>
     </context-param>
@@ -171,6 +186,11 @@
     <context-param>
     	<param-name>category_maintenance_result</param-name>
     	<param-value>res</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>product_attr</param-name>
+    	<param-value>product</param-value>
     </context-param>
     
     
