@@ -6,6 +6,10 @@ import java.util.Arrays;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 
+/**
+ * Represents category in CategoryTree. You can access it's parent via getParent and it's subcategories
+ * via getSubcategories().
+ */
 public class Category {
 	
 	// CONST ////////////////////////////////////////////////////////////////

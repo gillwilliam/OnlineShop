@@ -9,8 +9,7 @@ import com.sun.istack.Nullable;
 /**
  * Contains all root categories (top level categories, that haven't got parent).
  * You can access them via getAllCategories().
- * @author goodl
- *
+ * It's doubly linked tree with link to CategoryTree from each category *
  */
 public class CategoryTree {
 	
