@@ -46,7 +46,7 @@ public class Category {
 	 * to check whether category id is unique in whole tree.
 	 */
 	@NotNull
-	private CategoryTree 		mTree;
+	private CategoryTree mTree;
 	
 	
 	
