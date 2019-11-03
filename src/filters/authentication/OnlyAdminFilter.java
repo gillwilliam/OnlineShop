@@ -41,7 +41,8 @@ public class OnlyAdminFilter implements Filter {
 		if (request instanceof HttpServletRequest)
 		{
 			HttpServletRequest httpReq 	= (HttpServletRequest) request;	
-			UserBean user 				= (UserBean) httpReq.getAttribute(mUserSessionAttrParamName);
+			HttpSession session			= httpReq.getSession(true);
+			UserBean user 				= (UserBean) session.getAttribute(mUserSessionAttrParamName);
 			
 			if (user != null && user instanceof AdminBean)
 				chain.doFilter(request, response);
