@@ -30,6 +30,7 @@
   <!-- filters -->
   
   
+  <!-- only admin -->
   <filter>
   	<filter-name>OnlyAdminFilter</filter-name>
   	<filter-class>filters.authentication.OnlyAdminFilter</filter-class>
@@ -39,6 +40,19 @@
   	<filter-name>OnlyAdminFilter</filter-name>
   	<url-pattern>/users/admin/categories_maintenance.jsp</url-pattern>
   </filter-mapping>
+  
+  
+  <!-- seller and admin -->
+  <filter>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<filter-class>filters.authentication.SellerAndAdminFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/catalogue/catalogue_maintenance.jsp</url-pattern>
+  </filter-mapping>
+  
      
      
   <!-- general context parameters to use in your jsp if you need parameters with such semantics -->
