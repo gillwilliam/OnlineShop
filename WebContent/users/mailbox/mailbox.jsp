@@ -2,6 +2,9 @@
 pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
+<head>
+	<link rel="stylesheet" href="../../css/mailbox.css">
+</head>
   <jsp:include page="../../Header.jsp" />
   <body>
     <jsp:include page="../../Navigation.jsp" />
@@ -25,9 +28,9 @@ pageEncoding="ISO-8859-1"%>
             <div class="container">
                  <div class="mail-box">
                                   <aside class="sm-side">
-                                      <div class="inbox-body">
+                                      <div class="">
                                           <!-- Modal: Compose Message -->
-                                          <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade" style="display: none;">
+                                          <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="composeModal" class="modal fade" style="display: none;">
                                               <div class="modal-dialog">
                                                   <div class="modal-content">
                                                       <div class="modal-header">
@@ -66,7 +69,7 @@ pageEncoding="ISO-8859-1"%>
                                                                   
                                                                   <!-- TODO: Add form to Send button for JMS --> 
                                                                                                                                    
-                                                                      <button class="btn btn-send" type="submit">Send</button>
+                                                                      <button class="main-btn" type="submit">Send</button>
                                                                   </div>
                                                               </div>
                                                           </form>
@@ -115,7 +118,7 @@ pageEncoding="ISO-8859-1"%>
                                                                   
                                                                   <!-- TODO: Add form to Send button for JMS --> 
                                                                                                                                    
-                                                                      <button class="btn btn-send" type="submit">Send</button>
+                                                                      <button class="main-btn" type="submit">Send</button>
                                                                   </div>
                                                               </div>
                                                           </form>
@@ -130,82 +133,72 @@ pageEncoding="ISO-8859-1"%>
                                   <aside class="lg-side">
                                       <div class="inbox-head">
                                           <h3 style="float: left;">Messages</h3>
-                                          <button class="main-btn" style="float: right;" a href="#myModal" data-toggle="modal"  title="Compose" id="Compose">
+                                          <button class="main-btn" style="float: right;" a href="#composeModal" data-toggle="modal"  title="Compose" id="Compose">
                                                 Compose
                                           </button>
                                           <p>
                                       </div>
                                       <br>
-                                      <div class="inbox-body">
+                                      <div class="">
                                          <div class="mail-option">
                                          </div>
                                           <table class="table table-inbox table-hover">
                                             <tbody>
-                                              <tr class="unread">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
-                                                  <td class="view-message  dont-show">PHPClass</td>
-                                                  <td class="view-message ">Added a new class: Login Class Fast Site</td>
-                                                  <td class="view-message  inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                                  <td class="view-message  text-right">9:27 AM</td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">                                             
+                                                  <td class="view-message  dont-show">Sender Name</td>
+                                                  <td class="view-message ">Message Title</td>
+                                                  <td class="view-message  inbox-small-cells"></td>
+                                                  <td class="view-message  text-right">Time/Date?</td>
                                               </tr>
-                                              <tr class="unread">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">
                                                   <td class="view-message dont-show">Google Webmaster </td>
                                                   <td class="view-message">Improve the search presence of WebSite</td>
                                                   <td class="view-message inbox-small-cells"></td>
                                                   <td class="view-message text-right">March 15</td>
                                               </tr>
-                                              <tr class="">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">
                                                   <td class="view-message dont-show">JW Player</td>
                                                   <td class="view-message">Last Chance: Upgrade to Pro for </td>
                                                   <td class="view-message inbox-small-cells"></td>
                                                   <td class="view-message text-right">March 15</td>
                                               </tr>
-                                              <tr class="">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star"></i></td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">
                                                   <td class="view-message dont-show">Tim Reid, S P N</td>
                                                   <td class="view-message">Boost Your Website Traffic</td>
                                                   <td class="view-message inbox-small-cells"></td>
                                                   <td class="view-message text-right">April 01</td>
                                               </tr>
-                                              <tr class="">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star inbox-started"></i></td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">
                                                   <td class="view-message dont-show">Freelancer.com <span class="label label-danger pull-right">urgent</span></td>
                                                   <td class="view-message">Stop wasting your visitors </td>
                                                   <td class="view-message inbox-small-cells"></td>
                                                   <td class="view-message text-right">May 23</td>
                                               </tr>
-                                              <tr class="">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star inbox-started"></i></td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">
                                                   <td class="view-message dont-show">WOW Slider </td>
                                                   <td class="view-message">New WOW Slider v7.8 - 67% off</td>
-                                                  <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                                                  <td class="view-message inbox-small-cells"></td>
                                                   <td class="view-message text-right">March 14</td>
                                               </tr>
-                                              <tr class="">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star inbox-started"></i></td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">
                                                   <td class="view-message dont-show">WOW Slider </td>
                                                   <td class="view-message">New WOW Slider v7.8 - 67% off</td>
-                                                  <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                                                  <td class="view-message inbox-small-cells"></td>
                                                   <td class="view-message text-right">March 14</td>
                                               </tr>
-                                              <tr class="">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star inbox-started"></i></td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">
                                                   <td class="view-message dont-show">WOW Slider </td>
                                                   <td class="view-message">New WOW Slider v7.8 - 67% off</td>
-                                                  <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                                                  <td class="view-message inbox-small-cells"></td>
                                                   <td class="view-message text-right">March 14</td>
                                               </tr>
-                                              <tr class="">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star inbox-started"></i></td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">
                                                   <td class="view-message dont-show">WOW Slider </td>
                                                   <td class="view-message">New WOW Slider v7.8 - 67% off</td>
-                                                  <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
+                                                  <td class="view-message inbox-small-cells"></td>
                                                   <td class="view-message text-right">March 14</td>
                                               </tr>
-                                              <tr class="">
-                                                  <td class="inbox-small-cells"><i class="fa fa-star inbox-started"></i></td>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">
                                                   <td class="view-message dont-show">WOW Slider </td>
                                                   <td class="view-message">New WOW Slider v7.8 - 67% off</td>
                                                   <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
