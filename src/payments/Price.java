@@ -75,6 +75,16 @@ public class Price {
                 m_fractionalPart,
                 m_currency.getCurrencyCode());
     }
+    
+    
+    
+    public String toStringNoCurrency()
+    {
+    	return String.format(m_locale,
+                "%d.%02d",
+                m_mainPart,
+                m_fractionalPart);
+    }
 
 
     /**
@@ -99,6 +109,21 @@ public class Price {
         }
 
         return true;
+    }
+    
+    
+    
+    @Override
+    public boolean equals(Object other)
+    {
+    	if (!(other instanceof Price))
+    		return false;
+    	
+    	Price otherPrice = (Price) other;
+    	
+    	return otherPrice.getMainPart() == getMainPart() && 
+    			otherPrice.getFractionalPart() == getFractionalPart() &&
+    			otherPrice.getCurrency() == getCurrency();
     }
 
 

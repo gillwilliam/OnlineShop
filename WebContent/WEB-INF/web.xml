@@ -154,6 +154,26 @@
     </context-param>
     
     <context-param>
+    	<param-name>category</param-name>
+    	<param-value>cat</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>image</param-name>
+    	<param-value>img</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>message</param-name>
+    	<param-value>message</param-value>
+    </context-param> 
+    
+    <context-param>
+    	<param-name>result</param-name>
+    	<param-value>result</param-value>
+    </context-param>
+    
+    <context-param>
     	<param-name>category_tree_attr</param-name>
     	<param-value>category_tree</param-value>
     </context-param>
@@ -235,6 +255,11 @@
     <context-param>
     	<param-name>category_maintenance_path</param-name>
     	<param-value>/users/admin/categories_maintenance.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>product_edition_path</param-name>
+    	<param-value>/product/product_edition.jsp</param-value>
     </context-param>
     
 </web-app>

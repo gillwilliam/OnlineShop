@@ -5,6 +5,7 @@
 <%@ page import="java.io.IOException" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="categories.CategoryTree" %>
+<%@ page import="request_handlers.product.EditProductRequestHandler.ProductEditionResult" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,36 +76,72 @@
 			tree.loadFromDatabase();
 			application.setAttribute("category_tree_attr", tree);
 		}
+		
+		// if product was just edited obtain result
+		ProductEditionResult result = (ProductEditionResult) request.getAttribute(application.getInitParameter("result"));
 	%>
 	
 	<jsp:include page="../Header.jsp" />
 	
 	
 	<div id="container">
+	
+		<!-- contains message about successful edit. Initially it's invisible -->
+	    <section id="message_box" class="<%= result == null ? "invisible" : "" %>"
+	    	style="background-color: <%= result != null && result.success ? "#4ed93f" : "#f8694a" %>">
+	            <span id="message">
+	                <%= result != null ? result.message : "" %>
+	            </span>
+	    </section>
+	    
 		<!-- product data form ------------------------------------------------------------------------------------------------------- -->
-		<form id="product_data_form">
+		<form id="product_data_form" method="POST" enctype="multipart/form-data"
+			action='${pageContext.request.contextPath}<%= product != null ? 
+					"/editProduct" + application.getInitParameter("main_front_controller_request_extension")
+					:
+					"not yet implemented, add path for new product creation"
+					%>'>
+		
+			<!-- id -->
+			<input type="hidden" name="<%= application.getInitParameter("id") %>" 
+				value="<%= product == null ? -1 : product.getId() %>" />
 		
 			<!-- name -->
 			<label for="name">Name</label>
 			<input id="name" type="text" name="<%= application.getInitParameter("name") %>" 
-				pattern="<%= ProductBean.NAME_REGEX %>" required />
+				pattern="<%= ProductBean.NAME_REGEX %>" 
+				value="<%= product == null ? "" : product.getName() %>" required />
 			
 			<!-- description -->
 			<label for="description">Description</label>
-			<textarea id="description" name="<%= application.getInitParameter("description") %>" maxlength="10000" required ></textarea>
+			<textarea id="description" name="<%= application.getInitParameter("description") %>" maxlength="10000" required >
+				<%= product == null ? "" : product.getDescription() %>
+			</textarea>
 			
 			<!-- price -->
 			<label for="price">Price</label>
-			<input id="price" type="number" step="0.01" name="<%= application.getInitParameter("price") %>" required />
+			<input id="price" type="number" step="0.01" min="0" name="<%= application.getInitParameter("price") %>" 
+				value="<%= product == null ? "" : product.getPrice().toStringNoCurrency() %>" 
+				required />
 			
 			<!-- quantity -->
 			<label for="quantity">Quantity</label>
-			<input id="quantity" type="number" name="<%= application.getInitParameter("quantity") %>" value="1" required />
+			<input id="quantity" type="number" min="0" name="<%= application.getInitParameter("quantity") %>" 
+				value="<%= product == null ? 1 : product.getQuantity() %>" required />
 			
 			<!-- category -->
 			<label for="category">Category</label>
-			<input id="category_id" type="hidden" value="<%= tree.getRootCategories().get(0).getId() %>"/>
-			<input id="category" type="text" value="<%= tree.getRootCategories().get(0).getName() %>" disabled readonly required/>
+			<input id="category_id" type="hidden" name="category_id"
+				value="<%= product == null ? 
+						tree.getRootCategories().get(0).getId()
+						:
+						product.getCategory().getId() %>"/>
+			<input id="category" type="text"
+				value="<%= product == null ? 
+						tree.getRootCategories().get(0).getName() 
+						: 
+						product.getCategory().getName() %>" 
+				disabled readonly required/>
 			
 			<!-- user must choose category from this tree by clicking it -->
 			<div id="category_tree">
@@ -120,7 +157,7 @@
 			
 			<!-- image -->
 			<label for="image">Image</label>
-			<input id="image" type="file" name="avatar" accept="image/png, image/jpeg">
+			<input id="image" type="file" name="<%= application.getInitParameter("image") %>" accept="image/png, image/jpeg">
 			
 			<!-- submit -->
 			<input id="but_save" type="submit" value="save" />

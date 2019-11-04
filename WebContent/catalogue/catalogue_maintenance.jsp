@@ -92,9 +92,14 @@
                                         <img src="${pageContext.request.contextPath}/img/display_product_icon.png" alt="disp"/>
                                     </a>
 
-                                    <a id="but_edit_product" class="but_action" href="<%= product.getEditPagePath() %>">
-                                        <img src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
-                                    </a>
+									<form action='${pageContext.request.contextPath}/editProduct<%= application.getInitParameter("main_front_controller_request_extension") %>'>
+										<input type="hidden" name='<%= application.getInitParameter("id") %>'
+											value="<%= product.getId() %>" />
+										<input type="hidden" name="pass_only" value="true" />
+										
+										<input id="but_edit_product" class="but_action"
+											type="image" src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit" />
+									</form>
 
                                     <a id="but_delete_product" class="but_action">
                                         <img src="${pageContext.request.contextPath}/img/delete.png" alt="del"/>

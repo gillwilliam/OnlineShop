@@ -276,6 +276,19 @@ public class Category {
 	
 	
 	
+	@Override
+	public boolean equals(Object other)
+	{
+		if (!(other instanceof Category))
+			return false;
+		
+		Category otherCat = (Category) other;
+		
+		return otherCat.getId() == getId();
+	}
+	
+	
+	
 	// getters && setters //////////////////////////////////////////////////
 	
 	

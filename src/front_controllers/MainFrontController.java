@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import request_handlers.RequestHandler;
 import request_handlers.authorization.SignInRequestHandler;
 import request_handlers.authorization.SignOutRequestHandler;
 import request_handlers.product.CheckoutRequestHandler;
+import request_handlers.product.EditProductRequestHandler;
 import request_handlers.categories.AddCategoryRequestHandler;
 import request_handlers.categories.DeleteCategoryRequestHandler;
 import request_handlers.categories.RenameCategoryRequestHandler;
@@ -25,6 +27,7 @@ import request_handlers.users.EditUserProfileRequestHandler;
 import request_handlers.users.maintenance.SearchUsersRequestHandler;
 
 @WebServlet(name = "MainFrontController")
+@MultipartConfig
 public class MainFrontController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -102,6 +105,8 @@ public class MainFrontController extends HttpServlet {
      			new DeleteCategoryRequestHandler(context));
      	mRequestHandlers.put("/signOut" + mRequestExtension,
      			new SignOutRequestHandler(context));
+     	mRequestHandlers.put("/editProduct" + mRequestExtension, 
+     			new EditProductRequestHandler(context));
     }
 
 
