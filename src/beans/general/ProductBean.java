@@ -67,7 +67,7 @@ public class ProductBean {
     
     
     public ProductBean(int id, @NotNull String name, @NotNull Category category, @NotNull Price price,
-            @NotNull String description, int quantity, @NotNull String imagePath)
+            @NotNull String description, int quantity, @NotNull String imageStoragePath)
     {
     	if (!name.matches(NAME_REGEX)) throw new IllegalArgumentException("Name doesn't match required pattern");
     	if (id < 0) throw new IllegalArgumentException("Id can't be less than 0");
@@ -78,7 +78,7 @@ public class ProductBean {
         this.price              = price;
         this.description        = description;
         this.quantity           = quantity;
-        this.imagePath          = imagePath;
+        this.imagePath          = imageStoragePath + name;
         this.displayPagePath	= obtainDisplayPagePath();
         this.editPagePath		= obtainEditPagePath();
     }

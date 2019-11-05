@@ -1,6 +1,10 @@
 package request_handlers.product;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,6 +20,9 @@ import request_handlers.RequestHandler;
 
 public class EditProductRequestHandler implements RequestHandler {
 	
+	// CONST ///////////////////////////////////////////////////////////////////////////////////////
+	public long MAX_IMG_SIZE_IN_BYTES = 10000000L;
+	
 	// fields //////////////////////////////////////////////////////////////////////////////////////
 	private String mIdParamName;
 	private String mNameParamName;
@@ -28,6 +35,7 @@ public class EditProductRequestHandler implements RequestHandler {
 	private String mEditPagePath;
 	private String mResultAttr;
 	private String mProductAttr;
+	private String mImgFolderPath;
 	private CategoryTree mCategoryTree;
 	
 	
@@ -44,6 +52,7 @@ public class EditProductRequestHandler implements RequestHandler {
 		mEditPagePath			= context.getInitParameter("product_edition_path");
 		mResultAttr				= context.getInitParameter("result");
 		mProductAttr			= context.getInitParameter("product_attr");
+		mImgFolderPath			= context.getInitParameter("prod_img_folder_path");
 		mCategoryTree			= (CategoryTree) context.getAttribute(context.getInitParameter("category_tree_attr"));
 		if (mCategoryTree == null)
 		{
@@ -106,8 +115,12 @@ public class EditProductRequestHandler implements RequestHandler {
 		
 		if (validationResult.success)
 		{
-			String imgPath = storeImage(img);
-			return updateProductInDB(product, name, category, price, desc, quantity, imgPath);
+			StoreImageResult imgStoreRes = storeImage(img, product.getImagePath());
+			String imgName				 = imgStoreRes.name;
+			if (imgStoreRes.success)
+				return updateProductInDB(product, name, category, price, desc, quantity, imgName);
+			else
+				return new ProductEditionResult(false, imgStoreRes.message);
 		}
 		else
 			return validationResult;
@@ -148,7 +161,7 @@ public class EditProductRequestHandler implements RequestHandler {
 	
 	
 	private ProductEditionResult updateProductInDB(ProductBean product, String name, Category category, Price price, String desc, 
-			int quantity, String imgPath)
+			int quantity, String imgName)
 	{
 		boolean wasChanged = false;
 		
@@ -182,9 +195,9 @@ public class EditProductRequestHandler implements RequestHandler {
 			wasChanged = true;
 		}
 		
-		if (imgPath != null)
+		if (imgName != null)
 		{
-			product.setImagePath(imgPath);
+			product.setImagePath(mImgFolderPath + imgName);
 			wasChanged = true;
 		}
 		
@@ -206,7 +219,7 @@ public class EditProductRequestHandler implements RequestHandler {
 	private ProductBean getProductFromDB(int productId)
 	{
 		return new ProductBean(productId, "test product", obtainCategory(3), new Price(100, 3, "EUR"), 
-				"test description", 10, "asdf");
+				"test description", 10, "path");
 	}
 	
 	
@@ -223,10 +236,137 @@ public class EditProductRequestHandler implements RequestHandler {
 	 * @param img
 	 * @return 
 	 */
-	private String storeImage(Part img)
+	private StoreImageResult storeImage(Part img, String oldImgPath)
 	{
-		// TODO implement
-		return null;
+		if (getFileName(img).isEmpty())
+			return new StoreImageResult(true, "No image was specified", null);
+		
+		long imgSize = img.getSize();
+		if (imgSize <= MAX_IMG_SIZE_IN_BYTES)
+		{
+			int imgSizeInt 		= (int) imgSize;
+			byte[] imageBytes 	= new byte[imgSizeInt];
+			InputStream in		= null;
+			
+			try 
+			{
+		 		in = img.getInputStream();
+		 		
+				if (in != null)
+					in.read(imageBytes, 0, imgSizeInt);
+				else
+					return new StoreImageResult(false, "Cannot read image due to null input stream", null);
+			}
+			catch (IOException e)
+			{
+				return new StoreImageResult(false, "Cannot read image", null);
+			}
+			finally
+			{
+				try
+				{
+					if (in != null)
+						in.close();
+				}
+				catch (IOException e)
+				{
+					return new StoreImageResult(false, "Cannot load file properly", null);
+				}
+			}
+			
+			StoreImageResult saveRes = saveImageOnDrive(imageBytes);
+			
+			if (saveRes.success)
+			{
+				StoreImageResult delOldImgRes = deleteOldImage(oldImgPath);
+				
+				if (delOldImgRes.success)
+					return saveRes;
+				else
+					return delOldImgRes;
+			}
+			else
+				return saveRes;
+		}
+		else
+			return new StoreImageResult(false, "File is too big", null);
+	}
+	
+	
+	
+	private StoreImageResult deleteOldImage(String oldImgPath)
+	{
+		// TODO test if works when connected to db
+		if (oldImgPath == null || oldImgPath.isEmpty())
+			return new StoreImageResult(true, "No old image", null);
+		
+		File oldImg = new File(oldImgPath);
+		
+		if (oldImg.delete())
+			return new StoreImageResult(true, "successful delete", null);
+		else
+			return new StoreImageResult(false, "cannot remove previous image", null);
+	}
+	
+	
+	
+	private String getFileName(final Part part) 
+	{
+	    final String partHeader = part.getHeader("content-disposition");
+	    
+	    for (String content : part.getHeader("content-disposition").split(";")) 
+	    {
+	        if (content.trim().startsWith("filename")) 
+	        {
+	            return content.substring(
+	                    content.indexOf('=') + 1).trim().replace("\"", "");
+	        }
+	    }
+	    
+	    return null;
+	}
+	
+	
+	
+	private String generateUniqueName()
+	{
+		long currNanos = System.nanoTime();
+		
+		return Long.toString(currNanos);
+	}
+	
+	
+	
+	private StoreImageResult saveImageOnDrive(byte[] image)
+	{
+		FileOutputStream out = null;
+		
+		try
+		{
+			String name = generateUniqueName() + ".jpg";
+			String path = mImgFolderPath + name;
+			out = new FileOutputStream(new File(path));
+			out.write(image);
+			out.flush();
+			
+			return new StoreImageResult(true, "Successfuly stored image", name);
+		}
+		catch (IOException e)
+		{
+			return new StoreImageResult(false, "Cannot store image. Error during saving on the drive", null);
+		}
+		finally
+		{
+			try
+			{
+				if (out != null)
+					out.close();
+			}
+			catch (IOException e)
+			{
+				return new StoreImageResult(false, "Image stored but a failure occured during closing a stream", null);
+			}
+		}
 	}
 	
 	
@@ -243,6 +383,21 @@ public class EditProductRequestHandler implements RequestHandler {
 		{
 			this.success = success;
 			this.message = message;
+		}
+	}
+	
+	
+	
+	public class StoreImageResult {
+		public boolean success;
+		public String message;
+		public String name;
+		
+		public StoreImageResult(boolean success, String message, String name) 
+		{
+			this.success = success;
+			this.message = message;
+			this.name    = name;
 		}
 	}
 
