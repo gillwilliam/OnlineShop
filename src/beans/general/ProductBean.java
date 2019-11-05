@@ -70,7 +70,6 @@ public class ProductBean {
             @NotNull String description, int quantity, @NotNull String imageStoragePath)
     {
     	if (!name.matches(NAME_REGEX)) throw new IllegalArgumentException("Name doesn't match required pattern");
-    	if (id < 0) throw new IllegalArgumentException("Id can't be less than 0");
     	
     	this.id					= id;
         this.name               = name;
@@ -101,7 +100,7 @@ public class ProductBean {
     
     
     
-    public boolean isNameValid(String name)
+    public static boolean isNameValid(String name)
     {
     	return name.matches(NAME_REGEX);
     }

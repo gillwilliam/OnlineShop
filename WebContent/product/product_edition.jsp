@@ -5,7 +5,9 @@
 <%@ page import="java.io.IOException" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="categories.CategoryTree" %>
+<%@ page import="request_handlers.product.Result" %>
 <%@ page import="request_handlers.product.EditProductRequestHandler.ProductEditionResult" %>
+<%@ page import="request_handlers.product.CreateProductRequestHandler.ProductValidationResult" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,7 +80,7 @@
 		}
 		
 		// if product was just edited obtain result
-		ProductEditionResult result = (ProductEditionResult) request.getAttribute(application.getInitParameter("result"));
+		Result result = (Result) request.getAttribute(application.getInitParameter("result"));
 	%>
 	
 	<jsp:include page="../Header.jsp" />
@@ -99,7 +101,7 @@
 			action='${pageContext.request.contextPath}<%= product != null ? 
 					"/editProduct" + application.getInitParameter("main_front_controller_request_extension")
 					:
-					"not yet implemented, add path for new product creation"
+					"/createProduct" + application.getInitParameter("main_front_controller_request_extension")
 					%>'>
 		
 			<!-- id -->
@@ -114,9 +116,7 @@
 			
 			<!-- description -->
 			<label for="description">Description</label>
-			<textarea id="description" name="<%= application.getInitParameter("description") %>" maxlength="10000" required >
-				<%= product == null ? "" : product.getDescription() %>
-			</textarea>
+			<textarea id="description" name="<%= application.getInitParameter("description") %>" maxlength="10000" required ><%= product == null ? "" : product.getDescription().trim() %></textarea>
 			
 			<!-- price -->
 			<label for="price">Price</label>

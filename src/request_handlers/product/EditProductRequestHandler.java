@@ -21,7 +21,7 @@ import request_handlers.RequestHandler;
 public class EditProductRequestHandler implements RequestHandler {
 	
 	// CONST ///////////////////////////////////////////////////////////////////////////////////////
-	public long MAX_IMG_SIZE_IN_BYTES = 10000000L;
+	public static long MAX_IMG_SIZE_IN_BYTES = 10000000L;
 	
 	// fields //////////////////////////////////////////////////////////////////////////////////////
 	private String mIdParamName;
@@ -95,11 +95,22 @@ public class EditProductRequestHandler implements RequestHandler {
 	
 	
 	
-	private Price obtainPrice(String price)
+	static Price obtainPrice(String price)
 	{
 		String[] parts 	= price.split("\\.");
-		int mainPart 	= Integer.parseInt(parts[0]);
-		int fracPart 	= Integer.parseInt(parts[1]);
+		
+		int mainPart = 0;
+		int fracPart = 0;
+		
+		if (parts.length == 2)
+		{
+			mainPart = Integer.parseInt(parts[0]);
+			fracPart = Integer.parseInt(parts[1]);
+		}
+		else if (parts.length == 1)
+		{
+			mainPart = Integer.parseInt(parts[0]);
+		}
 		
 		return new Price(mainPart, fracPart, "EUR");
 	}
@@ -111,7 +122,7 @@ public class EditProductRequestHandler implements RequestHandler {
 		ProductBean product = getProductFromDB(id);
 		Category category 	= obtainCategory(categoryId);
 		
-		ProductEditionResult validationResult = validateProductData(product, id, category, name, quantity);
+		ProductEditionResult validationResult = validateProductData(product, id, category, name, desc, quantity);
 		
 		if (validationResult.success)
 		{
@@ -129,7 +140,8 @@ public class EditProductRequestHandler implements RequestHandler {
 	
 	
 	
-	private ProductEditionResult validateProductData(ProductBean product, int productId, Category category, String name, int quantity)
+	private ProductEditionResult validateProductData(ProductBean product, int productId, Category category, String name, String desc,
+			int quantity)
 	{
 		boolean success 		= true;
 		StringBuilder message 	= new StringBuilder();
@@ -137,7 +149,7 @@ public class EditProductRequestHandler implements RequestHandler {
 		if (product == null)
 			return new ProductEditionResult(false, "There is no product with id '" + productId + "' in the database");
 		
-		if (!product.isNameValid(name))
+		if (!ProductBean.isNameValid(name))
 		{
 			success = false;
 			message.append("name is invalid<br>");
@@ -147,6 +159,12 @@ public class EditProductRequestHandler implements RequestHandler {
 		{
 			success = false;
 			message.append("category id is not present in the database<br>");
+		}
+		
+		if (desc == null || desc.isEmpty())
+		{
+			success = false;
+			message.append("You must provide description<br>");
 		}
 		
 		if (quantity < 0)
@@ -232,7 +250,8 @@ public class EditProductRequestHandler implements RequestHandler {
 	
 	
 	/**
-	 * if image is != null then stores it and returns path to the image
+	 * if image is set then stores it and returns path to the image and also
+	 * removes old image if present
 	 * @param img
 	 * @return 
 	 */
@@ -289,7 +308,8 @@ public class EditProductRequestHandler implements RequestHandler {
 				return saveRes;
 		}
 		else
-			return new StoreImageResult(false, "File is too big", null);
+			return new StoreImageResult(false, "Image is too big. It cannot be bigger that " + 
+					(int) (MAX_IMG_SIZE_IN_BYTES / 1000000) + "MB", null);
 	}
 	
 	
@@ -310,11 +330,11 @@ public class EditProductRequestHandler implements RequestHandler {
 	
 	
 	
-	private String getFileName(final Part part) 
+	static String getFileName(final Part part) 
 	{
 	    final String partHeader = part.getHeader("content-disposition");
 	    
-	    for (String content : part.getHeader("content-disposition").split(";")) 
+	    for (String content : partHeader.split(";")) 
 	    {
 	        if (content.trim().startsWith("filename")) 
 	        {
@@ -328,7 +348,7 @@ public class EditProductRequestHandler implements RequestHandler {
 	
 	
 	
-	private String generateUniqueName()
+	static String generateUniqueName()
 	{
 		long currNanos = System.nanoTime();
 		
@@ -375,20 +395,17 @@ public class EditProductRequestHandler implements RequestHandler {
 	
 	
 	
-	public class ProductEditionResult {
-		public boolean success;
-		public String message;
+	public class ProductEditionResult extends Result {
 		
 		public ProductEditionResult(boolean success, String message)
 		{
-			this.success = success;
-			this.message = message;
+			super(success, message);
 		}
 	}
 	
 	
 	
-	public class StoreImageResult {
+	public static class StoreImageResult {
 		public boolean success;
 		public String message;
 		public String name;

@@ -64,7 +64,7 @@
 
         </section> <!-- section search -->
         
-        <a id="but_add_new_product">Add new product</a>
+        <a id="but_add_new_product" href="${pageContext.request.contextPath}/product/product_edition.jsp">Add new product</a>
 
         <section id="products_list">
             <table id="products_table">
