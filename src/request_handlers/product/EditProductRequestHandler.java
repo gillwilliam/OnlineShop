@@ -31,7 +31,7 @@ public class EditProductRequestHandler implements RequestHandler {
 	private String mDescParamName;
 	private String mQuantityParamName;
 	private String mOnlyPassParamName;
-	private String mImageParamPath;
+	private String mImageParamName;
 	private String mEditPagePath;
 	private String mResultAttr;
 	private String mProductAttr;
@@ -48,7 +48,7 @@ public class EditProductRequestHandler implements RequestHandler {
 		mDescParamName 			= context.getInitParameter("description");
 		mQuantityParamName 		= context.getInitParameter("quantity");
 		mOnlyPassParamName		= "pass_only";
-		mImageParamPath 		= context.getInitParameter("image");
+		mImageParamName 		= context.getInitParameter("image");
 		mEditPagePath			= context.getInitParameter("product_edition_path");
 		mResultAttr				= context.getInitParameter("result");
 		mProductAttr			= context.getInitParameter("product_attr");
@@ -82,7 +82,7 @@ public class EditProductRequestHandler implements RequestHandler {
 			int categoryId 	= Integer.parseInt(request.getParameter(mCategoryIdParamName));
 			String desc 	= request.getParameter(mDescParamName);
 			int quantity 	= Integer.parseInt(request.getParameter(mQuantityParamName));
-			Part img 		= request.getPart(mImageParamPath);
+			Part img 		= request.getPart(mImageParamName);
 			
 			ProductEditionResult editionResult = editProduct(id, name, categoryId, price, desc, quantity, img);
 			

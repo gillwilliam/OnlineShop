@@ -25,7 +25,7 @@ public class CreateProductRequestHandler implements RequestHandler {
 	private String mPriceParamName;
 	private String mDescParamName;
 	private String mQuantityParamName;
-	private String mImageParamPath;
+	private String mImageParamName;
 	private String mEditPagePath;
 	private String mResultAttr;
 	private String mProductAttr;
@@ -40,7 +40,7 @@ public class CreateProductRequestHandler implements RequestHandler {
 		mPriceParamName 		= context.getInitParameter("price");
 		mDescParamName 			= context.getInitParameter("description");
 		mQuantityParamName 		= context.getInitParameter("quantity");
-		mImageParamPath 		= context.getInitParameter("image");
+		mImageParamName 		= context.getInitParameter("image");
 		mEditPagePath			= context.getInitParameter("product_edition_path");
 		mResultAttr				= context.getInitParameter("result");
 		mProductAttr			= context.getInitParameter("product_attr");
@@ -65,7 +65,7 @@ public class CreateProductRequestHandler implements RequestHandler {
 		Category cat	= mCategoryTree.find(categoryId);
 		String desc 	= request.getParameter(mDescParamName);
 		int quantity 	= Integer.parseInt(request.getParameter(mQuantityParamName));
-		Part img 		= request.getPart(mImageParamPath);
+		Part img 		= request.getPart(mImageParamName);
 		
 		ProductValidationResult validationResult = validateProduct(name, cat, desc, quantity, img);
 		ProductBean product 	= new ProductBean(-1, name, cat, price, desc, quantity, null);

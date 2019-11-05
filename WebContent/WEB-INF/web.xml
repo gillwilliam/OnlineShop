@@ -92,6 +92,23 @@
   	<url-pattern>/users/buyer/buyer_profile.jsp</url-pattern>
   </filter-mapping>
   
+  
+  <!-- product data filter - checks whether any data is passed, not necessarily valid -->
+  <filter>
+  	<filter-name>OnlyCompleteProductDataFilter</filter-name>
+  	<filter-class>filters.product.OnlyCompleteProductDataFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>OnlyCompleteProductDataFilter</filter-name>
+  	<url-pattern>/editProduct.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>OnlyCompleteProductDataFilter</filter-name>
+  	<url-pattern>/createProduct.main</url-pattern>
+  </filter-mapping>
+  
      
      
   <!-- general context parameters to use in your jsp if you need parameters with such semantics -->
