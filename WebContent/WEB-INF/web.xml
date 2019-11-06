@@ -68,6 +68,21 @@
   	<url-pattern>/product/product_edition.jsp</url-pattern>
   </filter-mapping>
   
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/addCategory.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/renameCategory.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/deleteCategory.main</url-pattern>
+  </filter-mapping>
+  
   
   <!-- only seller -->
   <filter>
