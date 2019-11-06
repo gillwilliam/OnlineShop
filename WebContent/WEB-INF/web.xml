@@ -51,6 +51,11 @@
   	<url-pattern>/users/admin/users_maintenance.jsp</url-pattern>
   </filter-mapping>
   
+  <filter-mapping>
+  	<filter-name>OnlyAdminFilter</filter-name>
+  	<url-pattern>/editBuyerProfile.main</url-pattern>
+  </filter-mapping>
+  
   
   <!-- seller and admin -->
   <filter>
@@ -107,6 +112,18 @@
   <filter-mapping>
   	<filter-name>OnlyCompleteProductDataFilter</filter-name>
   	<url-pattern>/createProduct.main</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- buyer data filter - checks whether request contains all non confidential user data -->
+  <filter>
+  	<filter-name>BuyerDataFilter</filter-name>
+  	<filter-class>filters.users_profiles.BuyerDataFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>BuyerDataFilter</filter-name>
+  	<url-pattern>/editBuyerProfile.main</url-pattern>
   </filter-mapping>
   
      
