@@ -16,7 +16,7 @@ public class MessagesRequestHandler implements RequestHandler {
 	private String mUserMessagesPath;
 
 	public MessagesRequestHandler(ServletContext context) {
-		// TODO Extract required parameters
+		
 		mContext = context;
 		mUserMessagesPath = context.getInitParameter("messages_path");
 		
@@ -25,6 +25,8 @@ public class MessagesRequestHandler implements RequestHandler {
 	@Override
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		
 		
 		request.getRequestDispatcher(mUserMessagesPath).forward(request, response);
 

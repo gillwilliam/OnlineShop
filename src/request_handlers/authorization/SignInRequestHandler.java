@@ -30,6 +30,7 @@ public class SignInRequestHandler implements RequestHandler {
 		mPasswordParamName 	= context.getInitParameter("password");
 		mUserAttrName		= context.getInitParameter("signed_user_attribute_name");
 		mHomepagePath		= context.getInitParameter("homepage_path");
+
 	}
 	
 	

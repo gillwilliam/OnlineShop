@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jms_handlers.ReadMessageRequestHandler;
+import jms_handlers.SendMessageRequestHandler;
 import request_handlers.RequestHandler;
 import request_handlers.authorization.SignInRequestHandler;
 import request_handlers.authorization.SignOutRequestHandler;
@@ -84,8 +86,12 @@ public class MainFrontController extends HttpServlet {
      			new DeleteCategoryRequestHandler());
      	mRequestHandlers.put("/signOut" + mRequestExtension,
      			new SignOutRequestHandler(context));
-     	mRequestHandlers.put("/users/mailbox" + mRequestExtension, 
+     	mRequestHandlers.put("/users/mailbox/mailbox" + mRequestExtension, 
      			new MessagesRequestHandler(context));
+     	mRequestHandlers.put("/sendMessage" + mRequestExtension,
+     			new SendMessageRequestHandler(context));
+     	mRequestHandlers.put("/readMessage" + mRequestExtension,
+     			new ReadMessageRequestHandler(context));
     }
 
 

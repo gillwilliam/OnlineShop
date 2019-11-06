@@ -38,36 +38,30 @@ pageEncoding="ISO-8859-1"%>
                                                           <h4 class="modal-title">Compose</h4>
                                                       </div>
                                                       <div class="modal-body">
-                                                          <form role="form" class="form-horizontal">
+                                                          <form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/sendMessage.main" method="post">
                                                               <div class="form-group">
                                                                   <label class="col-lg-2 control-label">To</label>
                                                                   <div class="col-lg-10">
-                                                                      <input type="text" placeholder="" id="inputEmail1" class="form-control">
-                                                                  </div>
-                                                              </div>
-                                                              <div class="form-group">
-                                                                  <label class="col-lg-2 control-label">Cc / Bcc</label>
-                                                                  <div class="col-lg-10">
-                                                                      <input type="text" placeholder="" id="cc" class="form-control">
+                                                                      <input type="text" placeholder="" id="recipientEmail" class="form-control">
                                                                   </div>
                                                               </div>
                                                               <div class="form-group">
                                                                   <label class="col-lg-2 control-label">Subject</label>
                                                                   <div class="col-lg-10">
-                                                                      <input type="text" placeholder="" id="inputPassword1" class="form-control">
+                                                                      <input type="text" placeholder="" id="subject" class="form-control">
                                                                   </div>
                                                               </div>
                                                               <div class="form-group">
                                                                   <label class="col-lg-2 control-label">Message</label>
                                                                   <div class="col-lg-10">
-                                                                      <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
+                                                                      <textarea rows="10" cols="30" class="form-control" id="message" name=""></textarea>
                                                                   </div>
                                                               </div>
                 
                                                               <div class="form-group">
                                                                   <div class="col-lg-offset-2 col-lg-10">
                                                                   
-                                                                  <!-- TODO: Add form to Send button for JMS --> 
+                                                                  <!-- TODO: Connect Send Btn to JMS --> 
                                                                                                                                    
                                                                       <button class="main-btn" type="submit">Send</button>
                                                                   </div>
@@ -87,27 +81,18 @@ pageEncoding="ISO-8859-1"%>
                                                           <h4 class="modal-title">Message Title Here</h4>
                                                       </div>
                                                       <div class="modal-body">
-                                                          <form role="form" class="form-horizontal">
+                                                          <form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/receiveMessage.main" method="post">
                                                               <div class="form-group">
-                                                                  <label class="col-lg-2 control-label">To</label>
-                                                                  <div class="col-lg-10">
-                                                                      <input type="text" placeholder="" id="inputEmail1" class="form-control">
-                                                                  </div>
+                                                                  <label class="col-lg-2 control-label">Sender:</label>
                                                               </div>
                                                               <div class="form-group">
-                                                                  <label class="col-lg-2 control-label">Cc / Bcc</label>
+                                                                  <label class="col-lg-2 control-label">Time:</label>
                                                                   <div class="col-lg-10">
                                                                       <input type="text" placeholder="" id="cc" class="form-control">
                                                                   </div>
                                                               </div>
                                                               <div class="form-group">
-                                                                  <label class="col-lg-2 control-label">Subject</label>
-                                                                  <div class="col-lg-10">
-                                                                      <input type="text" placeholder="" id="inputPassword1" class="form-control">
-                                                                  </div>
-                                                              </div>
-                                                              <div class="form-group">
-                                                                  <label class="col-lg-2 control-label">Message</label>
+                                                                  <label class="col-lg-2 control-label">Message Content</label>
                                                                   <div class="col-lg-10">
                                                                       <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
                                                                   </div>
@@ -116,9 +101,9 @@ pageEncoding="ISO-8859-1"%>
                                                               <div class="form-group">
                                                                   <div class="col-lg-offset-2 col-lg-10">
                                                                   
-                                                                  <!-- TODO: Add form to Send button for JMS --> 
+                                                                  <!-- TODO: Add form to Reply button for JMS --> 
                                                                                                                                    
-                                                                      <button class="main-btn" type="submit">Send</button>
+                                                                      <button class="main-btn" type="submit">Reply</button>
                                                                   </div>
                                                               </div>
                                                           </form>

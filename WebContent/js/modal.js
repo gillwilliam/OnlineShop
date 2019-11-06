@@ -24,4 +24,15 @@ window.onclick = function(event) {
   }
 }
 
+$('.btn').click(function() {
+    $('#id_div_to_modify').html('your content');
+});
+
+
+// Trying to create a success feedback message
+function successMessage() {
+	var modalDiv = document.getElementById("modal-body");
+	modalDiv.html("Success.");
+}
+
 
