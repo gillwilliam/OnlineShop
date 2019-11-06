@@ -138,6 +138,28 @@
   	<url-pattern>/editAdminProfile.main</url-pattern>
   </filter-mapping>
   
+  
+  <!-- is user email present in request filter - checks whether email was specified -->
+  <filter>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<filter-class>filters.users_profiles.IsUserEmailPresentFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<url-pattern>/deleteBuyer.main</url-pattern>
+  </filter-mapping>
+  
+    <filter-mapping>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<url-pattern>/deleteSeller.main</url-pattern>
+  </filter-mapping>
+  
+    <filter-mapping>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<url-pattern>/deleteAdmin.main</url-pattern>
+  </filter-mapping>
+  
      
      
   <!-- general context parameters to use in your jsp if you need parameters with such semantics -->
