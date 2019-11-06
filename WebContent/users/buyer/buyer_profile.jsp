@@ -99,7 +99,7 @@
         </div>
 
         <!--  form for editing user's data -->
-        <form id="user_data_form" action="editBuyerProfile.main" method="post">
+        <form id="user_data_form" action="${pageContext.request.contextPath}/editBuyerProfile.main" method="post">
             <!--  section with users's personal data used for order purposes -->
             <section id="personal_data_section">
                 <h1>Personal data</h1>

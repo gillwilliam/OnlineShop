@@ -77,35 +77,35 @@ public class MainFrontController extends HttpServlet {
     {
     	ServletContext context = getServletContext();
     	mRequestHandlers.put("/editBuyerProfile" + mRequestExtension, 
-    		   new EditUserProfileRequestHandler(context, mRequestExtension));
+    		   new EditUserProfileRequestHandler(context, mRequestExtension));	// should be post only
     	mRequestHandlers.put("/editSellerProfile" + mRequestExtension, 
-    		   new EditUserProfileRequestHandler(context, mRequestExtension));
+    		   new EditUserProfileRequestHandler(context, mRequestExtension));	// should be post only
     	mRequestHandlers.put("/editAdminProfile" + mRequestExtension, 
-     		   new EditUserProfileRequestHandler(context, mRequestExtension));
+     		   new EditUserProfileRequestHandler(context, mRequestExtension));	// should be post only
      	mRequestHandlers.put("/searchUsers" + mRequestExtension,
      			new SearchUsersRequestHandler(context));
      	mRequestHandlers.put("/deleteBuyer" + mRequestExtension,
-     			new DeleteBuyerRequestHandler(context, mRequestExtension));
+     			new DeleteBuyerRequestHandler(context, mRequestExtension));		// should be post only
      	mRequestHandlers.put("/deleteSeller" + mRequestExtension,
-     			new DeleteSellerRequestHandler(context, mRequestExtension));
+     			new DeleteSellerRequestHandler(context, mRequestExtension));	// should be post only
      	mRequestHandlers.put("/deleteAdmin" + mRequestExtension,
-     			new DeleteAdminRequestHandler(context, mRequestExtension));
+     			new DeleteAdminRequestHandler(context, mRequestExtension));		// should be post only
      	mRequestHandlers.put("/signIn" + mRequestExtension,
-     			new SignInRequestHandler(context));
+     			new SignInRequestHandler(context));								// should be post only
      	mRequestHandlers.put("/product/checkout" + mRequestExtension,
      			new CheckoutRequestHandler(context, mRequestExtension));
      	mRequestHandlers.put("/addCategory" + mRequestExtension,
-     			new AddCategoryRequestHandler(context));
+     			new AddCategoryRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/renameCategory" + mRequestExtension,
-     			new RenameCategoryRequestHandler(context));
+     			new RenameCategoryRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/deleteCategory" + mRequestExtension,
-     			new DeleteCategoryRequestHandler(context));
+     			new DeleteCategoryRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/signOut" + mRequestExtension,
      			new SignOutRequestHandler(context));
      	mRequestHandlers.put("/editProduct" + mRequestExtension, 
-     			new EditProductRequestHandler(context));
+     			new EditProductRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/createProduct" + mRequestExtension,
-     			new CreateProductRequestHandler(context));
+     			new CreateProductRequestHandler(context));						// should be post only
     }
 
 
