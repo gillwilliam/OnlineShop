@@ -80,12 +80,8 @@ public class MainFrontController extends HttpServlet {
     		   new EditUserProfileRequestHandler(context, mRequestExtension));
     	mRequestHandlers.put("/editSellerProfile" + mRequestExtension, 
     		   new EditUserProfileRequestHandler(context, mRequestExtension));
-    	mRequestHandlers.put("/users/seller/editSellerProfile" + mRequestExtension, 
-     		   new EditUserProfileRequestHandler(context, mRequestExtension));
     	mRequestHandlers.put("/editAdminProfile" + mRequestExtension, 
      		   new EditUserProfileRequestHandler(context, mRequestExtension));
-     	mRequestHandlers.put("/users/admin/editAdminProfile" + mRequestExtension, 
-      		   new EditUserProfileRequestHandler(context, mRequestExtension));
      	mRequestHandlers.put("/searchUsers" + mRequestExtension,
      			new SearchUsersRequestHandler(context));
      	mRequestHandlers.put("/deleteBuyer" + mRequestExtension,
