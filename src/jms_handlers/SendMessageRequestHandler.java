@@ -55,7 +55,7 @@ public class SendMessageRequestHandler implements RequestHandler {
 		
 		// Refreshes the page
 		// TODO: Success/ Failure feedback message
-		request.getRequestDispatcher(mMailboxPagePath).forward(request, response);
+		response.sendRedirect(request.getContextPath() + mMailboxPagePath);
 		
 	}
 	
