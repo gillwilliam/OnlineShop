@@ -188,6 +188,11 @@
     </context-param>
     
     <context-param>
+    	<param-name>register_path</param-name>
+    	<param-value>/register.jsp</param-value>
+    </context-param>
+    
+    <context-param>
         <param-name>admin_profile_edit_path</param-name>
         <param-value>/users/admin/admin_profile.jsp</param-value>
     </context-param>

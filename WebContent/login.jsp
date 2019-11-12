@@ -14,6 +14,7 @@
 				<div class="col-md-6">
 					<form id="login-form" action="${pageContext.request.contextPath}/signIn.main" method="post">
 						<h3>Login Page</h3>
+						<div style="color: #FF0000;">${ loginErrorMessage }</div>
 						<div class="form-group">
 							<input class="input" type="text" name="<%= application.getInitParameter("email") %>" 
 								placeholder="Email">

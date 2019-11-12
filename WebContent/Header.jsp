@@ -152,7 +152,8 @@
                     <!-- sign up button ------------------------------------------------------------------------------- -->
                     <li
                     	style="display:<%= user == null ? "inline" : "none" %>">
-                    	<a id="but_sign_up" href="#">
+                    	<a id="but_sign_up" href="${pageContext.request.contextPath}<%=
+                    		application.getInitParameter("register_path") %>">
                     		<b class="text-uppercase">Sign up</b>
                     	</a>
                     </li>
