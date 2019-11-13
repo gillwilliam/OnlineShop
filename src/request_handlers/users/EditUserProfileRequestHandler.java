@@ -130,7 +130,7 @@ public class EditUserProfileRequestHandler implements RequestHandler {
         	res.setIsAddressValid(UserDataValidator.isAddressValid(address));
         if (email != null)
         	res.setIsEmailValid(UserDataValidator.isEmailValid(email));
-        if (newPassword != null && confirmedPassword != null & (!newPassword.isEmpty() || !confirmedPassword.isEmpty()))
+        if (newPassword != null && confirmedPassword != null && (!newPassword.isEmpty() || !confirmedPassword.isEmpty()))
         {
         	res.setIsPasswordValid(UserDataValidator.isPasswordValid(newPassword));
             res.setIsConfirmedPasswordValid(UserDataValidator.isNewPasswordValid(newPassword, confirmedPassword));

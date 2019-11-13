@@ -68,6 +68,21 @@
   	<url-pattern>/product/product_edition.jsp</url-pattern>
   </filter-mapping>
   
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/addCategory.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/renameCategory.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/deleteCategory.main</url-pattern>
+  </filter-mapping>
+  
   
   <!-- only seller -->
   <filter>
@@ -107,6 +122,57 @@
   <filter-mapping>
   	<filter-name>OnlyCompleteProductDataFilter</filter-name>
   	<url-pattern>/createProduct.main</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- buyer data filter - checks whether request contains all non confidential buyer data -->
+  <filter>
+  	<filter-name>BuyerDataFilter</filter-name>
+  	<filter-class>filters.users_profiles.BuyerDataFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>BuyerDataFilter</filter-name>
+  	<url-pattern>/editBuyerProfile.main</url-pattern>
+  </filter-mapping>
+  
+  
+  <!--  seller and admin filter - checks whether request contains all non confidential admin and seller data -->
+  <filter>
+  	<filter-name>SellerAndAdminDataFilter</filter-name>
+  	<filter-class>filters.users_profiles.SellerAndAdminDataFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminDataFilter</filter-name>
+  	<url-pattern>/editSellerProfile.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminDataFilter</filter-name>
+  	<url-pattern>/editAdminProfile.main</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- is user email present in request filter - checks whether email was specified -->
+  <filter>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<filter-class>filters.users_profiles.IsUserEmailPresentFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<url-pattern>/deleteBuyer.main</url-pattern>
+  </filter-mapping>
+  
+    <filter-mapping>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<url-pattern>/deleteSeller.main</url-pattern>
+  </filter-mapping>
+  
+    <filter-mapping>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<url-pattern>/deleteAdmin.main</url-pattern>
   </filter-mapping>
   
      
