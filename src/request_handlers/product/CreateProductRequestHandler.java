@@ -44,7 +44,7 @@ public class CreateProductRequestHandler implements RequestHandler {
 		mEditPagePath			= context.getInitParameter("product_edition_path");
 		mResultAttr				= context.getInitParameter("result");
 		mProductAttr			= context.getInitParameter("product_attr");
-		mImgFolderPath			= context.getInitParameter("prod_img_folder_path");
+		mImgFolderPath			= context.getRealPath(context.getInitParameter("prod_img_folder_path"));
 		mCategoryTree			= (CategoryTree) context.getAttribute(context.getInitParameter("category_tree_attr"));
 		if (mCategoryTree == null)
 		{

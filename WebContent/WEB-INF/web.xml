@@ -240,7 +240,7 @@
     
     <context-param>
     	<param-name>prod_img_folder_path</param-name>
-    	<param-value>D:/Documents/szkoła/Semestr5UC3M/Computing technologies for the web/project/code/OnlineShop/WebContent/img/products/</param-value>
+    	<param-value>/img/products/</param-value>
     </context-param>
     
     
