@@ -1,0 +1,143 @@
+* {
+	box-sizing:			border-box;
+    padding:            0;
+    margin:             0;
+    --bright:				#f8694a;
+    --header-height:        50px;
+    --header-color:         #30323a;
+    --header-bright:        #3d404a;
+    --header-text-color:    #ffffff;
+    --bright:               #f8694a;
+    --input-width:          440px;
+    --input-height:         40px;
+    --error-message-color:  red;
+    --message-box-height:   60px;
+    --border-color:         #DADADA;
+    --top-navigation-buttons-margin:	8px;
+}
+
+
+.invisible {
+	display:			none;
+}
+
+
+#header {
+    border:             0;
+    border-bottom:      1px solid var(--border-color);
+}
+
+
+/* content */
+
+
+#container {
+    display:            flex;
+    flex-direction:     column;
+    width:              75%;
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-bottom:      100px;
+    padding-bottom:		30px;
+    border:             1px solid var(--border-color);
+    border-top:         0;
+}
+
+
+#container h1 {
+    margin:             20px auto;
+}
+
+
+#container input:not([type=submit]) {
+    width:              var(--input-width);
+    height:             var(--input-height);
+    margin:             5px;
+    padding-left:       10px;
+    border-left:        0;
+    border-top:         0;
+    border-right:       0;
+}
+
+
+#container input:focus {
+    border-bottom:      1px solid var(--bright);
+}
+
+
+#container textarea {
+	width:              var(--input-width);
+    height:             200px;
+    margin:             5px;
+    padding-left:       10px;
+    border:				1px solid var(--border-color);
+}
+
+
+#message_box {
+    width:              100%;
+    height:             var(--message-box-height);
+    background-color:   var(--bright);
+    color:              white;
+    padding-left:       10px;
+}
+
+
+#message_box span {
+    line-height:        var(--message-box-height);
+    font-size:          medium;
+}
+
+
+#product_data_form {
+    width:              100%;
+    height:             100%;
+    display:            flex;
+    flex-direction:     column;
+    align-items:        center;
+}
+
+
+#product_data_form label {
+	margin-top:			25px;
+}
+
+/*
+#product_data_form span {
+    color:              var(--error-message-color);
+}
+*/
+
+
+#but_save {
+    background-color:   var(--bright);
+    border:             0;
+    width:              var(--input-width);
+    height:             var(--input-height);
+    margin-top:         40px;
+    font-weight:        bolder;
+    color:              var(--header-text-color);
+    font-size:          large;
+}
+
+
+#but_save:hover {
+    animation:          button_hover;
+    animation-duration: 0.3s;
+    animation-fill-mode:    forwards;
+}
+
+
+@keyframes button_hover {
+    from {
+        background-color:   var(--bright);
+    }
+    to {
+        background-color:   var(--header-color);
+    }
+}
+
+
+
+
+
