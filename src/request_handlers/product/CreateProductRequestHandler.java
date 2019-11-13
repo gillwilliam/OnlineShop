@@ -44,7 +44,8 @@ public class CreateProductRequestHandler implements RequestHandler {
 		mEditPagePath			= context.getInitParameter("product_edition_path");
 		mResultAttr				= context.getInitParameter("result");
 		mProductAttr			= context.getInitParameter("product_attr");
-		mImgFolderPath			= context.getRealPath(context.getInitParameter("prod_img_folder_path"));
+		mImgFolderPath			= context.getInitParameter("prod_img_folder_path");
+		createDirectoryForImagesIfDoesntExist();
 		mCategoryTree			= (CategoryTree) context.getAttribute(context.getInitParameter("category_tree_attr"));
 		if (mCategoryTree == null)
 		{
@@ -53,6 +54,22 @@ public class CreateProductRequestHandler implements RequestHandler {
 			context.setAttribute(context.getInitParameter("category_tree_attr"), mCategoryTree);
 		}
 	}
+	
+	
+	
+	private void createDirectoryForImagesIfDoesntExist()
+	{
+		File imgDirectory = new File(mImgFolderPath);
+		
+		if (!imgDirectory.exists())
+		{
+			boolean directoryCreationResult = imgDirectory.mkdir();
+			
+			if (!directoryCreationResult)
+				throw new ImageDirectoryCreationException();
+		}
+	}
+	
 	
 
 	@Override
@@ -89,7 +106,6 @@ public class CreateProductRequestHandler implements RequestHandler {
 				validationResult.message = imgStoreRes.message;
 		}
 		
-		System.out.println(price.toString());
 		request.setAttribute(mProductAttr, product);
 		request.setAttribute(mResultAttr, validationResult);
 		request.getRequestDispatcher(mEditPagePath).forward(request, response);
@@ -185,9 +201,10 @@ public class CreateProductRequestHandler implements RequestHandler {
 		
 		try
 		{
-			String name = EditProductRequestHandler.generateUniqueName() + ".jpg";
-			String path = mImgFolderPath + name;
-			out = new FileOutputStream(new File(path));
+			String name 	= EditProductRequestHandler.generateUniqueName() + ".jpg";
+			String path 	= mImgFolderPath + name;
+			File imageFile 	= new File(path);
+			out = new FileOutputStream(imageFile);
 			out.write(image);
 			out.flush();
 			
@@ -195,7 +212,7 @@ public class CreateProductRequestHandler implements RequestHandler {
 		}
 		catch (IOException e)
 		{
-			return new StoreImageResult(false, "Cannot store image. Error during saving on the drive", null);
+			return new StoreImageResult(false, "Cannot store image. Error during saving on the drive. " + e.getMessage(), null);
 		}
 		finally
 		{
@@ -223,5 +240,25 @@ public class CreateProductRequestHandler implements RequestHandler {
 		{
 			super(isValid, message);
 		}
+	}
+	
+	
+	
+	// exceptions //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	public class ImageDirectoryCreationException extends RuntimeException {
+
+		private static final long serialVersionUID = 1L;
+		
+		
+		
+		public ImageDirectoryCreationException()
+		{
+			super("Directory for storin images could not be found and could not be created. Check if the directory is placed at the"
+					+ " top level (i.e. C:/directory)");
+		}
+		
 	}
 }
