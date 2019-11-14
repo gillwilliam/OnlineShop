@@ -270,6 +270,11 @@
         <param-name>buyer_profile_edit_result</param-name>
         <param-value>edit_res</param-value>
     </context-param>
+    
+    <context-param>
+    	<param-name>user_profile_update_result</param-name>
+    	<param-value>update_res</param-value>
+    </context-param>
 
     <context-param>
         <param-name>products_list_attr</param-name>
@@ -307,6 +312,14 @@
     <context-param>
     	<param-name>prod_img_folder_path</param-name>
     	<param-value>/OnlineShopImgDB/</param-value>
+    </context-param>
+    
+    
+    <!-- data source -->
+    
+    <context-param>
+    	<param-name>data_source_name</param-name>
+    	<param-value>OnlineShopDS</param-value>
     </context-param>
     
     

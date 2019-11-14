@@ -59,6 +59,10 @@
 		nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
 		confirmedPasswordMessage = "";
 	}
+	
+	EditUserProfileRequestHandler.UpdateInDBResult updateResult = 
+			(EditUserProfileRequestHandler.UpdateInDBResult) request.
+			getAttribute(application.getInitParameter("user_profile_update_result"));
 %>
 
 <!-- HEADER -->
@@ -69,10 +73,13 @@
 <div id="container">
 
     <!-- contains message about successful edit. Initially it's invisible -->
-    <div id="message_box" class="<%= validationResult == null || validationResult.isValid() ? "invisible" : "" %>">
+    <div id="message_box" class="<%= validationResult == null ? "invisible" : "" %>"
+    		style="background-color:<%= validationResult != null && validationResult.isValid() &&
+                updateResult != null && updateResult.isUpdateSuccessful ? "#4ed93f" : "#f8694a" %>">
             <span id="message">
-                <%= validationResult != null && validationResult.isValid() ? "Successful data update" :
-                        "Errors occurred during data update" %>
+                <%= validationResult != null && validationResult.isValid() &&
+                updateResult != null && updateResult.isUpdateSuccessful ? "Successful data update" :
+                        "Errors occurred during data update. " + (updateResult != null ? updateResult.message : "") %>
             </span>
     </div>
 

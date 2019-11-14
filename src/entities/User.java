@@ -1,8 +1,7 @@
 package entities;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import javax.persistence.*;
-import java.math.BigInteger;
 import java.util.List;
 
 
@@ -25,8 +24,6 @@ public class User implements Serializable {
 	private String firstName;
 
 	private String lastName;
-
-	private String name;
 
 	private String password;
 
@@ -71,14 +68,6 @@ public class User implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getPassword() {

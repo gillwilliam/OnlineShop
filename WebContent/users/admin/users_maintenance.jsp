@@ -111,7 +111,7 @@
 								<td class="td_action">
 									
 									<!--  button edit profile  -->
-									<form action="${pageContext.request.contextPath}/editBuyerProfile
+									<form action="${pageContext.request.contextPath}/displayBuyerProfile
 										<%= application.getInitParameter("main_front_controller_request_extension") %>"
 										method="post">
 										<!-- just to make buyers page display this user -->
@@ -196,7 +196,7 @@
 								<td><%= seller.getPassword() %></td>
 								<td class="td_action">
 									<!--  button edit profile  -->
-									<form action="${pageContext.request.contextPath}/editSellerProfile
+									<form action="${pageContext.request.contextPath}/displaySellerProfile
 										<%= application.getInitParameter("main_front_controller_request_extension") %>">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
@@ -277,7 +277,7 @@
 								<td><%= admin.getPassword() %></td>
 								<td class="td_action">
 									<!--  button edit profile  -->
-									<form action="${pageContext.request.contextPath}/editAdminProfile
+									<form action="${pageContext.request.contextPath}/displayAdminProfile
 										<%= application.getInitParameter("main_front_controller_request_extension") %>">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
