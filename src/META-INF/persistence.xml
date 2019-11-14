@@ -4,5 +4,6 @@
 		<class>entities.User</class>
 		<class>entities.Product</class>
 		<class>entities.ProductList</class>
+		<class>entities.Category</class>
 	</persistence-unit>
 </persistence>
