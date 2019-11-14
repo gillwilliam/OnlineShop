@@ -42,8 +42,8 @@ CREATE TABLE IF NOT EXISTS `shop`.`category` (
   `parent` INT NULL,
   PRIMARY KEY (`category_id`),
   CONSTRAINT `parent`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `shop`.`category` (`parent`)
+    FOREIGN KEY (`parent`)
+    REFERENCES `shop`.`category` (`category_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
