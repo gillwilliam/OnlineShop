@@ -38,7 +38,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `shop`.`category` (
   `category_id` INT NOT NULL,
-  `name` (255) NOT NULL,
+  `name` NVARCHAR(255) NOT NULL,
   `parent` INT NULL,
   PRIMARY KEY (`category_id`),
   CONSTRAINT `parent`
