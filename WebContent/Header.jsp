@@ -53,13 +53,11 @@
 
                 <!-- Search -->
                 <div class="header-search">
-                    <form>
-                        <input class="input search-input" type="text" placeholder="Enter your keyword">
-                        <select class="input search-categories">
-                            <option value="0">All Categories</option>
-                            <option value="1">Category 01</option>
-                            <option value="1">Category 02</option>
-                        </select>
+                    <form id="search_user_form" action="${pageContext.request.contextPath}/searchProducts
+						<%= application.getInitParameter("main_front_controller_request_extension") %>" method="get">
+                        <input class="input search-input" id="product" type="text" name="<%= application.getInitParameter("product") %>" 
+							placeholder="Enter your keyword"/>
+ 
                         <button class="search-btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
