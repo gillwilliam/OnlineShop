@@ -95,12 +95,12 @@ public class MainFrontController extends HttpServlet {
      			new SignInRequestHandler(context));								// should be post only
      	mRequestHandlers.put("/product/checkout" + mRequestExtension,
      			new CheckoutRequestHandler(context, mRequestExtension));
-//     	mRequestHandlers.put("/addCategory" + mRequestExtension,
-//     			new AddCategoryRequestHandler(context));						// should be post only
-//     	mRequestHandlers.put("/renameCategory" + mRequestExtension,
-//     			new RenameCategoryRequestHandler(context));						// should be post only
-//     	mRequestHandlers.put("/deleteCategory" + mRequestExtension,
-//     			new DeleteCategoryRequestHandler(context));						// should be post only
+     	mRequestHandlers.put("/addCategory" + mRequestExtension,
+     			new AddCategoryRequestHandler(context));						// should be post only
+     	mRequestHandlers.put("/renameCategory" + mRequestExtension,
+     			new RenameCategoryRequestHandler(context));						// should be post only
+     	mRequestHandlers.put("/deleteCategory" + mRequestExtension,
+     			new DeleteCategoryRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/signOut" + mRequestExtension,
      			new SignOutRequestHandler(context));
      	mRequestHandlers.put("/editProduct" + mRequestExtension, 
