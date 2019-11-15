@@ -20,7 +20,15 @@ public class UserDataValidator {
     public static final int MIN_PASS_LEN		= 6;
     public static final int MAX_PASS_LEN		= 50;
     
-    
+ // params
+    public static final String NAME_PARAM               = "name";
+    public static final String SURNAME_PARAM            = "surname";
+    public static final String PHONE_PARAM              = "phone";
+    public static final String ADDRESS_PARAM            = "address";
+    public static final String EMAIL_PARAM              = "email";
+    public static final String NEW_PASSWORD_PARAM       = "new_password";
+    public static final String CONFIRMED_PASSWORD_PARAM = "confirmed_password";
+    public static final String VALIDATION_RESULT_PARAM  = "buyer_profile_edit_result";
 
     // messages
     public static final String BAD_NAME_MESSAGE_EN               = "Provided name is wrong";
@@ -153,15 +161,6 @@ public class UserDataValidator {
         private String  mNewPasswordMessage;
         private String  mConfirmedPasswordMessage;
         
-        // params
-        public static final String NAME_PARAM               = "name";
-        public static final String SURNAME_PARAM            = "surname";
-        public static final String PHONE_PARAM              = "phone";
-        public static final String ADDRESS_PARAM            = "address";
-        public static final String EMAIL_PARAM              = "email";
-        public static final String NEW_PASSWORD_PARAM       = "new_password";
-        public static final String CONFIRMED_PASSWORD_PARAM = "confirmed_password";
-        public static final String VALIDATION_RESULT_PARAM  = "buyer_profile_edit_result";
 
 
         public InputValidationResult()
@@ -320,37 +319,6 @@ public class UserDataValidator {
             return mConfirmedPasswordMessage;
         }
         
-        public static InputValidationResult validateInputs(HttpServletRequest request)
-        {
-            String name                 = request.getParameter(NAME_PARAM);
-            String surname              = request.getParameter(SURNAME_PARAM);
-            String phone                = request.getParameter(PHONE_PARAM);
-            String address              = request.getParameter(ADDRESS_PARAM);
-            String email                = request.getParameter(EMAIL_PARAM);
-            String newPassword          = request.getParameter(NEW_PASSWORD_PARAM);
-            String confirmedPassword    = request.getParameter(CONFIRMED_PASSWORD_PARAM);
-
-            InputValidationResult res = new InputValidationResult();
-            
-            if (name != null)
-            	res.setIsNameValid(UserDataValidator.isNameValid(name));
-            if (surname != null)
-            	res.setIsSurnameValid(UserDataValidator.isSurnameValid(surname));
-            if (phone != null)
-            	res.setIsPhoneValid(UserDataValidator.isPhoneValid(phone));
-            if (address != null)
-            	res.setIsAddressValid(UserDataValidator.isAddressValid(address));
-            if (email != null)
-            	res.setIsEmailValid(UserDataValidator.isEmailValid(email));
-            if (newPassword != null && confirmedPassword != null & (!newPassword.isEmpty() || !confirmedPassword.isEmpty()))
-            {
-            	res.setIsPasswordValid(UserDataValidator.isPasswordValid(newPassword));
-                res.setIsConfirmedPasswordValid(UserDataValidator.isNewPasswordValid(newPassword, confirmedPassword));
-            }
-            
-            return res;
-        }
-        
         public InputValidationResult validateUnusedEmail(String email)
         {
         	// TODO check with database if email is unused
@@ -369,5 +337,37 @@ public class UserDataValidator {
         }
         
     }
+    
+    public static InputValidationResult validateInputs(HttpServletRequest request)
+    {
+        String name                 = request.getParameter(NAME_PARAM);
+        String surname              = request.getParameter(SURNAME_PARAM);
+        String phone                = request.getParameter(PHONE_PARAM);
+        String address              = request.getParameter(ADDRESS_PARAM);
+        String email                = request.getParameter(EMAIL_PARAM);
+        String newPassword          = request.getParameter(NEW_PASSWORD_PARAM);
+        String confirmedPassword    = request.getParameter(CONFIRMED_PASSWORD_PARAM);
+
+        InputValidationResult res = new InputValidationResult();
+        
+        if (name != null)
+        	res.setIsNameValid(UserDataValidator.isNameValid(name));
+        if (surname != null)
+        	res.setIsSurnameValid(UserDataValidator.isSurnameValid(surname));
+        if (phone != null)
+        	res.setIsPhoneValid(UserDataValidator.isPhoneValid(phone));
+        if (address != null)
+        	res.setIsAddressValid(UserDataValidator.isAddressValid(address));
+        if (email != null)
+        	res.setIsEmailValid(UserDataValidator.isEmailValid(email));
+        if (newPassword != null && confirmedPassword != null & (!newPassword.isEmpty() || !confirmedPassword.isEmpty()))
+        {
+        	res.setIsPasswordValid(UserDataValidator.isPasswordValid(newPassword));
+            res.setIsConfirmedPasswordValid(UserDataValidator.isNewPasswordValid(newPassword, confirmedPassword));
+        }
+        
+        return res;
+    }
+    
 
 }

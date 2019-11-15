@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import beans.session.BuyerBean;
 import beans.session.UserBean;
 import request_handlers.RequestHandler;
-import request_handlers.users.EditUserProfileRequestHandler;
+import utils.UserDataValidator;
 import utils.UserDataValidator.InputValidationResult;
 
 public class RegisterRequestHandler implements RequestHandler {
@@ -38,15 +38,15 @@ public class RegisterRequestHandler implements RequestHandler {
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String name                 = request.getParameter(InputValidationResult.NAME_PARAM);
-        String surname              = request.getParameter(InputValidationResult.SURNAME_PARAM);
-        String phone                = request.getParameter(InputValidationResult.PHONE_PARAM);
-        String address              = request.getParameter(InputValidationResult.ADDRESS_PARAM);
-        String email                = request.getParameter(InputValidationResult.EMAIL_PARAM);
-        String newPassword          = request.getParameter(InputValidationResult.NEW_PASSWORD_PARAM);
-        String confirmedPassword    = request.getParameter(InputValidationResult.CONFIRMED_PASSWORD_PARAM);
+		String name                 = request.getParameter(UserDataValidator.NAME_PARAM);
+        String surname              = request.getParameter(UserDataValidator.SURNAME_PARAM);
+        String phone                = request.getParameter(UserDataValidator.PHONE_PARAM);
+        String address              = request.getParameter(UserDataValidator.ADDRESS_PARAM);
+        String email                = request.getParameter(UserDataValidator.EMAIL_PARAM);
+        String newPassword          = request.getParameter(UserDataValidator.NEW_PASSWORD_PARAM);
+        String confirmedPassword    = request.getParameter(UserDataValidator.CONFIRMED_PASSWORD_PARAM);
 		
-		InputValidationResult result = InputValidationResult.validateInputs(request).validateUnusedEmail(email);
+		InputValidationResult result = UserDataValidator.validateInputs(request).validateUnusedEmail(email);
 
 		request.setAttribute(mValidateResultParamName, result);
 		

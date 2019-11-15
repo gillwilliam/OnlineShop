@@ -62,7 +62,7 @@ public class EditUserProfileRequestHandler implements RequestHandler {
             throws ServletException, IOException
     { 	
 
-    	InputValidationResult validationResult = InputValidationResult.validateInputs(request);
+    	InputValidationResult validationResult = UserDataValidator.validateInputs(request);
 
         request.setAttribute(mValidatResultParamName, validationResult);
   
