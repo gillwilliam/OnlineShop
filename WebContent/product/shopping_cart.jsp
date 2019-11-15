@@ -43,7 +43,8 @@
 </head>
 <body>
 <%
-
+		
+		// replace with pulling the products in the shopping cart from db
 	    ArrayList<ProductBean> products = new ArrayList<ProductBean>();
 
 
