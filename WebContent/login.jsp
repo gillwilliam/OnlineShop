@@ -24,7 +24,7 @@
 								placeholder="Password">
 						</div>
 						<input type="submit" class="primary-btn" value="Login"/>
-						<button class="main-btn">Register</button>		
+						<a type="button" class="main-btn" href="${pageContext.request.contextPath}/register.jsp">Register</a>		
 					</form>
 
 				</div>

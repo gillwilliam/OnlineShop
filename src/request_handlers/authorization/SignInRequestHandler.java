@@ -30,6 +30,7 @@ public class SignInRequestHandler implements RequestHandler {
 		mPasswordParamName 	= context.getInitParameter("password");
 		mUserAttrName		= context.getInitParameter("signed_user_attribute_name");
 		mHomepagePath		= context.getInitParameter("homepage_path");
+		
 	}
 	
 	
@@ -45,12 +46,12 @@ public class SignInRequestHandler implements RequestHandler {
 		
 		if (user == null)
 		{
-			// Return error message
-			request.setAttribute("loginErrorMessage", "Incorrect credentials. Please try again.");
+			// TODO Return error message
+			request.setAttribute("errorMessage", "Incorrect credentials. Please try again.");
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 		else
-		{
+		{	
 			request.getSession().setAttribute(mUserAttrName, user);
 			request.getRequestDispatcher(mHomepagePath).forward(request, response);
 		}

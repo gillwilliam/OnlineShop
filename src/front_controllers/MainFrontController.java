@@ -15,6 +15,7 @@ import request_handlers.RequestHandler;
 import request_handlers.authorization.SignInRequestHandler;
 import request_handlers.authorization.SignOutRequestHandler;
 import request_handlers.product.CheckoutRequestHandler;
+import request_handlers.register.RegisterRequestHandler;
 import request_handlers.categories.AddCategoryRequestHandler;
 import request_handlers.categories.DeleteCategoryRequestHandler;
 import request_handlers.categories.RenameCategoryRequestHandler;
@@ -102,6 +103,8 @@ public class MainFrontController extends HttpServlet {
      			new DeleteCategoryRequestHandler(context));
      	mRequestHandlers.put("/signOut" + mRequestExtension,
      			new SignOutRequestHandler(context));
+     	mRequestHandlers.put("/register" + mRequestExtension,
+     			new RegisterRequestHandler(context));
     }
 
 
