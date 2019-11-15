@@ -35,6 +35,9 @@ public class SearchUsersRequestHandler implements RequestHandler {
 	// request attributes
 	public static final String ATTR_FOUND_USERS	= "found_users";
 	public static final String ATTR_MESSAGE		= "message";
+	public static final String ATTR_SUCCESS		= "deleteResult"; // No it's not an error, I want deleteResult here, maybe it's not a
+																  // very nice solution, but at least it doesn't require changes in
+																  // users_maintenance.jsp to change message bg color
 	// defaults
 	public static final int DEFAULT_MAX_NUM_OF_RESULTS = 40;
 	// DB
@@ -93,7 +96,10 @@ public class SearchUsersRequestHandler implements RequestHandler {
 		
 		request.setAttribute(ATTR_FOUND_USERS, searchResult.results);
 		if (!searchResult.isSuccessful)
+		{
 			request.setAttribute(ATTR_MESSAGE, searchResult.message);
+			request.setAttribute(ATTR_SUCCESS, false);
+		}
 		request.getRequestDispatcher(mUsersMaintenancePath).forward(request, response);
 	}
 	
