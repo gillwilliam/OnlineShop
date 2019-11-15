@@ -24,9 +24,163 @@
   <context-param>
   	<param-name>main_front_controller_request_extension</param-name>
   	<param-value>.main</param-value>
-  </context-param>      
+  </context-param>   
   
+  
+  <!-- filters -->
+  
+  
+  <!-- only admin -->
+  <filter>
+  	<filter-name>OnlyAdminFilter</filter-name>
+  	<filter-class>filters.authentication.OnlyAdminFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>OnlyAdminFilter</filter-name>
+  	<url-pattern>/users/admin/categories_maintenance.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>OnlyAdminFilter</filter-name>
+  	<url-pattern>/users/admin/admin_profile.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>OnlyAdminFilter</filter-name>
+  	<url-pattern>/users/admin/users_maintenance.jsp</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- seller and admin -->
+  <filter>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<filter-class>filters.authentication.SellerAndAdminFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/catalogue/catalogue_maintenance.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/product/product_edition.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/addCategory.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/renameCategory.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/deleteCategory.main</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- only seller -->
+  <filter>
+  	<filter-name>OnlySellerFilter</filter-name>
+  	<filter-class>filters.authentication.OnlySellerFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>OnlySellerFilter</filter-name>
+  	<url-pattern>/users/seller/seller_profile.jsp</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- only buyer -->
+  <filter>
+  	<filter-name>OnlyBuyerFilter</filter-name>
+  	<filter-class>filters.authentication.OnlyBuyerFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>OnlyBuyerFilter</filter-name>
+  	<url-pattern>/users/buyer/buyer_profile.jsp</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- product data filter - checks whether any data is passed, not necessarily valid -->
+  <filter>
+  	<filter-name>OnlyCompleteProductDataFilter</filter-name>
+  	<filter-class>filters.product.OnlyCompleteProductDataFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>OnlyCompleteProductDataFilter</filter-name>
+  	<url-pattern>/editProduct.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>OnlyCompleteProductDataFilter</filter-name>
+  	<url-pattern>/createProduct.main</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- buyer data filter - checks whether request contains all non confidential buyer data -->
+  <filter>
+  	<filter-name>BuyerDataFilter</filter-name>
+  	<filter-class>filters.users_profiles.BuyerDataFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>BuyerDataFilter</filter-name>
+  	<url-pattern>/editBuyerProfile.main</url-pattern>
+  </filter-mapping>
+  
+  
+  <!--  seller and admin filter - checks whether request contains all non confidential admin and seller data -->
+  <filter>
+  	<filter-name>SellerAndAdminDataFilter</filter-name>
+  	<filter-class>filters.users_profiles.SellerAndAdminDataFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminDataFilter</filter-name>
+  	<url-pattern>/editSellerProfile.main</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>SellerAndAdminDataFilter</filter-name>
+  	<url-pattern>/editAdminProfile.main</url-pattern>
+  </filter-mapping>
+  
+  
+  <!-- is user email present in request filter - checks whether email was specified -->
+  <filter>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<filter-class>filters.users_profiles.IsUserEmailPresentFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<url-pattern>/deleteBuyer.main</url-pattern>
+  </filter-mapping>
+  
+    <filter-mapping>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<url-pattern>/deleteSeller.main</url-pattern>
+  </filter-mapping>
+  
+    <filter-mapping>
+  	<filter-name>IsUserEmailPresentFilter</filter-name>
+  	<url-pattern>/deleteAdmin.main</url-pattern>
+  </filter-mapping>
+  
+     
+     
   <!-- general context parameters to use in your jsp if you need parameters with such semantics -->
+  
+  
+  
     <context-param>
         <param-name>name</param-name>
         <param-value>name</param-value>
@@ -66,6 +220,51 @@
         <param-name>confirmed_password</param-name>
         <param-value>conf_pass</param-value>
     </context-param>
+    
+    <context-param>
+    	<param-name>id</param-name>
+    	<param-value>id</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>description</param-name>
+    	<param-value>desc</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>price</param-name>
+    	<param-value>price</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>quantity</param-name>
+    	<param-value>quantity</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>category</param-name>
+    	<param-value>cat</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>image</param-name>
+    	<param-value>img</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>message</param-name>
+    	<param-value>message</param-value>
+    </context-param> 
+    
+    <context-param>
+    	<param-name>result</param-name>
+    	<param-value>result</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>category_tree_attr</param-name>
+    	<param-value>category_tree</param-value>
+    </context-param>
 
     <context-param>
         <param-name>buyer_profile_edit_result</param-name>
@@ -85,6 +284,29 @@
     <context-param>
     	<param-name>signed_user_attribute_name</param-name>
     	<param-value>user</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>category_maintenance_result_param</param-name>
+    	<param-value>error_message</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>category_maintenance_result</param-name>
+    	<param-value>res</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>product_attr</param-name>
+    	<param-value>product</param-value>
+    </context-param>
+    
+    
+    <!-- images -->
+    
+    <context-param>
+    	<param-name>prod_img_folder_path</param-name>
+    	<param-value>/OnlineShopImgDB/</param-value>
     </context-param>
     
     
@@ -124,6 +346,16 @@
     <context-param>
         <param-name>catalogue_maintenance_path</param-name>
         <param-value>/catalogue/catalogue_maintenance.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>category_maintenance_path</param-name>
+    	<param-value>/users/admin/categories_maintenance.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>product_edition_path</param-name>
+    	<param-value>/product/product_edition.jsp</param-value>
     </context-param>
     
 </web-app>

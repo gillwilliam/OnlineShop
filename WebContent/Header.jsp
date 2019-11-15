@@ -81,7 +81,8 @@
                 	<li 
                 		style="display:<%= 
                 			user instanceof AdminBean ? "inline" : "none" %>">
-                		<a id="but_categories_maintenance" href="#">
+                		<a id="but_categories_maintenance" 
+                			href="${pageContext.request.contextPath}<%= application.getInitParameter("category_maintenance_path")%>">
                 			<b class="text-uppercase">Categories maintenance</b>
                 		</a>
                 	</li>
