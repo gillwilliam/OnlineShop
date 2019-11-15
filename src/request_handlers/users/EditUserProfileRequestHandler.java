@@ -98,7 +98,5 @@ public class EditUserProfileRequestHandler implements RequestHandler {
         mSellerProfilePath		= context.getInitParameter(SELLER_PROFILE_PATH_PARAM);
         mAdminProfilePath		= context.getInitParameter(ADMIN_PROFILE_PATH_PARAM);
     }
-
-
     
 }

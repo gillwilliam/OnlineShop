@@ -112,7 +112,8 @@
 									
 									<!--  button edit profile  -->
 									<form action="${pageContext.request.contextPath}/editBuyerProfile
-										<%= application.getInitParameter("main_front_controller_request_extension") %>">
+										<%= application.getInitParameter("main_front_controller_request_extension") %>"
+										method="post">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
 										<input type="text" name="<%= application.getInitParameter("name") %>" 
