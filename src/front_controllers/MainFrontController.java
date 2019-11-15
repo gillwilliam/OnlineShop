@@ -1,6 +1,6 @@
 package front_controllers;
 
-import java.io.IOException;
+import java.io.IOException; 
 import java.util.HashMap;
 
 import javax.annotation.Resource;
@@ -26,9 +26,7 @@ import request_handlers.categories.AddCategoryRequestHandler;
 import request_handlers.categories.DeleteCategoryRequestHandler;
 import request_handlers.categories.RenameCategoryRequestHandler;
 import request_handlers.users.CreateSellerRequestHandler;
-import request_handlers.users.DeleteAdminRequestHandler;
-import request_handlers.users.DeleteBuyerRequestHandler;
-import request_handlers.users.DeleteSellerRequestHandler;
+import request_handlers.users.DeleteUserRequestHandler;
 import request_handlers.users.DisplayUserProfileRequestHandler;
 import request_handlers.users.EditUserProfileRequestHandler;
 import request_handlers.users.maintenance.SearchUsersRequestHandler;
@@ -102,11 +100,9 @@ public class MainFrontController extends HttpServlet {
     	mRequestHandlers.put("/searchUsers" + mRequestExtension,
      			new SearchUsersRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/deleteBuyer" + mRequestExtension,
-     			new DeleteBuyerRequestHandler(context, mRequestExtension));		// should be post only
+     			new DeleteUserRequestHandler(context, mRequestExtension, mEntityManager, mUserTransaction));		// should be post only
      	mRequestHandlers.put("/deleteSeller" + mRequestExtension,
-     			new DeleteSellerRequestHandler(context, mRequestExtension));	// should be post only
-     	mRequestHandlers.put("/deleteAdmin" + mRequestExtension,
-     			new DeleteAdminRequestHandler(context, mRequestExtension));		// should be post only
+     			new DeleteUserRequestHandler(context, mRequestExtension, mEntityManager, mUserTransaction));	// should be post only
      	mRequestHandlers.put("/signIn" + mRequestExtension,
      			new SignInRequestHandler(context));								// should be post only
      	mRequestHandlers.put("/product/checkout" + mRequestExtension,

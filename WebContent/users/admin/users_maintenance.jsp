@@ -48,6 +48,10 @@
 		
 		CreateSellerRequestHandler.AddToDBResult sellerCreationRes = (CreateSellerRequestHandler.AddToDBResult)
 				request.getAttribute(application.getInitParameter("user_profile_update_result"));
+		
+		String message 			= (String) request.getAttribute("message");
+		Boolean deleteSuccess 	= (Boolean) request.getAttribute("deleteResult");
+		deleteSuccess = deleteSuccess == null ? false : deleteSuccess;	
 	%>
 
 
@@ -60,10 +64,16 @@
 	<div id="content">
 	
 		 <!-- contains message about successful edit. Initially it's invisible -->
-	    <div id="message_box" class="<%= sellerCreationRes == null ? "invisible" : "" %>">
+	    <div id="message_box" class="<%= sellerCreationRes == null && message == null ? "invisible" : "" %>"
+	    	style='<% if (!deleteSuccess) out.println("background-color:#f8694a"); %>'>
 	            <span id="message">
-	                <%= sellerCreationRes != null && sellerCreationRes.isUpdateSuccessful ? "Successful data update" :
-	                        "" %>
+	            	<%
+	            		if (sellerCreationRes != null && sellerCreationRes.isUpdateSuccessful)
+	            			out.println("Successful data update");
+	            	
+	            		if (message != null)
+	            			out.println(message);
+	            	%>
 	            </span>
 	    </div>
 			
@@ -148,8 +158,11 @@
 									<!--  button delete  -->
 									<form action="${pageContext.request.contextPath}/deleteBuyer
 										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
+										
 										<input type="text" name="<%= application.getInitParameter("email") %>" 
 											value="<%= buyer.getEmail() %>" style="display:none"/>
+											
+										<input type="hidden" name="requester" value="admin"/> 
 			
 										<!-- inputs that keep value from previous search -->										
 										<input type="text" name="search_name" 
@@ -230,8 +243,11 @@
 									<!--  button delete  -->
 									<form action="${pageContext.request.contextPath}/deleteSeller
 										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
+										
 										<input type="text" name="<%= application.getInitParameter("email") %>" 
 											value="<%= seller.getEmail() %>" style="display:none"/>
+											
+										<input type="hidden" name="requester" value="admin"/> 
 			
 										<!-- inputs that keep value from previous search -->										
 										<input type="text" name="search_name" 

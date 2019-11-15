@@ -265,7 +265,7 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     /**
      * class for returning result of validation
      */
-    public class InputValidationResult {
+    public static class InputValidationResult {
 
         private boolean mIsValid;
         private boolean mIsNameValid;
@@ -449,7 +449,7 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     
     
     
-    public class UpdateInDBResult {
+    public static class UpdateInDBResult {
     	public boolean isUserInDatabase;
     	public boolean isUpdateSuccessful;
     	public String message;
