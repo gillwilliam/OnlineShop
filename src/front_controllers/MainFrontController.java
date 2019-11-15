@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import javax.transaction.UserTransaction;
 
 import categories.CategoryTree;
@@ -51,6 +52,8 @@ public class MainFrontController extends HttpServlet {
     EntityManager mEntityManager;
     @Resource
     UserTransaction mUserTransaction;
+    @Resource(lookup="OnlineShopDS")
+    DataSource mDataSource;
 
     @Override
     public void init()
@@ -98,7 +101,7 @@ public class MainFrontController extends HttpServlet {
      	mRequestHandlers.put("/displayAdminProfile" + mRequestExtension,
      			new DisplayUserProfileRequestHandler(context, mRequestExtension)); // should be post only
     	mRequestHandlers.put("/searchUsers" + mRequestExtension,
-     			new SearchUsersRequestHandler(context));						// should be post only
+     			new SearchUsersRequestHandler(context, mDataSource));
      	mRequestHandlers.put("/deleteBuyer" + mRequestExtension,
      			new DeleteUserRequestHandler(context, mRequestExtension, mEntityManager, mUserTransaction));		// should be post only
      	mRequestHandlers.put("/deleteSeller" + mRequestExtension,
