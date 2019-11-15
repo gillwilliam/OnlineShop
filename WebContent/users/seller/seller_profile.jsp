@@ -1,5 +1,6 @@
 <%@ page import="request_handlers.users.EditUserProfileRequestHandler" %>
 <%@ page import="beans.session.SellerBean" %>
+<%@ page import="utils.UserDataValidator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -37,8 +38,8 @@
 	// after data edit /////////////////////////////////////////////////////////////////////////////
 	// if user has changed data, then he is redirected to this page again and in case some errors
 	// occured he is informed about that. Information 
-	EditUserProfileRequestHandler.InputValidationResult validationResult =
-	(EditUserProfileRequestHandler.InputValidationResult) request
+	UserDataValidator.InputValidationResult validationResult =
+	(UserDataValidator.InputValidationResult) request
 	.getAttribute(application.getInitParameter("buyer_profile_edit_result"));
 	
 	String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
