@@ -41,7 +41,7 @@
 	(EditUserProfileRequestHandler.InputValidationResult) request
 	.getAttribute(application.getInitParameter("buyer_profile_edit_result"));
 	
-	String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
+	String nameMessage, surnameMessage, phoneMessage, emailMessage, passwordMessage,
 	confirmedPasswordMessage;
 	
 	if (validationResult != null)
@@ -49,14 +49,13 @@
 		nameMessage                 = validationResult.getNameMessage();
 		surnameMessage              = validationResult.getSurnameMessage();
 		phoneMessage                = validationResult.getPhoneMessage();
-		addressMessage              = validationResult.getAddressMessage();
 		emailMessage                = validationResult.getEmailMessage();
 		passwordMessage             = validationResult.getNewPasswordMessage();
 		confirmedPasswordMessage    = validationResult.getConfirmedPasswordMessage();
 	}
 	else
 	{
-		nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
+		nameMessage = surnameMessage = phoneMessage = emailMessage = passwordMessage =
 		confirmedPasswordMessage = "";
 	}
 	

@@ -102,6 +102,29 @@
 }
 
 
+/* seller creation button */
+
+
+#but_create_seller {
+	display:			block;
+	width:				200px;
+	height:				50px;
+	margin:				16px auto;
+	background-color:	var(--bright);
+	border:				none;
+	color:				var(--text-color-on-bright);
+	line-height:		50px;
+	text-align:			center;
+}
+
+
+#but_create_seller:hover {
+	animation:				button_hover;
+	animation-duration:		0.3s;
+	animation-fill-mode:	forwards;
+}
+
+
 /* users list */
 
 

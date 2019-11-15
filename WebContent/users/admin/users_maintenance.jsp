@@ -54,7 +54,9 @@
 
 	<!--  content  -->
 	<div id="content">
-	
+			
+		<a id="but_create_seller">Create seller</a>
+		
 		<!--  section for searching users -->
 		<section id="section_search_user">
 			<h1>Search</h1>
@@ -294,42 +296,6 @@
 											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
 									</form>
 									
-									<!--  button delete  -->
-									<form action="${pageContext.request.contextPath}/deleteAdmin
-										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
-										<input type="text" name="<%= application.getInitParameter("email") %>" 
-											value="<%= admin.getEmail() %>" style="display:none"/>
-			
-										<!-- inputs that keep value from previous search -->										
-										<input type="text" name="search_name" 
-											value="<%= request.getParameter(application.getInitParameter("name")) %>" 
-											style="display:none"/>
-										
-										<input type="text" name="search_surname"
-											value="<%= request.getParameter(application.getInitParameter("surname")) %>"
-											style="display:none" />
-										
-										<input type="text" name="search_email"
-											value="<%= request.getParameter(application.getInitParameter("email")) %>"
-											style="display:none" />
-										
-										
-										<!-- button for beginning user deletion (after clicking confirmation button will appear -->
-										<div class="but_action but_delete_user" 
-											onclick="showFlex('<%= "confirm_" + admin.getEmail() %>')">
-											<img src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
-										</div>
-										
-										<!-- box for confirming user deletion -->
-										<div id="confirm_<%= admin.getEmail() %>" class="confirm_delete_box">
-											<img src="${pageContext.request.contextPath}/img/close_icon.png" alt="close"
-												onclick="hideClass('confirm_delete_box')"/>
-											<p>Are you sure that you want to delete 
-											<%= admin.getName() + " " + admin.getSurname() %>?</p>
-											<input type="submit" value="Yes" />
-										</div>
-										
-									</form>
 								</td>
 							</tr>
 						<%
