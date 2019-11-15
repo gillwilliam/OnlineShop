@@ -8,6 +8,7 @@
     <%@ page import="java.util.HashMap" %>
     <%@ page import="java.util.ArrayList" %>
     <%@ page import="java.lang.Math" %>
+    <%@ page import="request_handlers.users.CreateSellerRequestHandler" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,6 +45,9 @@
 			admins = new ArrayList<AdminBean>();
 		
 		currMaxAmountOfDisplayedUsers = Math.max(buyers.size(), Math.max(sellers.size(), admins.size()));
+		
+		CreateSellerRequestHandler.AddToDBResult sellerCreationRes = (CreateSellerRequestHandler.AddToDBResult)
+				request.getAttribute(application.getInitParameter("user_profile_update_result"));
 	%>
 
 
@@ -54,6 +58,14 @@
 
 	<!--  content  -->
 	<div id="content">
+	
+		 <!-- contains message about successful edit. Initially it's invisible -->
+	    <div id="message_box" class="<%= sellerCreationRes == null ? "invisible" : "" %>">
+	            <span id="message">
+	                <%= sellerCreationRes != null && sellerCreationRes.isUpdateSuccessful ? "Successful data update" :
+	                        "" %>
+	            </span>
+	    </div>
 			
 		<a id="but_create_seller">Create seller</a>
 		

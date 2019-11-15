@@ -52,6 +52,15 @@
 }
 
 
+#message_box {
+	background-color:	#4ed93f;
+	width:				100%;
+	height:				60px;
+	color:				white;
+	padding:			10px;
+}
+
+
 /* search */
 
 
