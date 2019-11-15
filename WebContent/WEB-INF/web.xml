@@ -271,6 +271,11 @@
         <param-value>edit_res</param-value>
     </context-param>
     
+    <context-param> 
+    	<param-name>user_profile_edit_result</param-name>
+        <param-value>edit_res</param-value>
+    </context-param>
+    
     <context-param>
     	<param-name>user_profile_update_result</param-name>
     	<param-value>update_res</param-value>
@@ -344,6 +349,11 @@
     <context-param>
     	<param-name>users_maintenance_path</param-name>
     	<param-value>/users/admin/users_maintenance.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>seller_creation_path</param-name>
+    	<param-value>/users/admin/seller_creation.jsp</param-value>
     </context-param>
     
     <context-param>

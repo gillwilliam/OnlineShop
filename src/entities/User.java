@@ -1,7 +1,14 @@
 package entities;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import javax.persistence.*;
+
+import beans.session.AdminBean;
+import beans.session.BuyerBean;
+import beans.session.SellerBean;
+import beans.session.UserBean;
+
+import java.math.BigInteger;
 import java.util.List;
 
 
@@ -114,6 +121,28 @@ public class User implements Serializable {
 		productList.setUserBean(null);
 
 		return productList;
+	}
+
+
+	
+	public void updateFromUserBean(UserBean userBean)
+	{
+		email 		= userBean.getEmail();
+		firstName 	= userBean.getName();
+		lastName 	= userBean.getSurname();
+		password 	= userBean.getPassword();
+		phone 		= userBean.getPhone();
+		address		= "";	// will be changed to real address if user is instance of BuyerBean
+		
+		if (userBean instanceof BuyerBean)
+		{
+			address = ((BuyerBean) userBean).getAddress();
+			type 	= "BUYER";
+		}
+		else if (userBean instanceof SellerBean)
+			type = "SELLER";
+		else if (userBean instanceof AdminBean)
+			type = "ADMIN";
 	}
 
 }

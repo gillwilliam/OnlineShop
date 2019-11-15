@@ -25,6 +25,7 @@ import request_handlers.product.EditProductRequestHandler;
 import request_handlers.categories.AddCategoryRequestHandler;
 import request_handlers.categories.DeleteCategoryRequestHandler;
 import request_handlers.categories.RenameCategoryRequestHandler;
+import request_handlers.users.CreateSellerRequestHandler;
 import request_handlers.users.DeleteAdminRequestHandler;
 import request_handlers.users.DeleteBuyerRequestHandler;
 import request_handlers.users.DeleteSellerRequestHandler;
@@ -93,13 +94,13 @@ public class MainFrontController extends HttpServlet {
     	mRequestHandlers.put("/editAdminProfile" + mRequestExtension, 
      		   new EditUserProfileRequestHandler(context, mRequestExtension, mEntityManager, mUserTransaction));	// should be post only
      	mRequestHandlers.put("/displayBuyerProfile" + mRequestExtension,
-     			new DisplayUserProfileRequestHandler(context, mRequestExtension));
+     			new DisplayUserProfileRequestHandler(context, mRequestExtension)); // should be post only
      	mRequestHandlers.put("/displaySellerProfile" + mRequestExtension,
-     			new DisplayUserProfileRequestHandler(context, mRequestExtension));
+     			new DisplayUserProfileRequestHandler(context, mRequestExtension)); // should be post only
      	mRequestHandlers.put("/displayAdminProfile" + mRequestExtension,
-     			new DisplayUserProfileRequestHandler(context, mRequestExtension));
+     			new DisplayUserProfileRequestHandler(context, mRequestExtension)); // should be post only
     	mRequestHandlers.put("/searchUsers" + mRequestExtension,
-     			new SearchUsersRequestHandler(context));
+     			new SearchUsersRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/deleteBuyer" + mRequestExtension,
      			new DeleteBuyerRequestHandler(context, mRequestExtension));		// should be post only
      	mRequestHandlers.put("/deleteSeller" + mRequestExtension,
@@ -122,6 +123,9 @@ public class MainFrontController extends HttpServlet {
      			new EditProductRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/createProduct" + mRequestExtension,
      			new CreateProductRequestHandler(context));						// should be post only
+     	mRequestHandlers.put("/createSeller" + mRequestExtension, 
+     			new CreateSellerRequestHandler(context, mEntityManager, mUserTransaction));
+     			
     }
 
 
