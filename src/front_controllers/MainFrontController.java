@@ -19,7 +19,7 @@ import request_handlers.product.CheckoutRequestHandler;
 import request_handlers.categories.AddCategoryRequestHandler;
 import request_handlers.categories.DeleteCategoryRequestHandler;
 import request_handlers.categories.RenameCategoryRequestHandler;
-import request_handlers.messages.MessagesRequestHandler;
+import request_handlers.messages.MailboxRequestHandler;
 import request_handlers.users.DeleteAdminRequestHandler;
 import request_handlers.users.DeleteBuyerRequestHandler;
 import request_handlers.users.DeleteSellerRequestHandler;
@@ -87,7 +87,7 @@ public class MainFrontController extends HttpServlet {
      	mRequestHandlers.put("/signOut" + mRequestExtension,
      			new SignOutRequestHandler(context));
      	mRequestHandlers.put("/users/mailbox/mailbox" + mRequestExtension, 
-     			new MessagesRequestHandler(context));
+     			new MailboxRequestHandler(context));
      	mRequestHandlers.put("/sendMessage" + mRequestExtension,
      			new SendMessageRequestHandler(context));
      	mRequestHandlers.put("/readMessage" + mRequestExtension,

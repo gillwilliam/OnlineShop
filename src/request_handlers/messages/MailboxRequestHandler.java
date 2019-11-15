@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import request_handlers.RequestHandler;
 
-public class MessagesRequestHandler implements RequestHandler {
+public class MailboxRequestHandler implements RequestHandler {
 	
 	// fields ///
 	private ServletContext mContext;
 	private String mUserMessagesPath;
 
-	public MessagesRequestHandler(ServletContext context) {
+	public MailboxRequestHandler(ServletContext context) {
 		
 		mContext = context;
 		mUserMessagesPath = context.getInitParameter("messages_path");
@@ -25,9 +25,7 @@ public class MessagesRequestHandler implements RequestHandler {
 	@Override
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		
-		
+
 		request.getRequestDispatcher(mUserMessagesPath).forward(request, response);
 
 	}

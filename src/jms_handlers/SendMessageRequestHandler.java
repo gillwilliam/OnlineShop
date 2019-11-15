@@ -7,6 +7,7 @@ import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.TextMessage;
@@ -15,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import messages.MailMessage;
 import request_handlers.RequestHandler;
 
 public class SendMessageRequestHandler implements RequestHandler {
@@ -59,7 +61,7 @@ public class SendMessageRequestHandler implements RequestHandler {
 		
 	}
 	
-	protected void sendMessage(HttpServletRequest request, HttpServletResponse response) {
+	protected void sendMessage(MailMessage msg) {
 		// TODO: Null Pointer Exception
 		try {
 			
@@ -67,10 +69,8 @@ public class SendMessageRequestHandler implements RequestHandler {
 			Session ses = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			MessageProducer prod = ses.createProducer(queue);
 			
-			Message mess = ses.createTextMessage(mMessage);
-			mess.setStringProperty("sendTo", mRecipientEmail);
-			mess.setStringProperty("subject", mSubject);
-			mess.setStringProperty("sendBy", mSenderEmail);
+			ObjectMessage mess = ses.createObjectMessage();
+			mess.setObject(msg);
 			
 			prod.send(mess);
 			prod.close();
