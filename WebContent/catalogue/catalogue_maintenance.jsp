@@ -1,8 +1,8 @@
-<%@ page import="beans.general.ProductBean" %>
+<%@ page import="entities.Product" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="payments.Price" %>
-<%@ page import="beans.session.UserBean" %>
-<%@ page import="beans.session.AdminBean" %>
+<%@ page import="entities.User" %>
+<%@ page import="entities.Admin" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -16,42 +16,42 @@
 <body>
 
     <%
-        ArrayList<ProductBean> products = new ArrayList<ProductBean>();
+    	ArrayList<Product> products = new ArrayList<Product>();
 
-//        Object productsObj = (Object) request.getAttribute(application.getInitParameter("products_list_attr"));
-//
-//        if (productsObj instanceof ArrayList)
-//        {
-//            ArrayList list = (ArrayList) productsObj;
-//            if (!list.isEmpty() && list.get(0) instanceof ProductBean)
-//            {
-//                products = (ArrayList) list;
-//            }
-//        }
+    //        Object productsObj = (Object) request.getAttribute(application.getInitParameter("products_list_attr"));
+    //
+    //        if (productsObj instanceof ArrayList)
+    //        {
+    //            ArrayList list = (ArrayList) productsObj;
+    //            if (!list.isEmpty() && list.get(0) instanceof ProductBean)
+    //            {
+    //                products = (ArrayList) list;
+    //            }
+    //        }
 
 
-        Price price1 = new Price(10, 50, "EUR");
-        Price price2 = new Price(30, 12, "EUR");
-        Price price3 = new Price(11, 34, "EUR");
-        Price price4 = new Price(130, 0, "EUR");
+            Price price1 = new Price(10, 50, "EUR");
+            Price price2 = new Price(30, 12, "EUR");
+            Price price3 = new Price(11, 34, "EUR");
+            Price price4 = new Price(130, 0, "EUR");
 
-        ProductBean prod1 = new ProductBean("Mokasyny", "shoes", price4,
-                "description lorem ipsum et ...", 69, application.getRealPath("/") + "img/product04.jpg",
-                "", "");
-        ProductBean prod2 = new ProductBean("Kalesony", "underwear", price1, "description lorem ipsum et ...", 10,
-                "${pageContext.request.contextPath}/img/product05.jpg",
-                "", "");
-        ProductBean prod3 = new ProductBean("Kuboty", "shoes", price2, "description lorem ipsum et ...", 11,
-                "${pageContext.request.contextPath}/img/product06.jpg",
-                "", "");
-        ProductBean prod4 = new ProductBean("Wyborowa", "alcohol", price3, "description lorem ipsum et ...", 1000,
-                "${pageContext.request.contextPath}/img/product07.jpg",
-                "", "");
+            Product prod1 = new Product("Mokasyny", "shoes", price4,
+                    "description lorem ipsum et ...", 69, application.getRealPath("/") + "img/product04.jpg",
+                    "", "");
+            Product prod2 = new Product("Kalesony", "underwear", price1, "description lorem ipsum et ...", 10,
+                    "${pageContext.request.contextPath}/img/product05.jpg",
+                    "", "");
+            Product prod3 = new Product("Kuboty", "shoes", price2, "description lorem ipsum et ...", 11,
+                    "${pageContext.request.contextPath}/img/product06.jpg",
+                    "", "");
+            Product prod4 = new Product("Wyborowa", "alcohol", price3, "description lorem ipsum et ...", 1000,
+                    "${pageContext.request.contextPath}/img/product07.jpg",
+                    "", "");
 
-        products.add(prod1);
-        products.add(prod2);
-        products.add(prod3);
-        products.add(prod4);
+            products.add(prod1);
+            products.add(prod2);
+            products.add(prod3);
+            products.add(prod4);
     %>
 
     <!-- HEADER -->
@@ -77,9 +77,9 @@
                     <th>Action</th>
                 </tr>
                 <%
-                    for (ProductBean product : products)
-                    {
-                        %>
+                	for (Product product : products)
+                                    {
+                %>
                             <tr>
                                 <td><img id="product_image" src="<%= product.getImagePath()%>" alt="product photo"/></td>
                                 <td><%= product.getName() %></td>

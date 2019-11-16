@@ -1,26 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="beans.general.ProductBean" %>
+<%@ page import="entities.Product" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="payments.Price" %><!DOCTYPE html>
 <html>
 	<jsp:include page="Header.jsp"/>
 <body>
     <%
-		//replace with db call to all products in db
-		
-        ArrayList<ProductBean> products = new ArrayList<ProductBean>();
-    
-   		if(request.getAttribute("found_products") != null) {
-   			products = (ArrayList<ProductBean>) request.getAttribute("found_products");
-   		}
-       
+    	//replace with db call to all products in db
+    		
+            ArrayList<Product> products = new ArrayList<Product>();
+        
+       		if(request.getAttribute("found_products") != null) {
+       			products = (ArrayList<Product>) request.getAttribute("found_products");
+       		}
     %>
 	<jsp:include page="Navigation.jsp"/>
 	<!-- HOME -->
         <div class=container>
        		<div class="row">
-       		<%for(ProductBean product : products) { %>
+       		<%
+       			for(Product product : products) {
+       		%>
         		<div class="col-md-4 text-center">
         			<div class="row">
 	        		<h3><%=product.getName()%></h3>

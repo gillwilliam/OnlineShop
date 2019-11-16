@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `shop`.`lists_to_products` (
   CONSTRAINT `product`
     FOREIGN KEY (`productId`)
     REFERENCES `shop`.`products` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `list`
     FOREIGN KEY (`listId`)

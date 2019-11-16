@@ -1,7 +1,6 @@
-<%@ page import="beans.general.ProductBean" %>
-<%@ page import="beans.session.CheckoutBean" %>
+<%@ page import="entities.Product" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="payments.Price" %>
+<%@ page import="utils.Price" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -15,8 +14,8 @@
     <!-- Bootstrap -->
 <%--     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
  --%>
- 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Slick -->
+ 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+ 	 <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick.css" />
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/slick-theme.css" />
 
@@ -43,19 +42,12 @@
 
 </head>
 <body>
-	<jsp:useBean id="checkout" class="beans.session.CheckoutBean" scope="session">
-		<jsp:setProperty name="name" property="*" />
-    </jsp:useBean>    <%
-       
-    %>
-
 
     <!-- /HEADER -->
 	<jsp:include page="../Header.jsp"/>
     <!-- div containing content of the page -->
     
     
-    <div class="row">
   <div class="col-75">
     <div class="container">
       <form action="checkout.main" method="post">

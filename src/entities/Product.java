@@ -1,26 +1,38 @@
 package entities;
 
-import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
-/**
- * The persistent class for the products database table.
- * 
- */
+import categories.Category;
+
 @Entity
 @Table(name="products")
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
-public class Product implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Product {
+
+	// CONST
+	// //////////////////////////////////////////////////////////////////////////////////////////////////
+	public static final int MAX_NAME_LEN = 100;
+	public static final String NAME_REGEX = "^[a-zA-Z0-9  ]{1," + MAX_NAME_LEN + "}$";
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private String category;
+	private Category category;
 
 	@Lob
 	private String description;
@@ -33,20 +45,34 @@ public class Product implements Serializable {
 
 	private int quantity;
 
-	//bi-directional many-to-many association to ProductList
+
+	// bi-directional many-to-many association to ProductList
 	@ManyToMany
-	@JoinTable(
-		name="lists_to_products"
-		, joinColumns={
-			@JoinColumn(name="productId")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="listId")
-			}
-		)
+	@JoinTable(name = "lists_to_products", joinColumns = { @JoinColumn(name = "productId") }, inverseJoinColumns = {
+			@JoinColumn(name = "listId") })
 	private List<ProductList> productLists;
 
 	public Product() {
+		name = description = image = "";
+		price = new BigDecimal(0.0);
+		category = null;
+	}
+
+	public Product(@NotNull String name, @NotNull Category category, @NotNull BigDecimal price,
+			@NotNull String description, int quantity, @NotNull String imageStoragePath) {
+		if (!name.matches(NAME_REGEX))
+			throw new IllegalArgumentException("Name doesn't match required pattern");
+
+		this.name = name;
+		this.category = category;
+		this.price = price;
+		this.description = description;
+		this.quantity = quantity;
+		this.image = imageStoragePath + name;
+	}
+
+	public static boolean isNameValid(String name) {
+		return name.matches(NAME_REGEX);
 	}
 
 	public int getId() {
@@ -57,11 +83,11 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public String getCategory() {
+	public Category getCategory() {
 		return this.category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
@@ -112,5 +138,4 @@ public class Product implements Serializable {
 	public void setProductLists(List<ProductList> productLists) {
 		this.productLists = productLists;
 	}
-
 }

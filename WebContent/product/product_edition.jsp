@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="beans.general.ProductBean" %>
+<%@ page import="entities.Product" %>
 <%@ page import="categories.Category" %>
 <%@ page import="java.io.IOException" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="categories.CategoryTree" %>
-<%@ page import="request_handlers.product.Result" %>
-<%@ page import="request_handlers.product.EditProductRequestHandler.ProductEditionResult" %>
-<%@ page import="request_handlers.product.CreateProductRequestHandler.ProductValidationResult" %>
+<%@ page import="utils.Result" %>
+<%@ page import="request_handlers.EditProductRequestHandler.ProductEditionResult" %>
+<%@ page import="request_handlers.CreateProductRequestHandler.ProductValidationResult" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,8 +19,7 @@
 </head>
 <body>
 
-	<%!
-		// function, that creates hierarchy of categories for specific category
+	<%!// function, that creates hierarchy of categories for specific category
 		// and shows only top category
 		private void createHierarchy(Category category, JspWriter out, int indentation) throws IOException
 		{
@@ -60,27 +59,26 @@
 			// close div that contains category and all it's descendants
 			out.println("</div>");
 
-		}
-	%>
+		}%>
 
 	<%
 		Object productObj 	= request.getAttribute(application.getInitParameter("product_attr"));
-		ProductBean product = null;
-		
-		if (productObj instanceof ProductBean)
-			product = (ProductBean) productObj;
-		
-		// obtain current category tree
-		CategoryTree tree = (CategoryTree) application.getAttribute("category_tree_attr");
-		if (tree == null)
-		{
-			tree = new CategoryTree();
-			tree.loadFromDatabase();
-			application.setAttribute("category_tree_attr", tree);
-		}
-		
-		// if product was just edited obtain result
-		Result result = (Result) request.getAttribute(application.getInitParameter("result"));
+			Product product = null;
+			
+			if (productObj instanceof Product)
+		product = (Product) productObj;
+			
+			// obtain current category tree
+			CategoryTree tree = (CategoryTree) application.getAttribute("category_tree_attr");
+			if (tree == null)
+			{
+		tree = new CategoryTree();
+		tree.loadFromDatabase();
+		application.setAttribute("category_tree_attr", tree);
+			}
+			
+			// if product was just edited obtain result
+			Result result = (Result) request.getAttribute(application.getInitParameter("result"));
 	%>
 	
 	<jsp:include page="../Header.jsp" />
@@ -89,10 +87,10 @@
 	<div id="container">
 	
 		<!-- contains message about successful edit. Initially it's invisible -->
-	    <section id="message_box" class="<%= result == null ? "invisible" : "" %>"
-	    	style="background-color: <%= result != null && result.success ? "#4ed93f" : "#f8694a" %>">
+	    <section id="message_box" class="<%=result == null ? "invisible" : ""%>"
+	    	style="background-color: <%=result != null && result.success ? "#4ed93f" : "#f8694a"%>">
 	            <span id="message">
-	                <%= result != null ? result.message : "" %>
+	                <%=result != null ? result.message : ""%>
 	            </span>
 	    </section>
 	    
@@ -105,13 +103,13 @@
 					%>'>
 		
 			<!-- id -->
-			<input type="hidden" name="<%= application.getInitParameter("id") %>" 
-				value="<%= product == null ? -1 : product.getId() %>" />
+			<input type="hidden" name="<%=application.getInitParameter("id")%>" 
+				value="<%=product == null ? -1 : product.getId()%>" />
 		
 			<!-- name -->
 			<label for="name">Name</label>
-			<input id="name" type="text" name="<%= application.getInitParameter("name") %>" 
-				pattern="<%= ProductBean.NAME_REGEX %>" 
+			<input id="name" type="text" name="<%=application.getInitParameter("name")%>" 
+				pattern="<%=Product.NAME_REGEX%>" 
 				value="<%= product == null ? "" : product.getName() %>" required />
 			
 			<!-- description -->

@@ -1,31 +1,30 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import beans.session.AdminBean;
-import beans.session.BuyerBean;
-import beans.session.SellerBean;
-import beans.session.UserBean;
-
-import java.math.BigInteger;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the users database table.
  * 
  */
 @Entity
-@Table(name="users")
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Table(name = "users")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String address;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String email;
 
 	private String firstName;
@@ -38,11 +37,19 @@ public class User implements Serializable {
 
 	private String type;
 
-	//bi-directional many-to-one association to ProductList
-	@OneToMany(mappedBy="userBean")
+	// bi-directional many-to-one association to ProductList
+	@OneToMany(mappedBy = "userBean")
 	private List<ProductList> productLists;
 
 	public User() {
+	}
+
+	public User(String firstName, String surname, String phone, String email, String password) {
+		this.firstName = firstName;
+		this.lastName = surname;
+		this.phone = phone;
+		this.email = email;
+		this.password = password;
 	}
 
 	public String getAddress() {
@@ -121,28 +128,6 @@ public class User implements Serializable {
 		productList.setUserBean(null);
 
 		return productList;
-	}
-
-
-	
-	public void updateFromUserBean(UserBean userBean)
-	{
-		email 		= userBean.getEmail();
-		firstName 	= userBean.getName();
-		lastName 	= userBean.getSurname();
-		password 	= userBean.getPassword();
-		phone 		= userBean.getPhone();
-		address		= "";	// will be changed to real address if user is instance of BuyerBean
-		
-		if (userBean instanceof BuyerBean)
-		{
-			address = ((BuyerBean) userBean).getAddress();
-			type 	= "BUYER";
-		}
-		else if (userBean instanceof SellerBean)
-			type = "SELLER";
-		else if (userBean instanceof AdminBean)
-			type = "ADMIN";
 	}
 
 }

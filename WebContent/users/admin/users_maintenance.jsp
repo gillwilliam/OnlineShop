@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="beans.session.UserBean" %>
-    <%@ page import="beans.session.BuyerBean" %>
-    <%@ page import="beans.session.SellerBean" %>
-    <%@ page import="beans.session.AdminBean" %>
-    <%@ page import="enums.UserType" %>
+    <%@ page import="entities.User" %>
+    <%@ page import="entities.Buyer" %>
+    <%@ page import="entities.Seller" %>
+    <%@ page import="entities.Admin" %>
+    <%@ page import="UserType" %>
     <%@ page import="java.util.HashMap" %>
     <%@ page import="java.util.ArrayList" %>
     <%@ page import="java.lang.Math" %>
-    <%@ page import="request_handlers.users.CreateSellerRequestHandler" %>
+    <%@ page import="request_handlers.CreateSellerRequestHandler" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,37 +22,37 @@
 <body>
 	
 	<%
-		ArrayList<BuyerBean> buyers		= null;
-		ArrayList<SellerBean> sellers 	= null;
-		ArrayList<AdminBean> admins		= null;
-		
-		int currMaxAmountOfDisplayedUsers = 0;
-	
-		Object usersToDisplayObj = request.getAttribute("found_users");
-		if (usersToDisplayObj != null && usersToDisplayObj instanceof HashMap)
-		{
-			HashMap<UserType, ArrayList<UserBean>> usersToDisplay = (HashMap) usersToDisplayObj;
+			ArrayList<Buyer> buyers		= null;
+				ArrayList<Seller> sellers 	= null;
+				ArrayList<Admin> admins		= null;
+				
+				int currMaxAmountOfDisplayedUsers = 0;
+			
+				Object usersToDisplayObj = request.getAttribute("found_users");
+				if (usersToDisplayObj != null && usersToDisplayObj instanceof HashMap)
+				{
+			HashMap<UserType, ArrayList<User>> usersToDisplay = (HashMap) usersToDisplayObj;
 			buyers 	= (ArrayList) usersToDisplay.get(UserType.BUYER);
 			sellers = (ArrayList) usersToDisplay.get(UserType.SELLER);
 			admins 	= (ArrayList) usersToDisplay.get(UserType.ADMIN);
-		}
-		
-		if (buyers == null)
-			buyers = new ArrayList<BuyerBean>();
-		if (sellers == null)
-			sellers = new ArrayList<SellerBean>();
-		if (admins == null)
-			admins = new ArrayList<AdminBean>();
-		
-		currMaxAmountOfDisplayedUsers = Math.max(buyers.size(), Math.max(sellers.size(), admins.size()));
-		
-		CreateSellerRequestHandler.AddToDBResult sellerCreationRes = (CreateSellerRequestHandler.AddToDBResult)
+				}
+				
+				if (buyers == null)
+			buyers = new ArrayList<Buyer>();
+				if (sellers == null)
+			sellers = new ArrayList<Seller>();
+				if (admins == null)
+			admins = new ArrayList<Admin>();
+				
+				currMaxAmountOfDisplayedUsers = Math.max(buyers.size(), Math.max(sellers.size(), admins.size()));
+				
+				CreateSellerRequestHandler.AddToDBResult sellerCreationRes = (CreateSellerRequestHandler.AddToDBResult)
 				request.getAttribute(application.getInitParameter("user_profile_update_result"));
-		
-		String message 			= (String) request.getAttribute("message");
-		Boolean deleteSuccess 	= (Boolean) request.getAttribute("deleteResult");
-		deleteSuccess = deleteSuccess == null ? true : deleteSuccess;	
-	%>
+				
+				String message 			= (String) request.getAttribute("message");
+				Boolean deleteSuccess 	= (Boolean) request.getAttribute("deleteResult");
+				deleteSuccess = deleteSuccess == null ? true : deleteSuccess;
+		%>
 
 
 	<!-- HEADER -->
@@ -64,15 +64,15 @@
 	<div id="content">
 	
 		 <!-- contains message about successful edit. Initially it's invisible -->
-	    <div id="message_box" class="<%= sellerCreationRes == null && message == null ? "invisible" : "" %>"
-	    	style='<% if (!deleteSuccess) out.println("background-color:#f8694a"); %>'>
+	    <div id="message_box" class="<%=sellerCreationRes == null && message == null ? "invisible" : ""%>"
+	    	style='<%if (!deleteSuccess) out.println("background-color:#f8694a");%>'>
 	            <span id="message">
 	            	<%
 	            		if (sellerCreationRes != null && sellerCreationRes.isUpdateSuccessful)
-	            			out.println("Successful data update");
-	            	
-	            		if (message != null)
-	            			out.println(message);
+	            		            		            		            			out.println("Successful data update");
+	            		            		            		            	
+	            		            		            		            		if (message != null)
+	            		            		            		            			out.println(message);
 	            	%>
 	            </span>
 	    </div>
@@ -88,11 +88,11 @@
 			<form id="search_user_form" action="${pageContext.request.contextPath}/searchUsers
 				<%= application.getInitParameter("main_front_controller_request_extension") %>" method="get">
 				<div id="search_inputs_container">
-					<input id="input_user_name" type="text" name="<%= application.getInitParameter("name") %>" 
+					<input id="input_user_name" type="text" name="<%=application.getInitParameter("name")%>" 
 						placeholder="name"/>
-					<input id="input_user_surname" type="text" name="<%= application.getInitParameter("surname") %>"
+					<input id="input_user_surname" type="text" name="<%=application.getInitParameter("surname")%>"
 						placeholder="surname"/>
-					<input id="input_user_email" type="email" name="<%= application.getInitParameter("email") %>"
+					<input id="input_user_email" type="email" name="<%=application.getInitParameter("email")%>"
 						placeholder="email"/>	
 				</div>
 				
@@ -123,16 +123,16 @@
 					<th>Action</th>
 				</tr>
 				<%
-					for (BuyerBean buyer : buyers)
-					{
-						%>
+					for (Buyer buyer : buyers)
+											{
+				%>
 							<tr>
-								<td><%= buyer.getName() %></td>
-								<td><%= buyer.getSurname() %></td>
-								<td><%= buyer.getPhone() %></td>
-								<td><%= buyer.getAddress() %></td>
-								<td><%= buyer.getEmail() %></td>
-								<td><%= buyer.getPassword() %></td>
+								<td><%=buyer.getName()%></td>
+								<td><%=buyer.getSurname()%></td>
+								<td><%=buyer.getPhone()%></td>
+								<td><%=buyer.getAddress()%></td>
+								<td><%=buyer.getEmail()%></td>
+								<td><%=buyer.getPassword()%></td>
 								<td class="td_action">
 									
 									<!--  button edit profile  -->
@@ -141,16 +141,16 @@
 										method="post">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
-										<input type="text" name="<%= application.getInitParameter("name") %>" 
-											value="<%= buyer.getName() %>" style="display:none"/>
-										<input type="text" name="<%= application.getInitParameter("surname") %>"
-											value="<%= buyer.getSurname() %>" style="display:none"/>
-										<input type="text" name="<%= application.getInitParameter("phone") %>"
-											value="<%= buyer.getPhone() %>" style="display:none" />
-										<input type="text" name="<%= application.getInitParameter("address") %>"
-											value="<%= buyer.getAddress() %>" style="display:none" />
-										<input type="text" name="<%= application.getInitParameter("email") %>"
-											value="<%= buyer.getEmail() %>" style="display:none" />
+										<input type="text" name="<%=application.getInitParameter("name")%>" 
+											value="<%=buyer.getName()%>" style="display:none"/>
+										<input type="text" name="<%=application.getInitParameter("surname")%>"
+											value="<%=buyer.getSurname()%>" style="display:none"/>
+										<input type="text" name="<%=application.getInitParameter("phone")%>"
+											value="<%=buyer.getPhone()%>" style="display:none" />
+										<input type="text" name="<%=application.getInitParameter("address")%>"
+											value="<%=buyer.getAddress()%>" style="display:none" />
+										<input type="text" name="<%=application.getInitParameter("email")%>"
+											value="<%=buyer.getEmail()%>" style="display:none" />
 										
 										<input class="but_action but_edit_user" type="image"
 											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
@@ -160,37 +160,37 @@
 									<form action="${pageContext.request.contextPath}/deleteBuyer
 										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
 										
-										<input type="text" name="<%= application.getInitParameter("email") %>" 
-											value="<%= buyer.getEmail() %>" style="display:none"/>
+										<input type="text" name="<%=application.getInitParameter("email")%>" 
+											value="<%=buyer.getEmail()%>" style="display:none"/>
 											
 										<input type="hidden" name="requester" value="admin"/> 
 			
 										<!-- inputs that keep value from previous search -->										
 										<input type="text" name="search_name" 
-											value="<%= request.getParameter(application.getInitParameter("name")) %>" 
+											value="<%=request.getParameter(application.getInitParameter("name"))%>" 
 											style="display:none"/>
 										
 										<input type="text" name="search_surname"
-											value="<%= request.getParameter(application.getInitParameter("surname")) %>"
+											value="<%=request.getParameter(application.getInitParameter("surname"))%>"
 											style="display:none" />
 										
 										<input type="text" name="search_email"
-											value="<%= request.getParameter(application.getInitParameter("email")) %>"
+											value="<%=request.getParameter(application.getInitParameter("email"))%>"
 											style="display:none" />
 										
 										
 										<!-- button for beginning user deletion (after clicking confirmation button will appear -->
 										<div class="but_action but_delete_user" 
-											onclick="showFlex('<%= "confirm_" + buyer.getEmail() %>')">
+											onclick="showFlex('<%="confirm_" + buyer.getEmail()%>')">
 											<img src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
 										</div>
 										
 										<!-- box for confirming user deletion -->
-										<div id="confirm_<%= buyer.getEmail() %>" class="confirm_delete_box">
+										<div id="confirm_<%=buyer.getEmail()%>" class="confirm_delete_box">
 											<img src="${pageContext.request.contextPath}/img/close_icon.png" alt="close"
 												onclick="hideClass('confirm_delete_box')"/>
 											<p>Are you sure that you want to delete 
-											<%= buyer.getName() + " " + buyer.getSurname() %>?</p>
+											<%=buyer.getName() + " " + buyer.getSurname()%>?</p>
 											<input type="submit" value="Yes" />
 										</div>
 										
@@ -199,8 +199,8 @@
 								</td>
 							</tr>
 						<%
-					}
-				%>
+							}
+						%>
 			</table>
 			
 			<table id="sellers_table" class="users_table">
@@ -213,29 +213,29 @@
 					<th>Action</th>
 				</tr>
 				<%
-					for (SellerBean seller : sellers)
-					{
-						%>
+					for (Seller seller : sellers)
+									{
+				%>
 							<tr>
-								<td><%= seller.getName() %></td>
-								<td><%= seller.getSurname() %></td>
-								<td><%= seller.getPhone() %></td>
-								<td><%= seller.getEmail() %></td>
-								<td><%= seller.getPassword() %></td>
+								<td><%=seller.getName()%></td>
+								<td><%=seller.getSurname()%></td>
+								<td><%=seller.getPhone()%></td>
+								<td><%=seller.getEmail()%></td>
+								<td><%=seller.getPassword()%></td>
 								<td class="td_action">
 									<!--  button edit profile  -->
 									<form action="${pageContext.request.contextPath}/displaySellerProfile
 										<%= application.getInitParameter("main_front_controller_request_extension") %>">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
-										<input type="text" name="<%= application.getInitParameter("name") %>" 
-											value="<%= seller.getName() %>" style="display:none"/>
-										<input type="text" name="<%= application.getInitParameter("surname") %>"
-											value="<%= seller.getSurname() %>" style="display:none" />
-										<input type="text" name="<%= application.getInitParameter("phone") %>"
-											value="<%= seller.getPhone() %>" style="display:none" />
-										<input type="text" name="<%= application.getInitParameter("email") %>"
-											value="<%= seller.getEmail() %>" style="display:none" />
+										<input type="text" name="<%=application.getInitParameter("name")%>" 
+											value="<%=seller.getName()%>" style="display:none"/>
+										<input type="text" name="<%=application.getInitParameter("surname")%>"
+											value="<%=seller.getSurname()%>" style="display:none" />
+										<input type="text" name="<%=application.getInitParameter("phone")%>"
+											value="<%=seller.getPhone()%>" style="display:none" />
+										<input type="text" name="<%=application.getInitParameter("email")%>"
+											value="<%=seller.getEmail()%>" style="display:none" />
 										
 										<input class="but_action but_edit_user" type="image"
 											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
@@ -245,37 +245,37 @@
 									<form action="${pageContext.request.contextPath}/deleteSeller
 										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
 										
-										<input type="text" name="<%= application.getInitParameter("email") %>" 
-											value="<%= seller.getEmail() %>" style="display:none"/>
+										<input type="text" name="<%=application.getInitParameter("email")%>" 
+											value="<%=seller.getEmail()%>" style="display:none"/>
 											
 										<input type="hidden" name="requester" value="admin"/> 
 			
 										<!-- inputs that keep value from previous search -->										
 										<input type="text" name="search_name" 
-											value="<%= request.getParameter(application.getInitParameter("name")) %>" 
+											value="<%=request.getParameter(application.getInitParameter("name"))%>" 
 											style="display:none"/>
 										
 										<input type="text" name="search_surname"
-											value="<%= request.getParameter(application.getInitParameter("surname")) %>"
+											value="<%=request.getParameter(application.getInitParameter("surname"))%>"
 											style="display:none" />
 										
 										<input type="text" name="search_email"
-											value="<%= request.getParameter(application.getInitParameter("email")) %>"
+											value="<%=request.getParameter(application.getInitParameter("email"))%>"
 											style="display:none" />
 										
 										
 										<!-- button for beginning user deletion (after clicking confirmation button will appear -->
 										<div class="but_action but_delete_user" 
-											onclick="showFlex('<%= "confirm_" + seller.getEmail() %>')">
+											onclick="showFlex('<%="confirm_" + seller.getEmail()%>')">
 											<img src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
 										</div>
 										
 										<!-- box for confirming user deletion -->
-										<div id="confirm_<%= seller.getEmail() %>" class="confirm_delete_box">
+										<div id="confirm_<%=seller.getEmail()%>" class="confirm_delete_box">
 											<img src="${pageContext.request.contextPath}/img/close_icon.png" alt="close"
 												onclick="hideClass('confirm_delete_box')"/>
 											<p>Are you sure that you want to delete 
-											<%= seller.getName() + " " + seller.getSurname() %>?</p>
+											<%=seller.getName() + " " + seller.getSurname()%>?</p>
 											<input type="submit" value="Yes" />
 										</div>
 										
@@ -283,8 +283,8 @@
 								</td>
 							</tr>
 						<%
-					}
-				%>
+							}
+						%>
 			</table>
 			
 			<table id="admins_table" class="users_table">
@@ -297,9 +297,9 @@
 					<th>Action</th>
 				</tr>
 				<%
-					for (AdminBean admin : admins)
-					{
-						%>
+					for (Admin admin : admins)
+							{
+				%>
 							<tr>
 								<td><%= admin.getName() %></td>
 								<td><%= admin.getSurname() %></td>

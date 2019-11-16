@@ -1,34 +1,43 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the category database table.
  * 
  */
 @Entity
-@Table(name="category")
-@NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
+@Table(name = "category")
+@NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="category_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "category_id")
 	private int categoryId;
 
 	private String name;
 
-	//bi-directional many-to-one association to Category
+	// bi-directional many-to-one association to Category
 	@ManyToOne
-	@JoinColumn(name="parent")
+	@JoinColumn(name = "parent")
 	private Category parent;
 
-	//bi-directional many-to-one association to Category
-	@OneToMany(mappedBy="parent")
+	// bi-directional many-to-one association to Category
+	@OneToMany(mappedBy = "parent")
 	private List<Category> children;
 
 	public Category() {

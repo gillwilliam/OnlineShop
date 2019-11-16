@@ -1,5 +1,5 @@
-<%@ page import="request_handlers.users.EditUserProfileRequestHandler" %>
-<%@ page import="beans.session.BuyerBean" %>
+<%@ page import="request_handlers.EditUserProfileRequestHandler" %>
+<%@ page import="entities.Buyer" %>
 <%@ page import="utils.UserDataValidator" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
@@ -32,59 +32,59 @@
 <body>
 
     <%
-		boolean useOtherUser = false;	// if false, then this page concerns currently signed in user. 
-		// if true, then the page concerns user, that was passed in
-		// request. This is used when admin edits some other user data
-		
-		if (request != null)
-		{
-			String param = request.getParameter("otherUser");
-			useOtherUser = param != null ? param.equals("true") : false;
-		}
-		
-		BuyerBean otherBuyer = new BuyerBean();
-		BuyerBean user	     = new BuyerBean();
-		
-		if (useOtherUser)
-		{
-			otherBuyer.setName(request.getParameter(application.getInitParameter("name")));
-			otherBuyer.setSurname(request.getParameter(application.getInitParameter("surname")));
-			otherBuyer.setAddress(request.getParameter(application.getInitParameter("address")));
-			otherBuyer.setPhone(request.getParameter(application.getInitParameter("phone")));
-			otherBuyer.setEmail(request.getParameter(application.getInitParameter("email")));
-		}
-		else
-			user = (BuyerBean) session.getAttribute("user");
-		
-		// after data edit /////////////////////////////////////////////////////////////////////////////
-		// if user has changed data, then he is redirected to this page again and in case some errors
-		// occured he is informed about that. Information 
-		UserDataValidator.InputValidationResult validationResult =
-		(UserDataValidator.InputValidationResult) request.getAttribute(
-		application.getInitParameter("buyer_profile_edit_result"));
-		
-		String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
-		confirmedPasswordMessage;
-		
-		if (validationResult != null)
-		{
-			nameMessage                 = validationResult.getNameMessage();
-			surnameMessage              = validationResult.getSurnameMessage();
-			phoneMessage                = validationResult.getPhoneMessage();
-			addressMessage              = validationResult.getAddressMessage();
-			emailMessage                = validationResult.getEmailMessage();
-			passwordMessage             = validationResult.getNewPasswordMessage();
-			confirmedPasswordMessage    = validationResult.getConfirmedPasswordMessage();
-		}
-		else
-		{
-			nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
-			confirmedPasswordMessage = "";
-		}
-		
-		EditUserProfileRequestHandler.UpdateInDBResult updateResult = 
-				(EditUserProfileRequestHandler.UpdateInDBResult) request.
-				getAttribute(application.getInitParameter("user_profile_update_result"));
+    	boolean useOtherUser = false;	// if false, then this page concerns currently signed in user. 
+    		// if true, then the page concerns user, that was passed in
+    		// request. This is used when admin edits some other user data
+    		
+    		if (request != null)
+    		{
+    	String param = request.getParameter("otherUser");
+    	useOtherUser = param != null ? param.equals("true") : false;
+    		}
+    		
+    		Buyer otherBuyer = new Buyer();
+    		Buyer user	     = new Buyer();
+    		
+    		if (useOtherUser)
+    		{
+    	otherBuyer.setName(request.getParameter(application.getInitParameter("name")));
+    	otherBuyer.setSurname(request.getParameter(application.getInitParameter("surname")));
+    	otherBuyer.setAddress(request.getParameter(application.getInitParameter("address")));
+    	otherBuyer.setPhone(request.getParameter(application.getInitParameter("phone")));
+    	otherBuyer.setEmail(request.getParameter(application.getInitParameter("email")));
+    		}
+    		else
+    	user = (Buyer) session.getAttribute("user");
+    		
+    		// after data edit /////////////////////////////////////////////////////////////////////////////
+    		// if user has changed data, then he is redirected to this page again and in case some errors
+    		// occured he is informed about that. Information 
+    		UserDataValidator.InputValidationResult validationResult =
+    		(UserDataValidator.InputValidationResult) request.getAttribute(
+    		application.getInitParameter("buyer_profile_edit_result"));
+    		
+    		String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
+    		confirmedPasswordMessage;
+    		
+    		if (validationResult != null)
+    		{
+    	nameMessage                 = validationResult.getNameMessage();
+    	surnameMessage              = validationResult.getSurnameMessage();
+    	phoneMessage                = validationResult.getPhoneMessage();
+    	addressMessage              = validationResult.getAddressMessage();
+    	emailMessage                = validationResult.getEmailMessage();
+    	passwordMessage             = validationResult.getNewPasswordMessage();
+    	confirmedPasswordMessage    = validationResult.getConfirmedPasswordMessage();
+    		}
+    		else
+    		{
+    	nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
+    	confirmedPasswordMessage = "";
+    		}
+    		
+    		EditUserProfileRequestHandler.UpdateInDBResult updateResult = 
+    		(EditUserProfileRequestHandler.UpdateInDBResult) request.
+    		getAttribute(application.getInitParameter("user_profile_update_result"));
     %>
 
     <!-- header |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->

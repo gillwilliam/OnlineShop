@@ -1,6 +1,6 @@
-<%@ page import="request_handlers.users.EditUserProfileRequestHandler" %>
+<%@ page import="request_handlers.EditUserProfileRequestHandler" %>
 <%@ page import="utils.UserDataValidator" %>
-<%@ page import="beans.session.AdminBean" %>
+<%@ page import="entities.Admin" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,7 +12,7 @@
 <body>
 
 <!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-<jsp:useBean id="user" class="beans.session.AdminBean" scope="session">
+<jsp:useBean id="user" class="entities.Admin" scope="session">
 	<jsp:setProperty name="user" property="*"/>
 </jsp:useBean>
 
@@ -27,12 +27,12 @@
 		useOtherUser = param != null ? param.equals("true") : false;
 	}
 	
-	AdminBean otherAdmin = new AdminBean();
+	Admin otherAdmin = new Admin();
 	
 	if (useOtherUser)
 	{
-		otherAdmin.setName(request.getParameter(application.getInitParameter("name")));
-		otherAdmin.setSurname(request.getParameter(application.getInitParameter("surname")));
+		otherAdmin.setFirstName(request.getParameter(application.getInitParameter("name")));
+		otherAdmin.setLastName(request.getParameter(application.getInitParameter("surname")));
 		otherAdmin.setPhone(request.getParameter(application.getInitParameter("phone")));
 		otherAdmin.setEmail(request.getParameter(application.getInitParameter("email")));
 	}
@@ -41,8 +41,8 @@
 	// if user has changed data, then he is redirected to this page again and in case some errors
 	// occured he is informed about that. Information 
 	UserDataValidator.InputValidationResult validationResult =
-			(UserDataValidator.InputValidationResult) request
-			.getAttribute(application.getInitParameter("buyer_profile_edit_result"));
+	(UserDataValidator.InputValidationResult) request
+	.getAttribute(application.getInitParameter("buyer_profile_edit_result"));
 	
 	String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
 	        confirmedPasswordMessage;
@@ -64,9 +64,8 @@
 	}
 	
 	EditUserProfileRequestHandler.UpdateInDBResult updateResult = 
-			(EditUserProfileRequestHandler.UpdateInDBResult) request.
-			getAttribute(application.getInitParameter("user_profile_update_result"));
-	
+	(EditUserProfileRequestHandler.UpdateInDBResult) request.
+	getAttribute(application.getInitParameter("user_profile_update_result"));
 %>
 
 <!-- HEADER -->
@@ -93,12 +92,12 @@
         <section id="personal_data_section">
             <h1>Personal data</h1>
             <input id="name" 	type="text" name="<%= application.getInitParameter("name")%>"		placeholder="Name"
-            value="<%= useOtherUser ? otherAdmin.getName() : user.getName() %>">
+            value="<%= useOtherUser ? otherAdmin.getFirstName() : user.getFirstName() %>">
     
             <span class="error"><%= nameMessage %></span>
 
             <input id="surname" type="text" name="<%= application.getInitParameter("surname")%>"	placeholder="Surname"
-            value="<%= useOtherUser ? otherAdmin.getSurname() : user.getSurname() %>"/>
+            value="<%= useOtherUser ? otherAdmin.getLastName() : user.getLastName() %>"/>
             
             <span class="error"><%= surnameMessage %></span>
 

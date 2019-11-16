@@ -121,7 +121,7 @@
   <!-- product data filter - checks whether any data is passed, not necessarily valid -->
   <filter>
   	<filter-name>OnlyCompleteProductDataFilter</filter-name>
-  	<filter-class>filters.product.OnlyCompleteProductDataFilter</filter-class>
+  	<filter-class>filters.OnlyCompleteProductDataFilter</filter-class>
   </filter>
   
   <filter-mapping>
@@ -138,7 +138,7 @@
   <!-- buyer data filter - checks whether request contains all non confidential buyer data -->
   <filter>
   	<filter-name>BuyerDataFilter</filter-name>
-  	<filter-class>filters.users_profiles.BuyerDataFilter</filter-class>
+  	<filter-class>filters.BuyerDataFilter</filter-class>
   </filter>
   
   <filter-mapping>
@@ -150,7 +150,7 @@
   <!--  seller and admin filter - checks whether request contains all non confidential admin and seller data -->
   <filter>
   	<filter-name>SellerAndAdminDataFilter</filter-name>
-  	<filter-class>filters.users_profiles.SellerAndAdminDataFilter</filter-class>
+  	<filter-class>filters.SellerAndAdminDataFilter</filter-class>
   </filter>
   
   <filter-mapping>
@@ -167,7 +167,7 @@
   <!-- is user email present in request filter - checks whether email was specified -->
   <filter>
   	<filter-name>IsUserEmailPresentFilter</filter-name>
-  	<filter-class>filters.users_profiles.IsUserEmailPresentFilter</filter-class>
+  	<filter-class>filters.IsUserEmailPresentFilter</filter-class>
   </filter>
   
   <filter-mapping>
@@ -284,6 +284,7 @@
     <context-param>
     	<param-name>register_result</param-name>
     	<param-value>register_res</param-value>
+    </context-param>
 
     <context-param> 
     	<param-name>user_profile_edit_result</param-name>
@@ -323,16 +324,7 @@
     <context-param>
     	<param-name>product_attr</param-name>
     	<param-value>product</param-value>
-    </context-param>
-    
-    
-    <!-- images -->
-    
-    <context-param>
-    	<param-name>prod_img_folder_path</param-name>
-    	<param-value>/OnlineShopImgDB/</param-value>
-    </context-param>
-    
+    </context-param> 
     
     <!-- data source -->
     

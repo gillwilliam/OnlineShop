@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="beans.general.ProductBean" %>
+<%@ page import="entities.Product" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="payments.Price" %>
 <!DOCTYPE html>
@@ -43,9 +43,8 @@
 </head>
 <body>
 <%
-		
-		// replace with pulling the products in the shopping cart from db
-	    ArrayList<ProductBean> products = new ArrayList<ProductBean>();
+	// replace with pulling the products in the shopping cart from db
+	    ArrayList<Product> products = new ArrayList<Product>();
 
 
         Price price1 = new Price(10, 50, "EUR");
@@ -53,15 +52,15 @@
         Price price3 = new Price(11, 34, "EUR");
         Price price4 = new Price(130, 0, "EUR");
 
-        ProductBean product1 = new ProductBean("p1", "c1", price1,
+        Product product1 = new Product("p1", "c1", price1,
                 "description lorem ipsum et ...", 1, application.getRealPath("/") + "img/product01.jpg",
                 "", "");
        
-        ProductBean product2 = new ProductBean("p2", "c2", price2,
+        Product product2 = new Product("p2", "c2", price2,
                 "description lorem ipsum et ...", 2, application.getRealPath("/") + "img/product02.jpg",
                 "", "");
         
-        ProductBean product3 = new ProductBean("p3", "c3", price3,
+        Product product3 = new Product("p3", "c3", price3,
                 "description lorem ipsum et ...", 3, application.getRealPath("/") + "img/product03.jpg",
                 "", "");
         
@@ -76,7 +75,9 @@
 </div>
 <div class="container">
 		<div style="margin-top:100px">
-		<%for(ProductBean product : products) { %>
+		<%
+			for(Product product : products) {
+		%>
       	<div class="row">
        		<div class="col-md-6">
         		<div class="text-center"><h3><%=product.getName()%></h1></div>

@@ -1,5 +1,5 @@
-<%@ page import="request_handlers.users.EditUserProfileRequestHandler" %>
-<%@ page import="beans.session.SellerBean" %>
+<%@ page import="request_handlers.EditUserProfileRequestHandler" %>
+<%@ page import="entities.Seller" %>
 <%@ page import="utils.UserDataValidator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -22,8 +22,8 @@
 		useOtherUser = param != null ? param.equals("true") : false;
 	}
 	
-	SellerBean otherSeller = new SellerBean();
-	SellerBean user		   = new SellerBean();
+	Seller otherSeller = new Seller();
+	Seller user		   = new Seller();
 	
 	if (useOtherUser)
 	{
@@ -33,7 +33,7 @@
 		otherSeller.setEmail(request.getParameter(application.getInitParameter("email")));
 	}
 	else
-		user = (SellerBean) session.getAttribute("user");
+		user = (Seller) session.getAttribute("user");
 	
 	// after data edit /////////////////////////////////////////////////////////////////////////////
 	// if user has changed data, then he is redirected to this page again and in case some errors
@@ -61,8 +61,8 @@
 	}
 	
 	EditUserProfileRequestHandler.UpdateInDBResult updateResult = 
-			(EditUserProfileRequestHandler.UpdateInDBResult) request.
-			getAttribute(application.getInitParameter("user_profile_update_result"));
+	(EditUserProfileRequestHandler.UpdateInDBResult) request.
+	getAttribute(application.getInitParameter("user_profile_update_result"));
 %>
 
 <!-- HEADER -->

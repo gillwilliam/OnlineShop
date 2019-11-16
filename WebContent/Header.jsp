@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="beans.session.AdminBean" %>
-<%@ page import="beans.session.SellerBean" %>
-<%@ page import="beans.session.BuyerBean" %>
-<%@ page import="beans.session.UserBean" %>
+<%@ page import="entities.Admin" %>
+<%@ page import="entities.Seller" %>
+<%@ page import="entities.Buyer" %>
+<%@ page import="entities.User" %>
 
 <head>
 <meta charset="utf-8">
@@ -36,7 +36,7 @@
 <header>
 
 	<%
-		UserBean user = (UserBean) session.getAttribute(application.getInitParameter("signed_user_attribute_name"));
+		User user = (User) session.getAttribute(application.getInitParameter("signed_user_attribute_name"));
 	%>
 	
     <!-- header -->
@@ -55,7 +55,7 @@
                 <div class="header-search">
                     <form id="search_user_form" action="${pageContext.request.contextPath}/searchProducts
 						<%= application.getInitParameter("main_front_controller_request_extension") %>" method="get">
-                        <input class="input search-input" id="product" type="text" name="<%= application.getInitParameter("product") %>" 
+                        <input class="input search-input" id="product" type="text" name="<%=application.getInitParameter("product")%>" 
 							placeholder="Enter your keyword"/>
  
                         <button class="search-btn"><i class="fa fa-search"></i></button>
@@ -68,7 +68,7 @@
                 
                 	<!-- messaging -------------------------------------------------------------------------------------- -->
                 	<li 
-                		style="display:<%= user != null ? "inline" : "none" %>">
+                		style="display:<%=user != null ? "inline" : "none"%>">
                 		<a id="but_messages" href="#">
                 			<b class="text-uppercase">Messages</b>
                 		</a>
@@ -77,8 +77,7 @@
                 
                 	<!-- categories maintenance ------------------------------------------------------------------------- -->
                 	<li 
-                		style="display:<%= 
-                			user instanceof AdminBean ? "inline" : "none" %>">
+                		style="display:<%=user instanceof Admin ? "inline" : "none"%>">
                 		<a id="but_categories_maintenance" 
                 			href="${pageContext.request.contextPath}<%= application.getInitParameter("category_maintenance_path")%>">
                 			<b class="text-uppercase">Categories maintenance</b>
@@ -88,7 +87,7 @@
                 
                 	<!-- users maintenance ------------------------------------------------------------------------------ -->
 	                <li
-	                	style="display:<%= user instanceof AdminBean ? "inline" : "none" %>">	
+	                	style="display:<%=user instanceof Admin ? "inline" : "none"%>">	
 	                	<a id="but_users_maintenance"
 	                		href="${pageContext.request.contextPath}<%= application.getInitParameter("users_maintenance_path")%>">  			
 	                		<b class="text-uppercase">Users maintenance</b>
@@ -98,8 +97,8 @@
 	                	
                     <!-- catalog maintenance ---------------------------------------------------------------------------- -->
                     <li  
-                    	style="display:<%= user instanceof AdminBean || user instanceof SellerBean ? 
-                    			"inline" : "none" %>">
+                    	style="display:<%=user instanceof Admin || user instanceof Seller ? 
+                    			"inline" : "none"%>">
                     	<a id="but_catalog_maintenance"
                     		href="${pageContext.request.contextPath}<%= application.getInitParameter("catalogue_maintenance_path") %>">
                     		<b class="text-uppercase">Catalog Maintenance</b>
@@ -109,7 +108,7 @@
 
                     <!-- Account ---------------------------------------------------------------------------------------- -->
                     <li 
-                    	style="display:<%= user == null ? "none" : "inline" %>">
+                    	style="display:<%=user == null ? "none" : "inline"%>">
                     	
                      	<a id="but_my_account"
                      		href="${pageContext.request.contextPath}<% 
@@ -127,8 +126,7 @@
                     
                     <!-- wish list ------------------------------------------------------------------------------------ -->
                     <li 
-                    	style="display:<%= 
-                    		user instanceof BuyerBean ? "inline" : "none" %>">
+                    	style="display:<%=user instanceof Buyer ? "inline" : "none"%>">
                     	<a id="but_wish_list"
                     		href="#">
                     		<b class="text-uppercase">Wish list</b>
@@ -138,7 +136,7 @@
                     
                     <!-- Sign in button ------------------------------------------------------------------------------- -->
                     <li 
-                    	style="display:<%= user == null ? "inline" : "none" %>">
+                    	style="display:<%=user == null ? "inline" : "none"%>">
                     	<a id="but_sign_in" 
                     		href="${pageContext.request.contextPath}<%= 
                     		application.getInitParameter("login_path") %>">
@@ -149,7 +147,7 @@
      
                     <!-- sign up button ------------------------------------------------------------------------------- -->
                     <li
-                    	style="display:<%= user == null ? "inline" : "none" %>">
+                    	style="display:<%=user == null ? "inline" : "none"%>">
                     	<a id="but_sign_up" href="${pageContext.request.contextPath}<%=
                     		application.getInitParameter("register_path") %>">
                     		<b class="text-uppercase">Sign up</b>
@@ -159,7 +157,7 @@
                     
                     <!-- Sign out button ------------------------------------------------------------------------------ -->
                     <li 
-                    	style="display:<%= user != null ? "inline" : "none" %>">
+                    	style="display:<%=user != null ? "inline" : "none"%>">
                     	<a id="but_sign_out"
                     		href="${pageContext.request.contextPath}/signOut<%= 
                     		application.getInitParameter("main_front_controller_request_extension") %>">
@@ -170,7 +168,7 @@
                     
 					<!-- Cart -->
 					<li
-						style="display:<%= user instanceof BuyerBean ? "inline" : "none" %>">
+						style="display:<%=user instanceof Buyer ? "inline" : "none"%>">
 						<a href="${pageContext.request.contextPath}/product/shopping_cart.jsp">
 							<b class="text-uppercase">My Cart</b>
 						</a>

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="request_handlers.register.RegisterRequestHandler" %>
+<%@ page import="request_handlers.RegisterRequestHandler" %>
 <%@ page import="utils.UserDataValidator" %>
-<%@ page import="beans.session.BuyerBean" %>
+<%@ page import="entities.Buyer" %>
 <!DOCTYPE html>
 <html>
 
@@ -18,7 +18,7 @@
 <body>
 
 <!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-<jsp:useBean id="user" class="beans.session.AdminBean" scope="session">
+<jsp:useBean id="user" class="entities.Admin" scope="session">
 	<jsp:setProperty name="user" property="*"/>
 </jsp:useBean>
 

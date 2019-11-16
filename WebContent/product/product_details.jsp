@@ -1,4 +1,4 @@
-<%@ page import="beans.general.ProductBean" %>
+<%@ page import="entities.Product" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="payments.Price" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -7,19 +7,17 @@
 <body>
 
     <%
-        ArrayList<ProductBean> products = new ArrayList<ProductBean>();
+    	ArrayList<Product> products = new ArrayList<Product>();
 
 
-        Price price1 = new Price(10, 50, "EUR");
-        Price price2 = new Price(30, 12, "EUR");
-        Price price3 = new Price(11, 34, "EUR");
-        Price price4 = new Price(130, 0, "EUR");
+            Price price1 = new Price(10, 50, "EUR");
+            Price price2 = new Price(30, 12, "EUR");
+            Price price3 = new Price(11, 34, "EUR");
+            Price price4 = new Price(130, 0, "EUR");
 
-        ProductBean product = new ProductBean("Mokasyny", "shoes", price4,
-                "description lorem ipsum et ...", 69, application.getRealPath("/") + "img/product04.jpg",
-                "", "");
-        
-       
+            Product product = new Product("Mokasyny", "shoes", price4,
+                    "description lorem ipsum et ...", 69, application.getRealPath("/") + "img/product04.jpg",
+                    "", "");
     %>
 
     <!-- /HEADER -->
