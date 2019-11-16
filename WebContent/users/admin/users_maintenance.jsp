@@ -51,7 +51,7 @@
 		
 		String message 			= (String) request.getAttribute("message");
 		Boolean deleteSuccess 	= (Boolean) request.getAttribute("deleteResult");
-		deleteSuccess = deleteSuccess == null ? false : deleteSuccess;	
+		deleteSuccess = deleteSuccess == null ? true : deleteSuccess;	
 	%>
 
 
@@ -77,7 +77,8 @@
 	            </span>
 	    </div>
 			
-		<a id="but_create_seller">Create seller</a>
+		<a href="${pageContext.request.contextPath}/<%= application.getInitParameter("seller_creation_path") %>" 
+			id="but_create_seller">Create seller</a>
 		
 		<!--  section for searching users -->
 		<section id="section_search_user">

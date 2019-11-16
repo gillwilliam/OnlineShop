@@ -78,6 +78,7 @@ public class CreateSellerRequestHandler implements RequestHandler {
             throws ServletException, IOException
     { 
     	SellerBean newSeller = createSellerBeanFromRequest(request);
+    	removeUnwantedWhiteCharacters(newSeller);
     	
     	// data validation
     	InputValidationResult validationResult = validateInputs(newSeller, request.getParameter(mConfirmedPassParamName));
@@ -96,6 +97,17 @@ public class CreateSellerRequestHandler implements RequestHandler {
         	request.getRequestDispatcher(mSellerCreationPath).forward(request, response);
         else
         	request.getRequestDispatcher(mUsersMaintenancePath).forward(request, response);
+    }
+    
+    
+    
+    private void removeUnwantedWhiteCharacters(SellerBean seller)
+    {
+    	seller.setEmail(seller.getEmail().trim());
+    	seller.setName(seller.getName().trim());
+    	seller.setPassword(seller.getPassword().trim());
+    	seller.setPhone(seller.getPhone().replaceAll("\\s+",""));
+    	seller.setSurname(seller.getSurname().trim());
     }
     
     
