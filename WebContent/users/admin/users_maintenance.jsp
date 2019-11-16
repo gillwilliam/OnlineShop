@@ -8,6 +8,7 @@
     <%@ page import="java.util.HashMap" %>
     <%@ page import="java.util.ArrayList" %>
     <%@ page import="java.lang.Math" %>
+    <%@ page import="request_handlers.users.CreateSellerRequestHandler" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,6 +45,13 @@
 			admins = new ArrayList<AdminBean>();
 		
 		currMaxAmountOfDisplayedUsers = Math.max(buyers.size(), Math.max(sellers.size(), admins.size()));
+		
+		CreateSellerRequestHandler.AddToDBResult sellerCreationRes = (CreateSellerRequestHandler.AddToDBResult)
+				request.getAttribute(application.getInitParameter("user_profile_update_result"));
+		
+		String message 			= (String) request.getAttribute("message");
+		Boolean deleteSuccess 	= (Boolean) request.getAttribute("deleteResult");
+		deleteSuccess = deleteSuccess == null ? false : deleteSuccess;	
 	%>
 
 
@@ -55,6 +63,22 @@
 	<!--  content  -->
 	<div id="content">
 	
+		 <!-- contains message about successful edit. Initially it's invisible -->
+	    <div id="message_box" class="<%= sellerCreationRes == null && message == null ? "invisible" : "" %>"
+	    	style='<% if (!deleteSuccess) out.println("background-color:#f8694a"); %>'>
+	            <span id="message">
+	            	<%
+	            		if (sellerCreationRes != null && sellerCreationRes.isUpdateSuccessful)
+	            			out.println("Successful data update");
+	            	
+	            		if (message != null)
+	            			out.println(message);
+	            	%>
+	            </span>
+	    </div>
+			
+		<a id="but_create_seller">Create seller</a>
+		
 		<!--  section for searching users -->
 		<section id="section_search_user">
 			<h1>Search</h1>
@@ -111,7 +135,7 @@
 								<td class="td_action">
 									
 									<!--  button edit profile  -->
-									<form action="${pageContext.request.contextPath}/editBuyerProfile
+									<form action="${pageContext.request.contextPath}/displayBuyerProfile
 										<%= application.getInitParameter("main_front_controller_request_extension") %>"
 										method="post">
 										<!-- just to make buyers page display this user -->
@@ -134,8 +158,11 @@
 									<!--  button delete  -->
 									<form action="${pageContext.request.contextPath}/deleteBuyer
 										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
+										
 										<input type="text" name="<%= application.getInitParameter("email") %>" 
 											value="<%= buyer.getEmail() %>" style="display:none"/>
+											
+										<input type="hidden" name="requester" value="admin"/> 
 			
 										<!-- inputs that keep value from previous search -->										
 										<input type="text" name="search_name" 
@@ -196,7 +223,7 @@
 								<td><%= seller.getPassword() %></td>
 								<td class="td_action">
 									<!--  button edit profile  -->
-									<form action="${pageContext.request.contextPath}/editSellerProfile
+									<form action="${pageContext.request.contextPath}/displaySellerProfile
 										<%= application.getInitParameter("main_front_controller_request_extension") %>">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
@@ -216,8 +243,11 @@
 									<!--  button delete  -->
 									<form action="${pageContext.request.contextPath}/deleteSeller
 										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
+										
 										<input type="text" name="<%= application.getInitParameter("email") %>" 
 											value="<%= seller.getEmail() %>" style="display:none"/>
+											
+										<input type="hidden" name="requester" value="admin"/> 
 			
 										<!-- inputs that keep value from previous search -->										
 										<input type="text" name="search_name" 
@@ -277,7 +307,7 @@
 								<td><%= admin.getPassword() %></td>
 								<td class="td_action">
 									<!--  button edit profile  -->
-									<form action="${pageContext.request.contextPath}/editAdminProfile
+									<form action="${pageContext.request.contextPath}/displayAdminProfile
 										<%= application.getInitParameter("main_front_controller_request_extension") %>">
 										<!-- just to make buyers page display this user -->
 										<input type="text" name="otherUser" value="true" style="display:none"/>
@@ -294,42 +324,6 @@
 											src="${pageContext.request.contextPath}/img/edit_icon.png" alt="edit"/>
 									</form>
 									
-									<!--  button delete  -->
-									<form action="${pageContext.request.contextPath}/deleteAdmin
-										<%= application.getInitParameter("main_front_controller_request_extension") %>" method="post">
-										<input type="text" name="<%= application.getInitParameter("email") %>" 
-											value="<%= admin.getEmail() %>" style="display:none"/>
-			
-										<!-- inputs that keep value from previous search -->										
-										<input type="text" name="search_name" 
-											value="<%= request.getParameter(application.getInitParameter("name")) %>" 
-											style="display:none"/>
-										
-										<input type="text" name="search_surname"
-											value="<%= request.getParameter(application.getInitParameter("surname")) %>"
-											style="display:none" />
-										
-										<input type="text" name="search_email"
-											value="<%= request.getParameter(application.getInitParameter("email")) %>"
-											style="display:none" />
-										
-										
-										<!-- button for beginning user deletion (after clicking confirmation button will appear -->
-										<div class="but_action but_delete_user" 
-											onclick="showFlex('<%= "confirm_" + admin.getEmail() %>')">
-											<img src="${pageContext.request.contextPath}/img/delete.png" alt="del" />
-										</div>
-										
-										<!-- box for confirming user deletion -->
-										<div id="confirm_<%= admin.getEmail() %>" class="confirm_delete_box">
-											<img src="${pageContext.request.contextPath}/img/close_icon.png" alt="close"
-												onclick="hideClass('confirm_delete_box')"/>
-											<p>Are you sure that you want to delete 
-											<%= admin.getName() + " " + admin.getSurname() %>?</p>
-											<input type="submit" value="Yes" />
-										</div>
-										
-									</form>
 								</td>
 							</tr>
 						<%

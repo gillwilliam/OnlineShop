@@ -68,7 +68,7 @@ public class SignInRequestHandler implements RequestHandler {
 		UserBean seller = new SellerBean("Mirek", "Handlarz", "+48 888 777 555", "mira@gmail.com",
 				"123456");
 		
-		UserBean admin = new AdminBean("Mateusz", "Kowalczyk", "+420 222 473 822", "admin@shop.com",
+		UserBean admin = new AdminBean("Mateusz", "Kowalczyk", "+420222473822", "admin@shop.com",
 				"123456");
 		
 		users.add(buyer);

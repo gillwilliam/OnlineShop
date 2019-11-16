@@ -1,35 +1,34 @@
 package request_handlers.users;
 
-import request_handlers.RequestHandler; 
-import utils.UserDataValidator;
+import java.io.IOException;
+
+import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import beans.session.UserBean;
+import beans.session.SellerBean;
 import entities.User;
-import java.io.IOException;
-import javax.persistence.EntityManager;
+import request_handlers.RequestHandler;
+import utils.UserDataValidator;
 
-public class EditUserProfileRequestHandler implements RequestHandler {
-	
+public class CreateSellerRequestHandler implements RequestHandler {
+
 	// CONST ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     // params
     public static final String NAME_PARAM               = "name";
     public static final String SURNAME_PARAM            = "surname";
     public static final String PHONE_PARAM              = "phone";
-    public static final String ADDRESS_PARAM            = "address";
     public static final String EMAIL_PARAM              = "email";
     public static final String NEW_PASSWORD_PARAM       = "new_password";
     public static final String CONFIRMED_PASSWORD_PARAM = "confirmed_password";
-    public static final String VALIDATION_RESULT_PARAM  = "buyer_profile_edit_result";
+    public static final String VALIDATION_RESULT_PARAM  = "user_profile_edit_result";
     public static final String UPDATE_RESULT_PARAM  	= "user_profile_update_result";
     public static final String USER_ATTR_PARAM			= "signed_user_attribute_name";
     // messages
@@ -42,29 +41,20 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     public static final String BAD_CONFIRMED_PASSWORD_MESSAGE_EN = "Passwords must be the same!";
 
     // jsp
-    public static final String BUYER_PROFILE_PATH_PARAM 	= "buyer_profile_edit_path";
-    public static final String SELLER_PROFILE_PATH_PARAM 	= "seller_profile_edit_path";
-    public static final String ADMIN_PROFILE_PATH_PARAM 	= "admin_profile_edit_path";
+    public static final String SELLER_CREATION_PATH_PARAM 	= "seller_creation_path";
+    public static final String USERS_MAINTENANCE_PATH_PARAM	= "users_maintenance_path";
 
     // fields //////////////////////////////////////////////////////////////////////////////////////////////////////////
     private String mNameParamName;
     private String mSurnameParamName;
     private String mPhoneParamName;
-    private String mAddrParamName;
     private String mEmailParamName;
     private String mNewPassParamName;
     private String mConfirmedPassParamName;
     private String mValidatResultParamName;
     private String mUpdateResultParamName;
-    private String mUseOtherUserParamName;
-    private String mUserAttr;
-    private String mBuyerProfilePath;
-    private String mSellerProfilePath;
-    private String mAdminProfilePath;
-    private String mRequestExtension;
-    private String mEditBuyerRequest;
-    private String mEditSellerRequest;
-    private String mEditAdminRequest;
+    private String mSellerCreationPath;
+    private String mUsersMaintenancePath;
     
     // persistence
     private EntityManager mEntityManager;
@@ -72,15 +62,10 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     
     
     
-    public EditUserProfileRequestHandler(ServletContext context, String requestExtension, EntityManager entityManager, 
+    public CreateSellerRequestHandler(ServletContext context, EntityManager entityManager, 
     		UserTransaction userTransaction)
     {
     	initParams(context);
-    	
-    	mRequestExtension 	= requestExtension;
-    	mEditBuyerRequest 	= "editBuyerProfile" 	+ mRequestExtension;
-    	mEditSellerRequest 	= "editSellerProfile" 	+ mRequestExtension;
-    	mEditAdminRequest	= "editAdminProfile"	+ mRequestExtension;
     	
     	mEntityManager 		= entityManager;
     	mUserTransaction 	= userTransaction;
@@ -92,31 +77,25 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     public void handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     { 
+    	SellerBean newSeller = createSellerBeanFromRequest(request);
+    	
     	// data validation
-    	InputValidationResult validationResult = validateInputs(request);
+    	InputValidationResult validationResult = validateInputs(newSeller, request.getParameter(mConfirmedPassParamName));
         request.setAttribute(mValidatResultParamName, validationResult);
         
         // update in database
-        UpdateInDBResult updateResult = null;      
+        AddToDBResult addResult = null;      
         if (validationResult.isValid())
-        	updateResult = updateInDB(request);  
-        request.setAttribute(mUpdateResultParamName, updateResult);
+        	addResult = addToDB(newSeller);  
+        request.setAttribute(mUpdateResultParamName, addResult);
         
-        // redirecting to a proper jsp
-        String servletPath = request.getServletPath();
-        
-        String[] pathParts = servletPath.split("/");
-        if (pathParts.length > 0)
-        {
-        	servletPath = pathParts[pathParts.length - 1];
-        	
-            if (servletPath.contentEquals(mEditBuyerRequest))
-            	request.getRequestDispatcher(mBuyerProfilePath).forward(request, response);
-            else if (servletPath.contentEquals(mEditSellerRequest))
-            	request.getRequestDispatcher(mSellerProfilePath).forward(request, response);
-            else if (servletPath.contentEquals(mEditAdminRequest))
-            	request.getRequestDispatcher(mAdminProfilePath).forward(request, response);
-        }
+        // redirecting to appropriate page
+        if (!validationResult.isValid())
+        	request.getRequestDispatcher(mSellerCreationPath).forward(request, response);
+        else if (!addResult.isUpdateSuccessful)
+        	request.getRequestDispatcher(mSellerCreationPath).forward(request, response);
+        else
+        	request.getRequestDispatcher(mUsersMaintenancePath).forward(request, response);
     }
     
     
@@ -126,46 +105,34 @@ public class EditUserProfileRequestHandler implements RequestHandler {
         mNameParamName          = context.getInitParameter(NAME_PARAM);
         mSurnameParamName       = context.getInitParameter(SURNAME_PARAM);
         mPhoneParamName         = context.getInitParameter(PHONE_PARAM);
-        mAddrParamName          = context.getInitParameter(ADDRESS_PARAM);
         mEmailParamName         = context.getInitParameter(EMAIL_PARAM);
         mNewPassParamName       = context.getInitParameter(NEW_PASSWORD_PARAM);
         mConfirmedPassParamName = context.getInitParameter(CONFIRMED_PASSWORD_PARAM);
         mValidatResultParamName = context.getInitParameter(VALIDATION_RESULT_PARAM);
         mUpdateResultParamName	= context.getInitParameter(UPDATE_RESULT_PARAM);
-        mUseOtherUserParamName	= "otherUser";
-        mBuyerProfilePath       = context.getInitParameter(BUYER_PROFILE_PATH_PARAM);
-        mSellerProfilePath		= context.getInitParameter(SELLER_PROFILE_PATH_PARAM);
-        mAdminProfilePath		= context.getInitParameter(ADMIN_PROFILE_PATH_PARAM);
-        mUserAttr				= context.getInitParameter(USER_ATTR_PARAM);
+        mSellerCreationPath		= context.getInitParameter(SELLER_CREATION_PATH_PARAM);
+        mUsersMaintenancePath	= context.getInitParameter(USERS_MAINTENANCE_PATH_PARAM);
     }
     
     
-    private InputValidationResult validateInputs(HttpServletRequest request)
+    private InputValidationResult validateInputs(SellerBean seller, String confirmedPassword)
     {
-        String name                 = request.getParameter(mNameParamName);
-        String surname              = request.getParameter(mSurnameParamName);
-        String phone                = request.getParameter(mPhoneParamName);
-        String address              = request.getParameter(mAddrParamName);
-        String email                = request.getParameter(mEmailParamName);
-        String newPassword          = request.getParameter(mNewPassParamName);
-        String confirmedPassword    = request.getParameter(mConfirmedPassParamName);
-
         InputValidationResult res = new InputValidationResult();
         
-        if (name != null)
-        	res.setIsNameValid(UserDataValidator.isNameValid(name));
-        if (surname != null)
-        	res.setIsSurnameValid(UserDataValidator.isSurnameValid(surname));
-        if (phone != null)
-        	res.setIsPhoneValid(UserDataValidator.isPhoneValid(phone));
-        if (address != null)
-        	res.setIsAddressValid(UserDataValidator.isAddressValid(address));
-        if (email != null)
-        	res.setIsEmailValid(UserDataValidator.isEmailValid(email));
-        if (newPassword != null && confirmedPassword != null && (!newPassword.isEmpty() || !confirmedPassword.isEmpty()))
+    	res.setIsNameValid(UserDataValidator.isNameValid(seller.getName()));
+    	res.setIsSurnameValid(UserDataValidator.isSurnameValid(seller.getSurname()));
+    	res.setIsPhoneValid(UserDataValidator.isPhoneValid(seller.getPhone()));
+    	res.setIsEmailValid(UserDataValidator.isEmailValid(seller.getEmail()));
+    	
+        if (confirmedPassword != null)
         {
-        	res.setIsPasswordValid(UserDataValidator.isPasswordValid(newPassword));
-            res.setIsConfirmedPasswordValid(UserDataValidator.isNewPasswordValid(newPassword, confirmedPassword));
+        	res.setIsPasswordValid(UserDataValidator.isPasswordValid(seller.getPassword()));
+            res.setIsConfirmedPasswordValid(UserDataValidator.isNewPasswordValid(seller.getPassword(), confirmedPassword));
+        }
+        else
+        {
+        	res.setIsPasswordValid(false);
+        	res.setIsConfirmedPasswordValid(false);
         }
         
         return res;
@@ -179,42 +146,50 @@ public class EditUserProfileRequestHandler implements RequestHandler {
      * @param request
      * @return
      */
-    private UpdateInDBResult updateInDB(HttpServletRequest request)
+    private AddToDBResult addToDB(SellerBean userBean)
     {
-    	UpdateInDBResult res 	= new UpdateInDBResult();
-    	String email 			= request.getParameter(mEmailParamName);
-    	User user 				= mEntityManager.find(User.class, email);
+    	AddToDBResult res 	= new AddToDBResult();
+    	String email 		= userBean.getEmail();
+    	User userEntity 	= mEntityManager.find(User.class, email);
     	
-    	if (user != null)
+    	if (userEntity == null)
     	{
-    		changeUserEntityData(user, request);
-    		
+    		userEntity = new User();
+			userEntity.updateFromUserBean(userBean);
+			
     		try 
     		{
 				mUserTransaction.begin();
-				mEntityManager.merge(user);
+//				mEntityManager.persist(userEntity);
+				mEntityManager.createNativeQuery("INSERT INTO users (email, password, firstName, lastName, address, phone, type) VALUES (?,?,?,?,?,?,?)")
+			      .setParameter(1, userEntity.getEmail())
+			      .setParameter(2, userEntity.getPassword())
+			      .setParameter(3, userEntity.getFirstName())
+			      .setParameter(4, userEntity.getLastName())
+			      .setParameter(5, userEntity.getAddress())
+			      .setParameter(6, userEntity.getPhone())
+			      .setParameter(7, userEntity.getType())
+			      .executeUpdate();
 				mUserTransaction.commit();
-				
-				updateInSession(request, user);	// if user edited it's profile then change data in session
-				
+
+				res.isEmailUnique		= true;
 				res.isUpdateSuccessful 	= true;
-				res.isUserInDatabase	= true;
-				res.message				= "successful update";
+				res.message				= "You successfully created the new seller";
 			} 
     		catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException | 
     				HeuristicMixedException | HeuristicRollbackException e) 
     		{
 				res.isUpdateSuccessful 	= false;
-				res.isUserInDatabase	= true;
-				res.message				= e.getClass() + ":" + e.getMessage();
+				res.isEmailUnique		= true;
+				res.message				= "error occurred during adding user to the data base. Try later";
 				e.printStackTrace();
 			}
     	}
     	else
     	{
-    		res.isUserInDatabase	= false;
+    		res.isEmailUnique		= false;
     		res.isUpdateSuccessful 	= false;
-    		res.message 			= "User is no longer in the database";
+    		res.message 			= "User with such email already exists in the database";
     	}
     	
     	return res;
@@ -222,42 +197,29 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     
     
     
-    private void changeUserEntityData(User user, HttpServletRequest request)
+    private SellerBean createSellerBeanFromRequest(HttpServletRequest request)
     {
-    	String name                 = request.getParameter(mNameParamName);
-        String surname              = request.getParameter(mSurnameParamName);
-        String phone                = request.getParameter(mPhoneParamName);
-        String address              = request.getParameter(mAddrParamName);
-        String email                = request.getParameter(mEmailParamName);
-        String newPassword          = request.getParameter(mNewPassParamName);
+    	String name        = request.getParameter(mNameParamName);
+        String surname     = request.getParameter(mSurnameParamName);
+        String phone       = request.getParameter(mPhoneParamName);
+        String email       = request.getParameter(mEmailParamName);
+        String newPassword = request.getParameter(mNewPassParamName);
         
-        user.setFirstName(name);
-        user.setLastName(surname);
-        user.setPhone(phone);
-        user.setAddress(address);
-        user.setEmail(email);
-        if (newPassword != null && !newPassword.isEmpty())
-        	user.setPassword(newPassword);
-    }
-    
-    
-    
-    private void updateInSession(HttpServletRequest request, User user)
-    {
-    	String otherUserStr = request.getParameter(mUseOtherUserParamName);
-    	boolean otherUser 	= false;
-    	
-    	if (otherUserStr != null)
-    		otherUser = Boolean.parseBoolean(otherUserStr);
-    	
-    	if (!otherUser)
-    	{
-    		HttpSession session = request.getSession();
-    		UserBean currUser = (UserBean) session.getAttribute(mUserAttr);
-    		
-    		if (currUser != null)
-    			currUser.initWithEntity(user);
-    	}
+        name 		= name == null ? "" : name;
+        surname 	= surname == null ? "" : surname;
+        phone 		= phone == null ? "" : phone;
+        email 		= email == null ? "" : email;
+        newPassword = newPassword == null ? "" : newPassword;
+        
+        SellerBean seller = new SellerBean();
+        
+        seller.setName(name);
+        seller.setSurname(surname);
+        seller.setPhone(phone);
+        seller.setEmail(email);
+        seller.setPassword(newPassword);
+        
+        return seller;
     }
     
     
@@ -265,13 +227,12 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     /**
      * class for returning result of validation
      */
-    public static class InputValidationResult {
+    public class InputValidationResult {
 
         private boolean mIsValid;
         private boolean mIsNameValid;
         private boolean mIsSurnameValid;
         private boolean mIsPhoneValid;
-        private boolean mIsAddressValid;
         private boolean mIsEmailValid;
         private boolean mIsNewPasswordValid;
         private boolean mIsConfirmedPasswordValid;
@@ -286,7 +247,7 @@ public class EditUserProfileRequestHandler implements RequestHandler {
 
         InputValidationResult()
         {
-            mIsValid = mIsNameValid = mIsSurnameValid = mIsPhoneValid = mIsAddressValid = 
+            mIsValid = mIsNameValid = mIsSurnameValid = mIsPhoneValid = 
             		mIsEmailValid = mIsNewPasswordValid = mIsConfirmedPasswordValid = true;
 
             mNameMessage = mSurnameMessage = mPhoneMessage = mAddressMessage = mEmailMessage = mNewPasswordMessage =
@@ -326,18 +287,6 @@ public class EditUserProfileRequestHandler implements RequestHandler {
                 mIsValid        = false;
                 mIsPhoneValid   = false;
                 mPhoneMessage   = BAD_PHONE_MESSAGE_EN;
-            }
-        }
-
-
-
-        public void setIsAddressValid(boolean isAddressValid)
-        {
-            if (!isAddressValid)
-            {
-                mIsValid        = false;
-                mIsAddressValid = false;
-                mAddressMessage = BAD_ADDRESS_MESSAGE_EN;
             }
         }
 
@@ -397,10 +346,6 @@ public class EditUserProfileRequestHandler implements RequestHandler {
             return mIsPhoneValid;
         }
 
-        public boolean isAddressValid() {
-            return mIsAddressValid;
-        }
-
         public boolean isEmailValid() {
             return mIsEmailValid;
         }
@@ -449,8 +394,8 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     
     
     
-    public static class UpdateInDBResult {
-    	public boolean isUserInDatabase;
+    public class AddToDBResult {
+    	public boolean isEmailUnique;
     	public boolean isUpdateSuccessful;
     	public String message;
     }

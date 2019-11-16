@@ -96,7 +96,6 @@
 #message_box {
     width:              100%;
     height:             var(--message-box-height);
-    background-color:   var(--bright);
     color:              white;
     padding-left:       10px;
 }

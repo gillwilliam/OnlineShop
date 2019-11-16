@@ -56,7 +56,7 @@ public class UserDataValidator {
     public static boolean isPhoneValid(@NotNull String phone)
     {
     	phone = phone.replaceAll("\\s+", "");
-    	System.out.println(phone);
+  
         boolean isLengthValid = StringUtils.isInRange(phone, MIN_PHONE_LEN, MAX_PHONE_LEN);
 
         if (isLengthValid)

@@ -1,5 +1,7 @@
 package beans.session;
 
+import entities.User;
+
 public class BuyerBean extends UserBean {
 
 	// CONST /////////////////////////////////////////////////////////////////////
@@ -25,6 +27,16 @@ public class BuyerBean extends UserBean {
     	
     	this.address = address;
     }
+	
+	
+	
+	@Override
+	public void initWithEntity(User userEntity)
+	{
+		super.initWithEntity(userEntity);
+		
+		address = userEntity.getAddress();
+	}
 	
 	
 	
