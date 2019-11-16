@@ -281,6 +281,10 @@
         <param-value>edit_res</param-value>
     </context-param>
     
+    <context-param>
+    	<param-name>register_result</param-name>
+    	<param-value>register_res</param-value>
+
     <context-param> 
     	<param-name>user_profile_edit_result</param-name>
         <param-value>edit_res</param-value>
@@ -349,6 +353,11 @@
     <context-param>
     	<param-name>login_path</param-name>
     	<param-value>/login.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>register_path</param-name>
+    	<param-value>/register.jsp</param-value>
     </context-param>
     
     <context-param>

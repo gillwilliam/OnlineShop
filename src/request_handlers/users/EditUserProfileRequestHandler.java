@@ -2,6 +2,7 @@ package request_handlers.users;
 
 import request_handlers.RequestHandler; 
 import utils.UserDataValidator;
+import utils.UserDataValidator.InputValidationResult;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,6 @@ import javax.persistence.EntityManager;
 
 public class EditUserProfileRequestHandler implements RequestHandler {
 	
-	// CONST ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     // params
     public static final String NAME_PARAM               = "name";
     public static final String SURNAME_PARAM            = "surname";
@@ -30,6 +30,7 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     public static final String NEW_PASSWORD_PARAM       = "new_password";
     public static final String CONFIRMED_PASSWORD_PARAM = "confirmed_password";
     public static final String VALIDATION_RESULT_PARAM  = "buyer_profile_edit_result";
+
     public static final String UPDATE_RESULT_PARAM  	= "user_profile_update_result";
     public static final String USER_ATTR_PARAM			= "signed_user_attribute_name";
     // messages
@@ -91,9 +92,10 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
-    { 
-    	// data validation
-    	InputValidationResult validationResult = validateInputs(request);
+    { 	
+
+    	InputValidationResult validationResult = UserDataValidator.validateInputs(request);
+
         request.setAttribute(mValidatResultParamName, validationResult);
         
         // update in database
@@ -121,7 +123,7 @@ public class EditUserProfileRequestHandler implements RequestHandler {
     
     
     
-    private void initParams(ServletContext context)
+    private void initParams(ServletContext context) 
     {
         mNameParamName          = context.getInitParameter(NAME_PARAM);
         mSurnameParamName       = context.getInitParameter(SURNAME_PARAM);
@@ -139,7 +141,7 @@ public class EditUserProfileRequestHandler implements RequestHandler {
         mUserAttr				= context.getInitParameter(USER_ATTR_PARAM);
     }
     
-    
+   
     private InputValidationResult validateInputs(HttpServletRequest request)
     {
         String name                 = request.getParameter(mNameParamName);
