@@ -81,6 +81,10 @@
 			nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
 			confirmedPasswordMessage = "";
 		}
+		
+		EditUserProfileRequestHandler.UpdateInDBResult updateResult = 
+				(EditUserProfileRequestHandler.UpdateInDBResult) request.
+				getAttribute(application.getInitParameter("user_profile_update_result"));
     %>
 
     <!-- header |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
@@ -92,12 +96,15 @@
     <div id="container">
 
         <!-- contains message about successful edit. Initially it's invisible -->
-        <div id="message_box" class="<%= validationResult == null || validationResult.isValid() ? "invisible" : "" %>">
+        <div id="message_box" class="<%= validationResult == null && updateResult == null ? "invisible" : "" %>"
+    		style="background-color:<%= validationResult != null && validationResult.isValid() &&
+                updateResult != null && updateResult.isUpdateSuccessful ? "#4ed93f" : "#f8694a" %>">
             <span id="message">
-                <%= validationResult != null && validationResult.isValid() ? "Successful data update" :
-                        "Errors occurred during data update" %>
+                <%= validationResult != null && validationResult.isValid() &&
+                updateResult != null && updateResult.isUpdateSuccessful ? "Successful data update" :
+                        "Errors occurred during data update. " + (updateResult != null ? updateResult.message : "") %>
             </span>
-        </div>
+    	</div>
 
         <!--  form for editing user's data -->
         <form id="user_data_form" action="${pageContext.request.contextPath}/editBuyerProfile.main" method="post">
@@ -150,10 +157,13 @@
         </form>
 
         <!-- delete account button -->
-        <div id="but_delete_account">
-            <img src="${pageContext.request.contextPath}/img/delete.png" alt=""/>
-            <span>Delete account</span>
-        </div>
+        <form action="
+        ${pageContext.request.contextPath}/deleteBuyer<%= application.getInitParameter("main_front_controller_request_extension") %>">
+        
+        	<input type="hidden" name="<%= application.getInitParameter("email") %>" value="<%= user.getEmail() %>"/>
+        	<input type="hidden" name="requester" value="buyer" />
+	        <input id="but_delete_account" type="submit" value="Delete account"/>
+        </form>
 
     </div>
 

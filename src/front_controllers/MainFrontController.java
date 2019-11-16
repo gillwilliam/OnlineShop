@@ -1,8 +1,11 @@
 package front_controllers;
 
-import java.io.IOException;
+import java.io.IOException; 
 import java.util.HashMap;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -10,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+import javax.transaction.UserTransaction;
 
 import categories.CategoryTree;
 import request_handlers.RequestHandler;
@@ -19,12 +24,13 @@ import request_handlers.product.CheckoutRequestHandler;
 import request_handlers.register.RegisterRequestHandler;
 import request_handlers.product.CreateProductRequestHandler;
 import request_handlers.product.EditProductRequestHandler;
+import request_handlers.product.SearchProductsRequestHandler;
 import request_handlers.categories.AddCategoryRequestHandler;
 import request_handlers.categories.DeleteCategoryRequestHandler;
 import request_handlers.categories.RenameCategoryRequestHandler;
-import request_handlers.users.DeleteAdminRequestHandler;
-import request_handlers.users.DeleteBuyerRequestHandler;
-import request_handlers.users.DeleteSellerRequestHandler;
+import request_handlers.users.CreateSellerRequestHandler;
+import request_handlers.users.DeleteUserRequestHandler;
+import request_handlers.users.DisplayUserProfileRequestHandler;
 import request_handlers.users.EditUserProfileRequestHandler;
 import request_handlers.users.maintenance.SearchUsersRequestHandler;
 
@@ -42,12 +48,19 @@ public class MainFrontController extends HttpServlet {
     private HashMap<String, RequestHandler> mRequestHandlers;
     private String 							mRequestExtension;
 
-
+    // persistence - I'm creating this fields here because otherwise resources would have to be declared in web.xml,
+    // 				 data injection is possible only in servlets and EJBs
+    @PersistenceContext(unitName="OnlineShop")
+    EntityManager mEntityManager;
+    @Resource
+    UserTransaction mUserTransaction;
+    @Resource(lookup="OnlineShopDS")
+    DataSource mDataSource;
 
     @Override
     public void init()
     {
-        mRequestHandlers 	= new HashMap<>();
+        mRequestHandlers 	= new HashMap<String, RequestHandler>();
         mRequestExtension 	= getServletContext().getInitParameter(REQUEST_EXTENSION_PARAM_NAME);
         
         initCategoryTree();
@@ -78,19 +91,23 @@ public class MainFrontController extends HttpServlet {
     {
     	ServletContext context = getServletContext();
     	mRequestHandlers.put("/editBuyerProfile" + mRequestExtension, 
-    		   new EditUserProfileRequestHandler(context, mRequestExtension));	// should be post only
+    		   new EditUserProfileRequestHandler(context, mRequestExtension, mEntityManager, mUserTransaction));	// should be post only
     	mRequestHandlers.put("/editSellerProfile" + mRequestExtension, 
-    		   new EditUserProfileRequestHandler(context, mRequestExtension));	// should be post only
+    		   new EditUserProfileRequestHandler(context, mRequestExtension, mEntityManager, mUserTransaction));	// should be post only
     	mRequestHandlers.put("/editAdminProfile" + mRequestExtension, 
-     		   new EditUserProfileRequestHandler(context, mRequestExtension));	// should be post only
-     	mRequestHandlers.put("/searchUsers" + mRequestExtension,
-     			new SearchUsersRequestHandler(context));
+     		   new EditUserProfileRequestHandler(context, mRequestExtension, mEntityManager, mUserTransaction));	// should be post only
+     	mRequestHandlers.put("/displayBuyerProfile" + mRequestExtension,
+     			new DisplayUserProfileRequestHandler(context, mRequestExtension)); // should be post only
+     	mRequestHandlers.put("/displaySellerProfile" + mRequestExtension,
+     			new DisplayUserProfileRequestHandler(context, mRequestExtension)); // should be post only
+     	mRequestHandlers.put("/displayAdminProfile" + mRequestExtension,
+     			new DisplayUserProfileRequestHandler(context, mRequestExtension)); // should be post only
+    	mRequestHandlers.put("/searchUsers" + mRequestExtension,
+     			new SearchUsersRequestHandler(context, mDataSource));
      	mRequestHandlers.put("/deleteBuyer" + mRequestExtension,
-     			new DeleteBuyerRequestHandler(context, mRequestExtension));		// should be post only
+     			new DeleteUserRequestHandler(context, mRequestExtension, mEntityManager, mUserTransaction));		// should be post only
      	mRequestHandlers.put("/deleteSeller" + mRequestExtension,
-     			new DeleteSellerRequestHandler(context, mRequestExtension));	// should be post only
-     	mRequestHandlers.put("/deleteAdmin" + mRequestExtension,
-     			new DeleteAdminRequestHandler(context, mRequestExtension));		// should be post only
+     			new DeleteUserRequestHandler(context, mRequestExtension, mEntityManager, mUserTransaction));	// should be post only
      	mRequestHandlers.put("/signIn" + mRequestExtension,
      			new SignInRequestHandler(context));								// should be post only
      	mRequestHandlers.put("/product/checkout" + mRequestExtension,
@@ -109,6 +126,10 @@ public class MainFrontController extends HttpServlet {
      			new EditProductRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/createProduct" + mRequestExtension,
      			new CreateProductRequestHandler(context));						// should be post only
+     	mRequestHandlers.put("/createSeller" + mRequestExtension, 
+     			new CreateSellerRequestHandler(context, mEntityManager, mUserTransaction));
+     	mRequestHandlers.put("/searchProducts" + mRequestExtension,
+     			new SearchProductsRequestHandler(context));
     }
 
 

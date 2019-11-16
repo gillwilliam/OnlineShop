@@ -51,6 +51,11 @@
   	<url-pattern>/users/admin/users_maintenance.jsp</url-pattern>
   </filter-mapping>
   
+  <filter-mapping>
+  	<filter-name>OnlyAdminFilter</filter-name>
+  	<url-pattern>/searchUsers.main</url-pattern>
+  </filter-mapping>
+  
   
   <!-- seller and admin -->
   <filter>
@@ -81,6 +86,11 @@
   <filter-mapping>
   	<filter-name>SellerAndAdminFilter</filter-name>
   	<url-pattern>/deleteCategory.main</url-pattern>
+  </filter-mapping>
+  
+   <filter-mapping>
+  	<filter-name>SellerAndAdminFilter</filter-name>
+  	<url-pattern>/createSeller.main</url-pattern>
   </filter-mapping>
   
   
@@ -274,6 +284,15 @@
     <context-param>
     	<param-name>register_result</param-name>
     	<param-value>register_res</param-value>
+
+    <context-param> 
+    	<param-name>user_profile_edit_result</param-name>
+        <param-value>edit_res</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>user_profile_update_result</param-name>
+    	<param-value>update_res</param-value>
     </context-param>
 
     <context-param>
@@ -315,6 +334,14 @@
     </context-param>
     
     
+    <!-- data source -->
+    
+    <context-param>
+    	<param-name>data_source_name</param-name>
+    	<param-value>OnlineShopDS</param-value>
+    </context-param>
+    
+    
     <!-- jsp pathes -->
     
     
@@ -344,6 +371,11 @@
     </context-param>
     
     <context-param>
+    	<param-name>seller_creation_path</param-name>
+    	<param-value>/users/admin/seller_creation.jsp</param-value>
+    </context-param>
+    
+    <context-param>
         <param-name>buyer_profile_edit_path</param-name>
         <param-value>/users/buyer/buyer_profile.jsp</param-value>
     </context-param>
@@ -366,6 +398,11 @@
     <context-param>
     	<param-name>product_edition_path</param-name>
     	<param-value>/product/product_edition.jsp</param-value>
+    </context-param>
+    
+    <context-param>
+    	<param-name>product_search</param-name>
+    	<param-value>/main.jsp</param-value>
     </context-param>
     
 </web-app>

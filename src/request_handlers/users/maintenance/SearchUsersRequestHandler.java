@@ -1,20 +1,27 @@
 package request_handlers.users.maintenance;
 
-import java.io.IOException;
+import java.io.IOException; 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.sql.DataSource;
 import beans.session.AdminBean;
 import beans.session.BuyerBean;
 import beans.session.SellerBean;
 import beans.session.UserBean;
 import enums.UserType;
 import request_handlers.RequestHandler;
+import utils.SQLUtils;
 
 public class SearchUsersRequestHandler implements RequestHandler {
 	
@@ -27,19 +34,43 @@ public class SearchUsersRequestHandler implements RequestHandler {
 	public static final String USERS_MAINTENANCE_PATH_PARAM_NAME	= "users_maintenance_path";
 	// request attributes
 	public static final String ATTR_FOUND_USERS	= "found_users";
+	public static final String ATTR_MESSAGE		= "message";
+	public static final String ATTR_SUCCESS		= "deleteResult"; // No it's not an error, I want deleteResult here, maybe it's not a
+																  // very nice solution, but at least it doesn't require changes in
+																  // users_maintenance.jsp to change message bg color
 	// defaults
 	public static final int DEFAULT_MAX_NUM_OF_RESULTS = 40;
+	// DB
+	public static final String USERS_TABLE_NAME = "users";
+	public static final String NAME_COL			= "firstName";
+	public static final String SURNAME_COL		= "lastName";
+	public static final String EMAIL_COL	  	= "email";
+	public static final String PHONE_COL		= "phone";
+	public static final String ADDR_COL			= "address";
+	public static final String TYPE_COL			= "type";
 	
 	// fields /////////////////////////////////////////////////////////////////////////////////////
 	private ServletContext 	mContext;
 	private String			mUsersMaintenancePath;
+	private DataSource		mDataSource;
 	
 	
 	
-	public SearchUsersRequestHandler(ServletContext context)
+	public SearchUsersRequestHandler(ServletContext context, DataSource dataSource)
 	{
 		mContext 				= context;
 		mUsersMaintenancePath 	= context.getInitParameter(USERS_MAINTENANCE_PATH_PARAM_NAME);
+		
+		try 
+		{
+			Context ctx 	= new InitialContext();
+			mDataSource 	= (DataSource) ctx.lookup(mContext.getInitParameter("data_source_name"));
+		} 
+		catch (NamingException e) 
+		{
+			e.printStackTrace();
+			throw new RuntimeException("Cannot obtain datasource in SearchUsersRequestHandler");
+		}
 	}
 	
 
@@ -61,18 +92,23 @@ public class SearchUsersRequestHandler implements RequestHandler {
 		if (searchedEmail == null)
 			searchedEmail = (String) request.getAttribute(mContext.getInitParameter(EMAIL_INIT_PARAM_NAME));
 		
-		HashMap<UserType, ArrayList<UserBean>> searchResult = searchForUsers(searchedName, searchedSurname, searchedEmail, 
-				maxNumOfResults);
+		SearchResult searchResult = searchForUsers(searchedName, searchedSurname, searchedEmail, maxNumOfResults);
 		
-		request.setAttribute(ATTR_FOUND_USERS, searchResult);
+		request.setAttribute(ATTR_FOUND_USERS, searchResult.results);
+		if (!searchResult.isSuccessful)
+		{
+			request.setAttribute(ATTR_MESSAGE, searchResult.message);
+			request.setAttribute(ATTR_SUCCESS, false);
+		}
 		request.getRequestDispatcher(mUsersMaintenancePath).forward(request, response);
 	}
 	
 	
 	
 	/**
-	 * 
-	 * @param request request containting maximum number of results parameters
+	 * obtains maximum number of results from requests or assigns default value if obtained value doesn't exist
+	 * or is less than 0
+	 * @param request request containing maximum number of results parameters
 	 * @return maximum number of results acquired from request. In case that no such parameter was found
 	 * or it wasn't greater than 0 then DEFAULT_MAX_NUM_OF_RESULTS is returned
 	 */
@@ -95,36 +131,167 @@ public class SearchUsersRequestHandler implements RequestHandler {
 	 * @param maxNumOfResults maximum number of users which will be found
 	 * @return HashMaps containing ArrayLists with users matching searching parameters
 	 */
-	private HashMap<UserType, ArrayList<UserBean>> searchForUsers(String name, String surname, String email, int maxNumOfResults)
+	private SearchResult searchForUsers(String name, String surname, String email, int maxNumOfResults)
 	{
-		// TODO conntect to database, at this moment just simulate
-		HashMap<UserType, ArrayList<UserBean>> res = new HashMap<>();
+		SearchResult res = new SearchResult();
+		HashMap<UserType, ArrayList<UserBean>> foundUsers = new HashMap<>();
+		res.results = foundUsers;
 		
-		ArrayList<UserBean> buyers		= new ArrayList<>();
-		ArrayList<UserBean> sellers	= new ArrayList<>();
-		ArrayList<UserBean> admins		= new ArrayList<>();
+		Connection con 		= null;
+		Statement statement = null;
 		
-		BuyerBean buyer1 	= new BuyerBean("Jan", "Kowalski", "2345352", "sdgfdsgdsg", "jankowalski@jonek.cz", "123456");
-		BuyerBean buyer2 	= new BuyerBean("Anna", "Krzak", "325253", "address", "a.krzak@gmail.com", "123456");	
-		BuyerBean buyer3	= new BuyerBean("Justyna", "Kowalczyk", "+48 696 463 622", "Folwarczna 23, 50-013 Wrocław, Moldawia", 
-				"justynakowalska@gmail.com", "qurwa123");
-		BuyerBean buyer4	= new BuyerBean("Zbyszko", "Z Bogdanca", "123 765 322", "Bolesława Chrobrego, Bogdaniec, Slovakia", 
-				"zibidibi@grunwald.pl", "1234567");
-		SellerBean seller1 	= new SellerBean("Mirek", "Handlarz", "123 765 433", "miro@naciagacz.com", "123456");
-		AdminBean admin1 	= new AdminBean("ad", "min", "443212321", "adm1@shop.com", "123456");
-		
-		buyers.add(buyer1);
-		buyers.add(buyer2);
-		buyers.add(buyer3);
-		buyers.add(buyer4);
-		sellers.add(seller1);
-		admins.add(admin1);
-		
-		res.put(UserType.BUYER, buyers);
-		res.put(UserType.SELLER, sellers);
-		res.put(UserType.ADMIN, admins);
+		try 
+		{
+			con = mDataSource.getConnection();
+			
+			if (con == null)
+			{
+				res.isSuccessful 	= false;
+				res.message 		= "Cannot obtain connection";
+			}
+			else
+			{
+				statement 			= con.createStatement();
+				ResultSet results 	= performQuery(con, statement, name, surname, email, maxNumOfResults);
+				res.results 		= convertResultSetToFinalResult(results);
+				res.isSuccessful	= true;
+				res.message			= "successful search";
+			}	
+		} 
+		catch (SQLException e) 
+		{
+			res.isSuccessful = false;
+			res.message	     = "SQLError occurred: " + e.getMessage();
+			e.printStackTrace();
+		}
+		finally
+		{
+			closeConnectionAndStatement(con, statement);
+		}
 		
 		return res;
+	}
+	
+	
+	
+	private void closeConnectionAndStatement(Connection con, Statement statement)
+	{
+		try 
+		{
+			if (statement != null) statement.close();
+		} 
+		catch (SQLException e) {e.printStackTrace();}
+	
+		try 
+		{
+			if (con != null) con.close();
+		} 
+		catch (SQLException e) {e.printStackTrace();}
+	}
+	
+	
+	
+	private ResultSet performQuery(Connection con, Statement statement, String name, String surname, String email, int maxNumOfResults) 
+			throws SQLException
+	{
+		String andStatement = SQLUtils.getSQLAnd(getConditionsMap(name, surname, email));
+		String sqlQuery = "SELECT * FROM " + USERS_TABLE_NAME + "\n" +
+				(andStatement.length() > 0 ?
+						"WHERE " + andStatement
+						:
+						""
+				) + "\n" +
+				"LIMIT " + maxNumOfResults + ";";
+		
+		ResultSet res = statement.executeQuery(sqlQuery);
+				
+		return res;
+	}
+	
+	
+	
+	private HashMap<String, String> getConditionsMap(String name, String surname, String email)
+	{
+		HashMap<String, String> res = new HashMap<String, String>();
+		
+		if (name != null && !name.isEmpty())
+			res.put(NAME_COL, name);
+		
+		if (surname != null && !surname.isEmpty())
+			res.put(SURNAME_COL, surname);
+		
+		if (email != null && !email.isEmpty())
+			res.put(EMAIL_COL, email);
+		
+		return res;
+	}
+	
+	
+	
+	private HashMap<UserType, ArrayList<UserBean>> convertResultSetToFinalResult(ResultSet rs) throws SQLException
+	{
+		HashMap<UserType, ArrayList<UserBean>> result = new HashMap<>();
+		
+		ArrayList<UserBean> buyers 	= new ArrayList<>();
+		ArrayList<UserBean> sellers = new ArrayList<>();
+		ArrayList<UserBean> admins 	= new ArrayList<>();
+		
+		result.put(UserType.BUYER, buyers);
+		result.put(UserType.SELLER, sellers);
+		result.put(UserType.ADMIN, admins);
+		
+		UserType userType	= null;
+		
+		while (rs.next())
+		{
+			userType = UserType.getInstance(rs.getString(TYPE_COL));
+			
+			switch (userType)
+			{
+			case BUYER : buyers.add(
+					new BuyerBean(
+							rs.getString(NAME_COL), 
+							rs.getString(SURNAME_COL), 
+							rs.getString(PHONE_COL),
+							rs.getString(ADDR_COL), 
+							rs.getString(EMAIL_COL), "")
+					); break;
+			case SELLER : sellers.add(
+					new SellerBean(
+							rs.getString(NAME_COL), 
+							rs.getString(SURNAME_COL), 
+							rs.getString(PHONE_COL), 
+							rs.getString(EMAIL_COL), "")
+					); break;
+			case ADMIN : admins.add(
+					new AdminBean(
+							rs.getString(NAME_COL), 
+							rs.getString(SURNAME_COL), 
+							rs.getString(PHONE_COL), 
+							rs.getString(EMAIL_COL), "")
+					); break;
+			default : break;
+			}
+		}
+		
+		return result;
+	}
+	
+	
+	
+	// case classes /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	private class SearchResult {
+		private boolean isSuccessful;
+		private String message;
+		private HashMap<UserType, ArrayList<UserBean>> results;
+		
+		public SearchResult()
+		{
+			message = "";
+		}
 	}
 
 }
