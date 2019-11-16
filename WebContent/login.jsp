@@ -14,6 +14,7 @@
 				<div class="col-md-6">
 					<form id="login-form" action="${pageContext.request.contextPath}/signIn.main" method="post">
 						<h3>Login Page</h3>
+						<div style="color: #FF0000;">${ loginErrorMessage }</div>
 						<div class="form-group">
 							<input class="input" type="text" name="<%= application.getInitParameter("email") %>" 
 								placeholder="Email">
@@ -23,7 +24,7 @@
 								placeholder="Password">
 						</div>
 						<input type="submit" class="primary-btn" value="Login"/>
-						<button class="main-btn">Register</button>		
+						<a type="button" class="main-btn" href="${pageContext.request.contextPath}/register.jsp">Register</a>		
 					</form>
 
 				</div>

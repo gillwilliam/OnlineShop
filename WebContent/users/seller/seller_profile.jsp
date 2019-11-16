@@ -1,5 +1,6 @@
 <%@ page import="request_handlers.users.EditUserProfileRequestHandler" %>
 <%@ page import="beans.session.SellerBean" %>
+<%@ page import="utils.UserDataValidator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -37,11 +38,11 @@
 	// after data edit /////////////////////////////////////////////////////////////////////////////
 	// if user has changed data, then he is redirected to this page again and in case some errors
 	// occured he is informed about that. Information 
-	EditUserProfileRequestHandler.InputValidationResult validationResult =
-	(EditUserProfileRequestHandler.InputValidationResult) request
+	UserDataValidator.InputValidationResult validationResult =
+	(UserDataValidator.InputValidationResult) request
 	.getAttribute(application.getInitParameter("buyer_profile_edit_result"));
 	
-	String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
+	String nameMessage, surnameMessage, phoneMessage, emailMessage, passwordMessage,
 	confirmedPasswordMessage;
 	
 	if (validationResult != null)
@@ -49,16 +50,19 @@
 		nameMessage                 = validationResult.getNameMessage();
 		surnameMessage              = validationResult.getSurnameMessage();
 		phoneMessage                = validationResult.getPhoneMessage();
-		addressMessage              = validationResult.getAddressMessage();
 		emailMessage                = validationResult.getEmailMessage();
 		passwordMessage             = validationResult.getNewPasswordMessage();
 		confirmedPasswordMessage    = validationResult.getConfirmedPasswordMessage();
 	}
 	else
 	{
-		nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage =
+		nameMessage = surnameMessage = phoneMessage = emailMessage = passwordMessage =
 		confirmedPasswordMessage = "";
 	}
+	
+	EditUserProfileRequestHandler.UpdateInDBResult updateResult = 
+			(EditUserProfileRequestHandler.UpdateInDBResult) request.
+			getAttribute(application.getInitParameter("user_profile_update_result"));
 %>
 
 <!-- HEADER -->
@@ -69,15 +73,18 @@
 <div id="container">
 
     <!-- contains message about successful edit. Initially it's invisible -->
-    <div id="message_box" class="<%= validationResult == null || validationResult.isValid() ? "invisible" : "" %>">
+    <div id="message_box" class="<%= validationResult == null ? "invisible" : "" %>"
+    		style="background-color:<%= validationResult != null && validationResult.isValid() &&
+                updateResult != null && updateResult.isUpdateSuccessful ? "#4ed93f" : "#f8694a" %>">
             <span id="message">
-                <%= validationResult != null && validationResult.isValid() ? "Successful data update" :
-                        "Errors occurred during data update" %>
+                <%= validationResult != null && validationResult.isValid() &&
+                updateResult != null && updateResult.isUpdateSuccessful ? "Successful data update" :
+                        "Errors occurred during data update. " + (updateResult != null ? updateResult.message : "") %>
             </span>
     </div>
 
     <!--  form for editing user's data -->
-    <form id="user_data_form" action="editSellerProfile.main" method="post">
+    <form id="user_data_form" action="${pageContext.request.contextPath}/editSellerProfile.main" method="post">
         <!--  section with users's personal data used for order purposes -->
         <section id="personal_data_section">
             <h1>Personal data</h1>

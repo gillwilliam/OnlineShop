@@ -1,8 +1,10 @@
 package beans.session;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 
 import javax.ejb.Stateful;
+
+import entities.User;
 
 @Stateful
 public abstract class UserBean implements Serializable {
@@ -33,6 +35,17 @@ public abstract class UserBean implements Serializable {
     	this.phone 		= phone;
     	this.email 		= email;
     	this.password 	= password;
+    }
+    
+    
+    
+    public void initWithEntity(User userEntity)
+    {
+    	name 		= userEntity.getFirstName();
+    	surname 	= userEntity.getLastName();
+    	phone 		= userEntity.getPhone();
+    	email 		= userEntity.getEmail();
+    	password 	= userEntity.getPassword();
     }
 
 

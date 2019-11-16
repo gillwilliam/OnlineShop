@@ -8,7 +8,7 @@
     --header-bright:        #3d404a;
     --header-text-color:    #ffffff;
     --bright:               #f8694a;
-    --input-width:          240px;
+    --input-width:          440px;
     --input-height:         40px;
     --error-message-color:  red;
     --message-box-height:   60px;
@@ -25,34 +25,6 @@
 #header {
     border:             0;
     border-bottom:      1px solid var(--border-color);
-}
-
-
-#but_my_account {
-	color:				var(--bright);
-}
-
-
-#my_cart {
-    float:              right;
-    color:              var(--header-text-color);
-    padding-left:       10px;
-    padding-right:      10px;
-}
-
-
-#my_cart:hover {
-    background-color:   var(--header-bright);
-}
-
-
-#my_cart span {
-    line-height:        var(--header-height);
-}
-
-
-#my_cart_caption {
-    margin-right:       5px;
 }
 
 
@@ -80,7 +52,7 @@
 #container input:not([type=submit]) {
     width:              var(--input-width);
     height:             var(--input-height);
-    margin:             10px;
+    margin:             5px;
     padding-left:       10px;
     border-left:        0;
     border-top:         0;
@@ -93,9 +65,19 @@
 }
 
 
+#container textarea {
+	width:              var(--input-width);
+    height:             200px;
+    margin:             5px;
+    padding-left:       10px;
+    border:				1px solid var(--border-color);
+}
+
+
 #message_box {
     width:              100%;
     height:             var(--message-box-height);
+    background-color:   var(--bright);
     color:              white;
     padding-left:       10px;
 }
@@ -107,7 +89,7 @@
 }
 
 
-#user_data_form {
+#product_data_form {
     width:              100%;
     height:             100%;
     display:            flex;
@@ -116,24 +98,15 @@
 }
 
 
-#user_data_form span {
+#product_data_form label {
+	margin-top:			25px;
+}
+
+/*
+#product_data_form span {
     color:              var(--error-message-color);
 }
-
-
-#personal_data_section {
-    display:            flex;
-    flex-direction:     column;
-    align-items:        center;
-    margin:             10px auto;
-}
-
-
-#login_data_section {
-    display:            flex;
-    flex-direction:     column;
-    align-items:        center;
-}
+*/
 
 
 #but_save {
@@ -162,34 +135,6 @@
     to {
         background-color:   var(--header-color);
     }
-}
-
-
-#but_delete_account {
-    display:            flex;
-    flex-direction:     row;
-    align-items:        center;
-    justify-content:    center;
-    width:              170px;
-    height:             var(--input-height);
-    background-color:   var(--bright);
-    color:              var(--header-text-color);
-    border-radius:      30px;
-    margin:             30px 30px 0 30px;
-}
-
-
-#but_delete_account:hover {
-    animation:          button_hover;
-    animation-duration: 0.3s;
-    animation-fill-mode:    forwards;
-}
-
-
-#but_delete_account img {
-    height:             var(--input-height);
-    width:              auto;
-    padding:            5px;
 }
 
 

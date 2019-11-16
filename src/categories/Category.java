@@ -84,7 +84,6 @@ public class Category {
 	}
 	
 	
-	
 	// methods /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	
@@ -272,6 +271,19 @@ public class Category {
 			res = res.deleteCharAt(res.length() - 1);
 
 		return res.toString() + "]";
+	}
+	
+	
+	
+	@Override
+	public boolean equals(Object other)
+	{
+		if (!(other instanceof Category))
+			return false;
+		
+		Category otherCat = (Category) other;
+		
+		return otherCat.getId() == getId();
 	}
 	
 	

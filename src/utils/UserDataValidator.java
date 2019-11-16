@@ -1,5 +1,9 @@
 package utils;
 
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.sun.istack.NotNull;
 
 public class UserDataValidator {
@@ -15,6 +19,26 @@ public class UserDataValidator {
     public static final int MAX_ADDR_LEN		= 200;
     public static final int MIN_PASS_LEN		= 6;
     public static final int MAX_PASS_LEN		= 50;
+    
+ // params
+    public static final String NAME_PARAM               = "name";
+    public static final String SURNAME_PARAM            = "surname";
+    public static final String PHONE_PARAM              = "phone";
+    public static final String ADDRESS_PARAM            = "address";
+    public static final String EMAIL_PARAM              = "email";
+    public static final String NEW_PASSWORD_PARAM       = "new_password";
+    public static final String CONFIRMED_PASSWORD_PARAM = "confirmed_password";
+    public static final String VALIDATION_RESULT_PARAM  = "buyer_profile_edit_result";
+
+    // messages
+    public static final String BAD_NAME_MESSAGE_EN               = "Provided name is wrong";
+    public static final String BAD_SURNAME_MESSAGE_EN            = "Provided surname is wrong";
+    public static final String BAD_PHONE_MESSAGE_EN              = "Provided phone is wrong";
+    public static final String BAD_ADDRESS_MESSAGE_EN            = "Provided address is wrong";
+    public static final String BAD_EMAIL_MESSAGE_EN              = "Provided email is wrong";
+    public static final String BAD_PASSWORD_MESSAGE_EN           = "Password must have at least " + UserDataValidator.MIN_PASS_LEN + " non white characters and can't be longer than " + UserDataValidator.MAX_PASS_LEN;
+    public static final String BAD_CONFIRMED_PASSWORD_MESSAGE_EN = "Passwords must be the same!";
+
 
 
 
@@ -56,7 +80,7 @@ public class UserDataValidator {
     public static boolean isPhoneValid(@NotNull String phone)
     {
     	phone = phone.replaceAll("\\s+", "");
-    	System.out.println(phone);
+  
         boolean isLengthValid = StringUtils.isInRange(phone, MIN_PHONE_LEN, MAX_PHONE_LEN);
 
         if (isLengthValid)
@@ -114,4 +138,236 @@ public class UserDataValidator {
     {
         return isPasswordValid(password) && password.equals(confirmedPassword);
     }
+    
+    /**
+     * class for returning result of validation
+     */
+
+    public static class InputValidationResult {
+
+        private boolean mIsValid;
+        private boolean mIsNameValid;
+        private boolean mIsSurnameValid;
+        private boolean mIsPhoneValid;
+        private boolean mIsAddressValid;
+        private boolean mIsEmailValid;
+        private boolean mIsNewPasswordValid;
+        private boolean mIsConfirmedPasswordValid;
+        private String  mNameMessage;
+        private String  mSurnameMessage;
+        private String  mPhoneMessage;
+        private String  mAddressMessage;
+        private String  mEmailMessage;
+        private String  mNewPasswordMessage;
+        private String  mConfirmedPasswordMessage;
+        
+
+
+        public InputValidationResult()
+        {
+            mIsValid = mIsNameValid = mIsSurnameValid = mIsPhoneValid = mIsAddressValid = 
+            		mIsEmailValid = mIsNewPasswordValid = mIsConfirmedPasswordValid = true;
+
+            mNameMessage = mSurnameMessage = mPhoneMessage = mAddressMessage = mEmailMessage = mNewPasswordMessage =
+                    mConfirmedPasswordMessage = "";
+        }
+
+
+
+        public void setIsNameValid(boolean isNameValid)
+        {
+            if (!isNameValid)
+            {
+                mIsValid        = false;
+                mIsNameValid    = false;
+                mNameMessage    = BAD_NAME_MESSAGE_EN;
+            }
+        }
+
+
+
+        public void setIsSurnameValid(boolean isSurnameValid)
+        {
+            if (!isSurnameValid)
+            {
+                mIsValid        = false;
+                mIsSurnameValid = false;
+                mSurnameMessage = BAD_SURNAME_MESSAGE_EN;
+            }
+        }
+
+
+
+        public void setIsPhoneValid(boolean isPhoneValid)
+        {
+            if (!isPhoneValid)
+            {
+                mIsValid        = false;
+                mIsPhoneValid   = false;
+                mPhoneMessage   = BAD_PHONE_MESSAGE_EN;
+            }
+        }
+
+
+
+        public void setIsAddressValid(boolean isAddressValid)
+        {
+            if (!isAddressValid)
+            {
+                mIsValid        = false;
+                mIsAddressValid = false;
+                mAddressMessage = BAD_ADDRESS_MESSAGE_EN;
+            }
+        }
+
+        public void setIsEmailValid(boolean isEmailValid)
+        {
+            if (!isEmailValid)
+            {
+                mIsValid        = false;
+                mIsEmailValid   = false;
+                mEmailMessage   = BAD_EMAIL_MESSAGE_EN;
+            }
+        }
+
+
+
+        public void setIsPasswordValid(boolean isNewPasswordValid)
+        {
+            if (!isNewPasswordValid)
+            {
+                mIsValid            = false;
+                mIsNewPasswordValid = false;
+                System.out.println(mIsNewPasswordValid);
+                mNewPasswordMessage = BAD_PASSWORD_MESSAGE_EN;
+            }
+        }
+
+
+
+        public void setIsConfirmedPasswordValid(boolean isConfirmedPasswordValid)
+        {
+            if (!isConfirmedPasswordValid)
+            {
+                mIsValid                    = false;
+                mIsConfirmedPasswordValid   = false;
+                mConfirmedPasswordMessage   = BAD_CONFIRMED_PASSWORD_MESSAGE_EN;
+            }
+        }
+
+
+
+        // getters & setters //////////////////////////////////////////////////////////
+
+        public boolean isValid() {
+            return mIsValid;
+        }
+
+        public boolean isNameValid() {
+            return mIsNameValid;
+        }
+
+        public boolean isSurnameValid() {
+            return mIsSurnameValid;
+        }
+
+        public boolean isPhoneValid() {
+            return mIsPhoneValid;
+        }
+
+        public boolean isAddressValid() {
+            return mIsAddressValid;
+        }
+
+        public boolean isEmailValid() {
+            return mIsEmailValid;
+        }
+
+        public boolean isNewPasswordValid() {
+            return mIsNewPasswordValid;
+        }
+
+        public boolean isConfirmedPasswordValid() {
+            return mIsConfirmedPasswordValid;
+        }
+
+        public String getNameMessage() {
+            return mNameMessage;
+        }
+
+        public String getSurnameMessage() {
+            return mSurnameMessage;
+        }
+
+        public String getPhoneMessage() {
+            return mPhoneMessage;
+        }
+
+        public String getAddressMessage() {
+            return mAddressMessage;
+        }
+
+        public String getEmailMessage() {
+            return mEmailMessage;
+        }
+
+        public String getNewPasswordMessage() {
+            return mNewPasswordMessage;
+        }
+
+        public String getConfirmedPasswordMessage() {
+            return mConfirmedPasswordMessage;
+        }
+        
+        public InputValidationResult validateUnusedEmail(String email)
+        {
+        	// TODO check with database if email is unused
+        	ArrayList<String> emails = new ArrayList<String>();
+        	emails.add("admin@shop.com");
+        	emails.add("mira@gmail.com");
+        	emails.add("jnapal@gmail.com");
+        	
+        	if (emails.contains(email)) {
+        		this.mIsValid = false;
+        		this.mIsEmailValid = false;
+        		this.mEmailMessage = "This email has already been used.";
+        	}
+        	
+        	return this;
+        }
+        
+    }
+    
+    public static InputValidationResult validateInputs(HttpServletRequest request)
+    {
+        String name                 = request.getParameter(NAME_PARAM);
+        String surname              = request.getParameter(SURNAME_PARAM);
+        String phone                = request.getParameter(PHONE_PARAM);
+        String address              = request.getParameter(ADDRESS_PARAM);
+        String email                = request.getParameter(EMAIL_PARAM);
+        String newPassword          = request.getParameter(NEW_PASSWORD_PARAM);
+        String confirmedPassword    = request.getParameter(CONFIRMED_PASSWORD_PARAM);
+
+        InputValidationResult res = new InputValidationResult();
+        
+        if (name != null)
+        	res.setIsNameValid(UserDataValidator.isNameValid(name));
+        if (surname != null)
+        	res.setIsSurnameValid(UserDataValidator.isSurnameValid(surname));
+        if (phone != null)
+        	res.setIsPhoneValid(UserDataValidator.isPhoneValid(phone));
+        if (address != null)
+        	res.setIsAddressValid(UserDataValidator.isAddressValid(address));
+        if (email != null)
+        	res.setIsEmailValid(UserDataValidator.isEmailValid(email));
+        if (newPassword != null && confirmedPassword != null & (!newPassword.isEmpty() || !confirmedPassword.isEmpty()))
+        {
+        	res.setIsPasswordValid(UserDataValidator.isPasswordValid(newPassword));
+            res.setIsConfirmedPasswordValid(UserDataValidator.isNewPasswordValid(newPassword, confirmedPassword));
+        }
+        
+        return res;
+    }
+    
+
 }
