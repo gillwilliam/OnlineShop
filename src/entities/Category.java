@@ -43,6 +43,11 @@ public class Category implements Serializable {
 	public Category() {
 	}
 
+	public Category(String name, Category parent) {
+		this.name = name;
+		this.parent = parent;
+	}
+
 	public int getCategoryId() {
 		return this.categoryId;
 	}

@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,9 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import javax.transaction.UserTransaction;
 
-import categories.CategoryTree;
 import request_handlers.AddCategoryRequestHandler;
 import request_handlers.CheckoutRequestHandler;
 import request_handlers.CreateProductRequestHandler;
@@ -56,34 +53,17 @@ public class MainFrontController extends HttpServlet {
 	// data injection is possible only in servlets and EJBs
 	@PersistenceContext(unitName = "OnlineShop")
 	EntityManager mEntityManager;
-	@Resource
-	UserTransaction mUserTransaction;
-	@Resource(lookup = "OnlineShopDS")
-	DataSource mDataSource;
+	///@Resource(lookup = "OnlineShopDataSource")
+	//DataSource mDataSource;
 
 	@Override
 	public void init() {
 		mRequestHandlers = new HashMap<String, RequestHandler>();
 		mRequestExtension = getServletContext().getInitParameter(REQUEST_EXTENSION_PARAM_NAME);
 
-		initCategoryTree();
 		addUrlPatternsAndHandlers();
 
 		getServletContext().setAttribute("entity_manager", mEntityManager);
-		getServletContext().setAttribute("user_transaction", mUserTransaction);
-
-	}
-
-	private void initCategoryTree() {
-		ServletContext context = getServletContext();
-		CategoryTree tree = (CategoryTree) context.getAttribute("category_tree_attr");
-
-		if (tree == null) {
-			tree = new CategoryTree();
-			tree.loadFromDatabase();
-
-			getServletContext().setAttribute("category_tree_attr", tree);
-		}
 	}
 
 	/**
@@ -103,7 +83,7 @@ public class MainFrontController extends HttpServlet {
 				new DisplayUserProfileRequestHandler(context, mRequestExtension));
 		mRequestHandlers.put("/displayAdminProfile" + mRequestExtension,
 				new DisplayUserProfileRequestHandler(context, mRequestExtension));
-		mRequestHandlers.put("/searchUsers" + mRequestExtension, new SearchUsersRequestHandler(context, mDataSource));
+		mRequestHandlers.put("/searchUsers" + mRequestExtension, new SearchUsersRequestHandler(context));
 		mRequestHandlers.put("/deleteBuyer" + mRequestExtension,
 				new DeleteUserRequestHandler(context, mRequestExtension));
 		mRequestHandlers.put("/deleteSeller" + mRequestExtension,
@@ -118,16 +98,17 @@ public class MainFrontController extends HttpServlet {
 		mRequestHandlers.put("/register" + mRequestExtension, new RegisterRequestHandler(context));
 		mRequestHandlers.put("/editProduct" + mRequestExtension, new EditProductRequestHandler(context));
 		mRequestHandlers.put("/createProduct" + mRequestExtension, new CreateProductRequestHandler(context));
-		mRequestHandlers.put("/createSeller" + mRequestExtension,
-				new CreateSellerRequestHandler(context, mEntityManager, mUserTransaction));
+		mRequestHandlers.put("/createSeller" + mRequestExtension, new CreateSellerRequestHandler(context));
 		mRequestHandlers.put("/searchProducts" + mRequestExtension, new SearchProductsRequestHandler(context));
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		handleRequest(request, response);
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		handleRequest(request, response);
@@ -140,7 +121,8 @@ public class MainFrontController extends HttpServlet {
 		if (handler == null) {
 			request.setAttribute("page", request.getServletPath());
 			request.getRequestDispatcher(PAGE_NOT_FOUND_PATH).forward(request, response);
-		} else
+		} else {
 			handler.handleRequest(request, response);
+		}
 	}
 }

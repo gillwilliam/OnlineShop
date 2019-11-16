@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.sun.istack.NotNull;
 
-import entities.Seller;
 import entities.User;
 
 public class UserDataValidator {
@@ -19,7 +18,7 @@ public class UserDataValidator {
 	public static final int MAX_SURNAME_LEN = 60;
 	public static final int MIN_PHONE_LEN = 5;
 	public static final int MAX_PHONE_LEN = 15;
-	public static final int MIN_ADDR_LEN = 10;
+	public static final int MIN_ADDR_LEN = 5;
 	public static final int MAX_ADDR_LEN = 200;
 	public static final int MIN_PASS_LEN = 6;
 	public static final int MAX_PASS_LEN = 50;

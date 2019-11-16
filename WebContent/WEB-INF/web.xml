@@ -33,7 +33,7 @@
   <!-- only admin -->
   <filter>
   	<filter-name>OnlyAdminFilter</filter-name>
-  	<filter-class>filters.authentication.OnlyAdminFilter</filter-class>
+  	<filter-class>filters.OnlyAdminFilter</filter-class>
   </filter>
   
   <filter-mapping>
@@ -60,7 +60,7 @@
   <!-- seller and admin -->
   <filter>
   	<filter-name>SellerAndAdminFilter</filter-name>
-  	<filter-class>filters.authentication.SellerAndAdminFilter</filter-class>
+  	<filter-class>filters.SellerAndAdminFilter</filter-class>
   </filter>
   
   <filter-mapping>
@@ -97,7 +97,7 @@
   <!-- only seller -->
   <filter>
   	<filter-name>OnlySellerFilter</filter-name>
-  	<filter-class>filters.authentication.OnlySellerFilter</filter-class>
+  	<filter-class>filters.OnlySellerFilter</filter-class>
   </filter>
   
   <filter-mapping>
@@ -109,7 +109,7 @@
   <!-- only buyer -->
   <filter>
   	<filter-name>OnlyBuyerFilter</filter-name>
-  	<filter-class>filters.authentication.OnlyBuyerFilter</filter-class>
+  	<filter-class>filters.OnlyBuyerFilter</filter-class>
   </filter>
   
   <filter-mapping>

@@ -26,7 +26,7 @@
 						<input type="submit" class="primary-btn" value="Login"/>
 						<a type="button" class="main-btn" href="${pageContext.request.contextPath}/register.jsp">Register</a>		
 					</form>
-
+					<%= request.getAttribute("errorMessage") %>
 				</div>
 			</div>
 			<!-- /row -->

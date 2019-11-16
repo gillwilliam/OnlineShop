@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,13 +13,10 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import categories.Category;
 
 @Entity
-@Table(name="products")
-@NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
+@Table(name = "products")
+@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
 public class Product {
 
 	// CONST
@@ -45,7 +41,6 @@ public class Product {
 
 	private int quantity;
 
-
 	// bi-directional many-to-many association to ProductList
 	@ManyToMany
 	@JoinTable(name = "lists_to_products", joinColumns = { @JoinColumn(name = "productId") }, inverseJoinColumns = {
@@ -58,8 +53,8 @@ public class Product {
 		category = null;
 	}
 
-	public Product(@NotNull String name, @NotNull Category category, @NotNull BigDecimal price,
-			@NotNull String description, int quantity, @NotNull String imageStoragePath) {
+	public Product(String name, Category category, BigDecimal price, String description, int quantity,
+			String imageStoragePath) {
 		if (!name.matches(NAME_REGEX))
 			throw new IllegalArgumentException("Name doesn't match required pattern");
 
