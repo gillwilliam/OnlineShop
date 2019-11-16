@@ -10,25 +10,10 @@
 		//replace with db call to all products in db
 		
         ArrayList<ProductBean> products = new ArrayList<ProductBean>();
-
-
-        Price price1 = new Price(10, 50, "EUR");
-
-        ProductBean p1 = new ProductBean(
-        		"Jordans",
-        		"Shoes",
-        		price1,
-        		"These are shoes",
-                69,
-                application.getRealPath("/") + "img/product04.jpg",
-                "/displaypagepath", 
-                "/editpagepath"
-                );
-        
-        
-        for(int i = 0; i < 10; i++) {
-        	products.add(p1);
-        }
+    
+   		if(request.getAttribute("found_products") != null) {
+   			products = (ArrayList<ProductBean>) request.getAttribute("found_products");
+   		}
        
     %>
 	<jsp:include page="Navigation.jsp"/>

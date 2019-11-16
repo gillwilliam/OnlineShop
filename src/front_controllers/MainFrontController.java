@@ -23,6 +23,7 @@ import request_handlers.authorization.SignOutRequestHandler;
 import request_handlers.product.CheckoutRequestHandler;
 import request_handlers.product.CreateProductRequestHandler;
 import request_handlers.product.EditProductRequestHandler;
+import request_handlers.product.SearchProductsRequestHandler;
 import request_handlers.categories.AddCategoryRequestHandler;
 import request_handlers.categories.DeleteCategoryRequestHandler;
 import request_handlers.categories.RenameCategoryRequestHandler;
@@ -58,7 +59,7 @@ public class MainFrontController extends HttpServlet {
     @Override
     public void init()
     {
-        mRequestHandlers 	= new HashMap<>();
+        mRequestHandlers 	= new HashMap<String, RequestHandler>();
         mRequestExtension 	= getServletContext().getInitParameter(REQUEST_EXTENSION_PARAM_NAME);
         
         initCategoryTree();
@@ -124,7 +125,8 @@ public class MainFrontController extends HttpServlet {
      			new CreateProductRequestHandler(context));						// should be post only
      	mRequestHandlers.put("/createSeller" + mRequestExtension, 
      			new CreateSellerRequestHandler(context, mEntityManager, mUserTransaction));
-     			
+     	mRequestHandlers.put("/searchProducts" + mRequestExtension,
+     			new SearchProductsRequestHandler(context));
     }
 
 
