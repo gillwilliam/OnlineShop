@@ -1,10 +1,6 @@
-// Get the modal
+// For loading modals /////////////////
 var modal = document.getElementById("composeModal");
-
-// Get the button that opens the modal
 var btn = document.getElementById("Compose");
-
-// Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal
@@ -31,12 +27,27 @@ function successMessage() {
 	modalDiv.html("Success.");
 }
 
+var content;
+var sender;
+var subject;
+var email;
 
+// Reply Button
+$("#reply-btn").click(function() {
+     $("#readModal").modal('hide');
+    $("#composeModal").modal('show');
+    
+    $('#recipientEmail').val(email);
+    $('input#subject').val("Re:"+subject)
+});
+
+// Pass Data to Modal Popup
 $('#readModal').on('show.bs.modal', function (e) {
 	
-	var content = $(e.relatedTarget).data('content');
-	var sender = $(e.relatedTarget).data('sender');
-	var subject = $(e.relatedTarget).data('subject');
+	content = $(e.relatedTarget).data('content');
+	sender = $(e.relatedTarget).data('sender');
+	subject = $(e.relatedTarget).data('subject');
+	email = $(e.relatedTarget).data('email');
 	
 	$(e.currentTarget).find('h4').html(subject);
 	$(e.currentTarget).find('textarea').first().val(sender);

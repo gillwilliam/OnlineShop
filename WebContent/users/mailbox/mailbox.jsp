@@ -58,7 +58,7 @@ pageEncoding="ISO-8859-1"%>
                                                       <div class="modal-body">
                                                           <form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/sendMessage.main" method="post">
                                                               <div class="form-group">
-                                                                  <label class="col-lg-2 control-label">To</label>
+                                                                  <label class="col-lg-2 control-label" id="sendTo">To</label>
                                                                   <div class="col-lg-10">
                                                                       <input type="text" placeholder="" name="recipientEmail" id="recipientEmail" class="form-control">
                                                                   </div>
@@ -78,9 +78,7 @@ pageEncoding="ISO-8859-1"%>
                 
                                                               <div class="form-group">
                                                                   <div class="col-lg-offset-2 col-lg-10">
-                                                                  
-                                                                  <!-- TODO: Connect Send Btn to JMS --> 
-                                                                                                                                   
+                                                                            
                                                                       <button class="main-btn" type="submit">Send</button>
                                                                   </div>
                                                               </div>
@@ -118,7 +116,8 @@ pageEncoding="ISO-8859-1"%>
                                                                   
                                                                   <!-- TODO: Complete Reply button --> 
                                                                                                                                    
-                                                                      <button class="main-btn" type="submit">Reply</button>
+                                                                      <button type="button" class="main-btn" id="reply-btn" data-toggle="modal">Reply</button>
+                                                                      <button type="button" class="primary-btn" id="delete-btn">Delete</button>
                                                                   </div>
                                                               </div>
                                                           </form>
@@ -147,11 +146,17 @@ pageEncoding="ISO-8859-1"%>
                                          </div>
                                           <table class="table table-inbox table-hover">
                                             <tbody>
+                                          <tr class="message">
+                                          	<th class="view-message dont-show">Sender</th>
+                                          	<th class="view message ">Subject</th>
+                                          	<th class="view-message inbox-small-cells"></th>
+                                          	<th class="view-message text-right" style="display:none"></th>
+                                          </tr>
                                             <%
                                             	for (MailMessage message: messages) {
                                             		
                                             %>
-                                              <tr class="message" a href="#readModal" data-toggle="modal" data-content=<%= message.getMessageContent() %> data-subject=<%= message.getSubject() %> data-sender=<%=message.getSenderName() %>>                                             
+                                              <tr class="message" a href="#readModal" data-toggle="modal" data-content=<%= message.getMessageContent() %> data-subject=<%= message.getSubject() %> data-sender=<%=message.getSenderName()%> data-email=<%=message.getSenderEmail() %>>                                             
                                                   <td class="view-message  dont-show"><%= message.getSenderName() %></td>
                                                   <td class="view-message "><%= message.getSubject() %></td>
                                                   <td class="view-message  inbox-small-cells"></td>
