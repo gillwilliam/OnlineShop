@@ -87,6 +87,11 @@
     	<param-value>user</param-value>
     </context-param>
     
+    <context-param>
+    	<param-name>message_array</param-name>
+    	<param-value>messages</param-value>
+    </context-param>
+    
     
     <!-- jsp pathes -->
     

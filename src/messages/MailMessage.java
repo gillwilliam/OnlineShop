@@ -3,21 +3,30 @@ package messages;
 import java.io.Serializable;
 
 public class MailMessage implements Serializable{
-	
-	private static final long serialVersionUID = 7611063856993365178L;
+
+	private static final long serialVersionUID = 1L;
 	private String senderEmail;
+	private String senderName;
 	private String recipientEmail;
 	private String subject;
 	private String messageContent;
 	
-	public MailMessage(String senderEmail, String recipientEmail, String subject, String messageContent) {
+	public MailMessage(String senderName, String senderEmail, String recipientEmail, String subject, String messageContent) {
 		super();
 		this.senderEmail = senderEmail;
 		this.recipientEmail = recipientEmail;
 		this.subject = subject;
 		this.messageContent = messageContent;
+		this.senderName = senderName;
 	}
 	
+	
+	public String getSenderName() {
+		return senderName;
+	}
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
 	public String getSenderEmail() {
 		return senderEmail;
 	}

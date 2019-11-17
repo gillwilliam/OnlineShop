@@ -1,12 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1"%>
+    <%@ page import="java.util.ArrayList" %>
+    <%@ page import="messages.MailMessage" %>
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="../../css/mailbox.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath }../../css/mailbox.css">
 </head>
   <jsp:include page="../../Header.jsp" />
   <body>
+  
+  <%
+  	String MessagesParamName = request.getServletContext().getInitParameter("message_array");
+  
+  	ArrayList<MailMessage> messages = new ArrayList<MailMessage>();
+  
+  	Object msgs = request.getSession().getAttribute(MessagesParamName);
+  	
+  	if (msgs != null && msgs instanceof ArrayList) {
+  		messages = (ArrayList) msgs;
+  	}
+  	
+  	if (msgs == null) {
+  		System.out.println("It's not loading!!!");
+  	}
+  	
+
+  
+  %>
     <jsp:include page="../../Navigation.jsp" />
     <!-- BREADCRUMB -->
     <div id="breadcrumb">
@@ -42,19 +63,19 @@ pageEncoding="ISO-8859-1"%>
                                                               <div class="form-group">
                                                                   <label class="col-lg-2 control-label">To</label>
                                                                   <div class="col-lg-10">
-                                                                      <input type="text" placeholder="" id="recipientEmail" class="form-control">
+                                                                      <input type="text" placeholder="" name="recipientEmail" id="recipientEmail" class="form-control">
                                                                   </div>
                                                               </div>
                                                               <div class="form-group">
                                                                   <label class="col-lg-2 control-label">Subject</label>
                                                                   <div class="col-lg-10">
-                                                                      <input type="text" placeholder="" id="subject" class="form-control">
+                                                                      <input type="text" placeholder="" name="subject" id="subject" class="form-control">
                                                                   </div>
                                                               </div>
                                                               <div class="form-group">
                                                                   <label class="col-lg-2 control-label">Message</label>
                                                                   <div class="col-lg-10">
-                                                                      <textarea rows="10" cols="30" class="form-control" id="message" name=""></textarea>
+                                                                      <textarea rows="10" cols="30" class="form-control" id="messageContent" name="messageContent"></textarea>
                                                                   </div>
                                                               </div>
                 
@@ -81,7 +102,7 @@ pageEncoding="ISO-8859-1"%>
                                                           <h4 class="modal-title">Message Title Here</h4>
                                                       </div>
                                                       <div class="modal-body">
-                                                          <form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/receiveMessage.main" method="post">
+                                                          <form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/readMessage.main" method="post">
                                                               <div class="form-group">
                                                                   <label class="col-lg-2 control-label">Sender:</label>
                                                               </div>
@@ -92,7 +113,7 @@ pageEncoding="ISO-8859-1"%>
                                                                   </div>
                                                               </div>
                                                               <div class="form-group">
-                                                                  <label class="col-lg-2 control-label">Message Content</label>
+                                                                  <label class="col-lg-2 control-label" id="message_content">Message Content</label>
                                                                   <div class="col-lg-10">
                                                                       <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
                                                                   </div>
@@ -101,7 +122,7 @@ pageEncoding="ISO-8859-1"%>
                                                               <div class="form-group">
                                                                   <div class="col-lg-offset-2 col-lg-10">
                                                                   
-                                                                  <!-- TODO: Add form to Reply button for JMS --> 
+                                                                  <!-- TODO: Complete Reply button --> 
                                                                                                                                    
                                                                       <button class="main-btn" type="submit">Reply</button>
                                                                   </div>
@@ -118,6 +139,9 @@ pageEncoding="ISO-8859-1"%>
                                   <aside class="lg-side">
                                       <div class="inbox-head">
                                           <h3 style="float: left;">Messages</h3>
+                                          <form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/readMessage.main" method="get">
+                                          	<button class="main-btn" style = "float:right;" title="Load"> Load </button>
+                                          </form>
                                           <button class="main-btn" style="float: right;" a href="#composeModal" data-toggle="modal"  title="Compose" id="Compose">
                                                 Compose
                                           </button>
@@ -129,65 +153,22 @@ pageEncoding="ISO-8859-1"%>
                                          </div>
                                           <table class="table table-inbox table-hover">
                                             <tbody>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">                                             
-                                                  <td class="view-message  dont-show">Sender Name</td>
-                                                  <td class="view-message ">Message Title</td>
+                                            	<tr class="message" a href="#readModal" data-toggle="modal">
+                                            	  <td class="view-message  dont-show"> Sender</td>
+                                                  <td class="view-message "> Subject </td>
                                                   <td class="view-message  inbox-small-cells"></td>
                                                   <td class="view-message  text-right">Time/Date?</td>
-                                              </tr>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">
-                                                  <td class="view-message dont-show">Google Webmaster </td>
-                                                  <td class="view-message">Improve the search presence of WebSite</td>
-                                                  <td class="view-message inbox-small-cells"></td>
-                                                  <td class="view-message text-right">March 15</td>
-                                              </tr>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">
-                                                  <td class="view-message dont-show">JW Player</td>
-                                                  <td class="view-message">Last Chance: Upgrade to Pro for </td>
-                                                  <td class="view-message inbox-small-cells"></td>
-                                                  <td class="view-message text-right">March 15</td>
-                                              </tr>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">
-                                                  <td class="view-message dont-show">Tim Reid, S P N</td>
-                                                  <td class="view-message">Boost Your Website Traffic</td>
-                                                  <td class="view-message inbox-small-cells"></td>
-                                                  <td class="view-message text-right">April 01</td>
-                                              </tr>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">
-                                                  <td class="view-message dont-show">Freelancer.com <span class="label label-danger pull-right">urgent</span></td>
-                                                  <td class="view-message">Stop wasting your visitors </td>
-                                                  <td class="view-message inbox-small-cells"></td>
-                                                  <td class="view-message text-right">May 23</td>
-                                              </tr>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">
-                                                  <td class="view-message dont-show">WOW Slider </td>
-                                                  <td class="view-message">New WOW Slider v7.8 - 67% off</td>
-                                                  <td class="view-message inbox-small-cells"></td>
-                                                  <td class="view-message text-right">March 14</td>
-                                              </tr>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">
-                                                  <td class="view-message dont-show">WOW Slider </td>
-                                                  <td class="view-message">New WOW Slider v7.8 - 67% off</td>
-                                                  <td class="view-message inbox-small-cells"></td>
-                                                  <td class="view-message text-right">March 14</td>
-                                              </tr>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">
-                                                  <td class="view-message dont-show">WOW Slider </td>
-                                                  <td class="view-message">New WOW Slider v7.8 - 67% off</td>
-                                                  <td class="view-message inbox-small-cells"></td>
-                                                  <td class="view-message text-right">March 14</td>
-                                              </tr>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">
-                                                  <td class="view-message dont-show">WOW Slider </td>
-                                                  <td class="view-message">New WOW Slider v7.8 - 67% off</td>
-                                                  <td class="view-message inbox-small-cells"></td>
-                                                  <td class="view-message text-right">March 14</td>
-                                              </tr>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">
-                                                  <td class="view-message dont-show">WOW Slider </td>
-                                                  <td class="view-message">New WOW Slider v7.8 - 67% off</td>
-                                                  <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                                  <td class="view-message text-right">March 14</td>                                          
+                                              </tr>   
+                                            <%
+                                            	for (MailMessage message: messages) {
+                                            %>
+                                              <tr class="message" a href="#readModal" data-toggle="modal">                                             
+                                                  <td class="view-message  dont-show"><%= message.getSenderName() %></td>
+                                                  <td class="view-message "><%= message.getSubject() %></td>
+                                                  <td class="view-message  inbox-small-cells"></td>
+                                                  <td class="view-message  text-right">Time/Date?</td>
+                                              </tr>   
+                                             <% } %>                                    
                                           </tbody>
                                           </table>
                                       </div>
@@ -308,6 +289,6 @@ pageEncoding="ISO-8859-1"%>
     <script src="../../js/nouislider.min.js"></script>
     <script src="../../js/jquery.zoom.min.js"></script>
     <script src="../../js/main.js"></script>
-    <script src="../../js/compose.js"></script>
+    <script src="../../js/modal.js"></script>
   </body>
 </html>

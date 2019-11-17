@@ -87,7 +87,7 @@ public class MainFrontController extends HttpServlet {
      	mRequestHandlers.put("/signOut" + mRequestExtension,
      			new SignOutRequestHandler(context));
      	mRequestHandlers.put("/users/mailbox/mailbox" + mRequestExtension, 
-     			new MailboxRequestHandler(context));
+     			new ReadMessageRequestHandler(context));
      	mRequestHandlers.put("/sendMessage" + mRequestExtension,
      			new SendMessageRequestHandler(context));
      	mRequestHandlers.put("/readMessage" + mRequestExtension,

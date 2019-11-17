@@ -19,14 +19,16 @@ public class MailboxRequestHandler implements RequestHandler {
 		
 		mContext = context;
 		mUserMessagesPath = context.getInitParameter("messages_path");
+		System.out.println("creating mailboxrh...");
 		
 	}
 
 	@Override
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		request.getRequestDispatcher(mUserMessagesPath).forward(request, response);
+		
+		System.out.println("routing via mailboxrh... ");
+		request.getRequestDispatcher("/readMessage").forward(request, response);
 
 	}
 
