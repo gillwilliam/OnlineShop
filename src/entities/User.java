@@ -1,15 +1,9 @@
 package entities;
 
 import java.io.Serializable;
+import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
  * The persistent class for the users database table.
@@ -23,11 +17,13 @@ public class User implements Serializable {
 
 	private String address;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String email;
 
 	private String firstName;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
 
 	private String lastName;
 
@@ -37,6 +33,10 @@ public class User implements Serializable {
 
 	private String type;
 
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders;
+
 	// bi-directional many-to-one association to ProductList
 	@OneToMany(mappedBy = "userBean")
 	private List<ProductList> productLists;
@@ -44,12 +44,24 @@ public class User implements Serializable {
 	public User() {
 	}
 
+	public User(String firstName, String surname, String phone, String email, String password, String type,
+			String address) {
+		this(firstName, surname, phone, email, password, type);
+		this.address = address;
+	}
+
 	public User(String firstName, String surname, String phone, String email, String password) {
+		this(firstName, surname, phone, email, password, "BUYER");
+	}
+
+	public User(String firstName, String surname, String phone, String email, String password, String type) {
 		this.firstName = firstName;
 		this.lastName = surname;
 		this.phone = phone;
 		this.email = email;
 		this.password = password;
+		this.type = type == null ? "BUYER" : type;
+		this.address = "";
 	}
 
 	public String getAddress() {
@@ -74,6 +86,14 @@ public class User implements Serializable {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getLastName() {
@@ -108,6 +128,28 @@ public class User implements Serializable {
 		this.type = type;
 	}
 
+	public List<Order> getOrders() {
+		return this.orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+	public Order addOrder(Order order) {
+		getOrders().add(order);
+		order.setUser(this);
+
+		return order;
+	}
+
+	public Order removeOrder(Order order) {
+		getOrders().remove(order);
+		order.setUser(null);
+
+		return order;
+	}
+
 	public List<ProductList> getProductLists() {
 		return this.productLists;
 	}
@@ -130,4 +172,15 @@ public class User implements Serializable {
 		return productList;
 	}
 
+	public boolean isBuyer() {
+		return getType() != null && getType().equals("BUYER");
+	}
+
+	public boolean isSeller() {
+		return getType() != null && getType().equals("SELLER");
+	}
+
+	public boolean isAdmin() {
+		return getType() != null && getType().equals("ADMIN");
+	}
 }

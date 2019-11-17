@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="entities.Admin"%>
-<%@ page import="entities.Seller"%>
-<%@ page import="entities.Buyer"%>
 <%@ page import="entities.User"%>
 
 <head>
@@ -85,7 +82,8 @@
 						<!-- messaging -------------------------------------------------------------------------------------- -->
 
 						<!-- categories maintenance ------------------------------------------------------------------------- -->
-						<li style="display:<%=user instanceof Admin ? "inline" : "none"%>">
+						<li
+							style="display:<%=user != null && user.isAdmin() ? "inline" : "none"%>">
 							<a id="but_categories_maintenance"
 							href="${pageContext.request.contextPath}<%= application.getInitParameter("category_maintenance_path")%>">
 								<b class="text-uppercase">Categories maintenance</b>
@@ -94,7 +92,8 @@
 						<!-- /categories maintenance ------------------------------------------------------------------------ -->
 
 						<!-- users maintenance ------------------------------------------------------------------------------ -->
-						<li style="display:<%=user instanceof Admin ? "inline" : "none"%>">
+						<li
+							style="display:<%=user != null && user.isAdmin() ? "inline" : "none"%>">
 							<a id="but_users_maintenance"
 							href="${pageContext.request.contextPath}<%= application.getInitParameter("users_maintenance_path")%>">
 								<b class="text-uppercase">Users maintenance</b>
@@ -104,7 +103,7 @@
 
 						<!-- catalog maintenance ---------------------------------------------------------------------------- -->
 						<li
-							style="display:<%=user instanceof Admin || user instanceof Seller ? "inline" : "none"%>">
+							style="display:<%=user != null && (user.isAdmin() || user.isSeller()) ? "inline" : "none"%>">
 							<a id="but_catalog_maintenance"
 							href="${pageContext.request.contextPath}<%= application.getInitParameter("catalogue_maintenance_path") %>">
 								<b class="text-uppercase">Catalog Maintenance</b>
@@ -116,11 +115,11 @@
 						<li style="display:<%=user == null ? "none" : "inline"%>"><a
 							id="but_my_account"
 							href="${pageContext.request.contextPath}<% 
-                     			if (user instanceof Buyer)
+								if (user == null || user.isBuyer())
                      				out.print(application.getInitParameter("buyer_profile_edit_path"));
-                     			else if (user instanceof Seller)
+                     			else if (user.isSeller())
                      				out.print(application.getInitParameter("seller_profile_edit_path"));
-                     			else if (user instanceof Admin)
+                     			else if (user.isAdmin())
                      				out.print(application.getInitParameter("admin_profile_edit_path"));
 						 %>">
 								<b class="text-uppercase">My Account</b>
@@ -128,7 +127,7 @@
 						<!-- /Account ------------------------------------------------------------------------------------- -->
 
 						<!-- wish list ------------------------------------------------------------------------------------ -->
-						<li style="display:<%=user instanceof Buyer ? "inline" : "none"%>">
+						<li style="display:<%=user != null && user.isBuyer() ? "inline" : "none"%>">
 							<a id="but_wish_list" href="#"> <b class="text-uppercase">Wish
 									list</b>
 						</a>
@@ -163,7 +162,7 @@
 						<!-- /Sign out button ----------------------------------------------------------------------------- -->
 
 						<!-- Cart -->
-						<li style="display:<%=user instanceof Buyer ? "inline" : "none"%>">
+						<li style="display:<%=user != null && user.isBuyer() ? "inline" : "none"%>">
 							<a
 							href="${pageContext.request.contextPath}/product/shopping_cart.jsp">
 								<b class="text-uppercase">My Cart</b>

@@ -2,7 +2,6 @@ package request_handlers;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sun.istack.NotNull;
 
 import entities.Category;
+import manager.CategoryManager;
 
 public class AddCategoryRequestHandler implements RequestHandler {
 
@@ -36,19 +36,12 @@ public class AddCategoryRequestHandler implements RequestHandler {
 		String name = obtainName(request, response);
 		if (name == null)
 			return;
-		EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
-
+		CategoryManager cm = new CategoryManager("OnlineShop");
 		String parentIdStr = request.getParameter(mParentIdParamName);
-		Category parent = parentIdStr != null ? em.find(Category.class, Integer.parseInt(parentIdStr)) : null;
+		Category parent = parentIdStr != null ? cm.findById(Integer.parseInt(parentIdStr)) : null;
 
 		Category newCategory = new Category(name, parent);
-		try {
-			em.getTransaction().begin();
-			em.persist(newCategory);
-			em.getTransaction().commit();
-		} catch (Exception e) {
-			dealWithWrongNameOrDBError(request, response, name); // name is not unique in parent
-		}
+		cm.create(newCategory);
 	}
 
 	/**

@@ -2,7 +2,6 @@ package request_handlers;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +10,8 @@ import javax.servlet.http.Part;
 
 import entities.Category;
 import entities.Product;
+import manager.CategoryManager;
+import manager.ProductManager;
 import utils.Image;
 import utils.Price;
 import utils.Result;
@@ -45,32 +46,26 @@ public class CreateProductRequestHandler implements RequestHandler {
 	@Override
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
+		CategoryManager em = new CategoryManager();
 
 		String name = request.getParameter(mNameParamName);
 		Price price = EditProductRequestHandler.obtainPrice(request.getParameter(mPriceParamName));
 		int categoryId = Integer.parseInt(request.getParameter(mCategoryIdParamName));
-		Category cat = em.find(Category.class, categoryId);
+		Category cat = em.findById(categoryId);
 		String desc = request.getParameter(mDescParamName);
 		int quantity = Integer.parseInt(request.getParameter(mQuantityParamName));
 		Part img = request.getPart(mImageParamName);
 
 		ProductValidationResult validationResult = validateProduct(name, cat, desc, quantity, img);
 		Product product = new Product(name, cat, price, desc, quantity, null);
-
+		ProductManager pm = new ProductManager();
 		if (validationResult.success) {
 			// TODO image storage
 			Result imgStoreRes = Image.storeImage(img, desc);
 			if (imgStoreRes.success) {
 				product.setImage(mImgFolderPath + imgStoreRes.message);
 				validationResult.message = "You created a new product";
-				try {
-					em.getTransaction().begin();
-					em.persist(product);
-					em.getTransaction().commit();
-				} catch (Exception e) {
-					validationResult.message = e.getMessage();
-				}
+				pm.create(product);
 			} else {
 				validationResult.message = imgStoreRes.message;
 			}
@@ -85,11 +80,6 @@ public class CreateProductRequestHandler implements RequestHandler {
 			Part img) {
 		boolean success = true;
 		StringBuilder message = new StringBuilder();
-
-		if (!Product.isNameValid(name)) {
-			success = false;
-			message.append("name is invalid<br>");
-		}
 
 		if (category == null) {
 			success = false;

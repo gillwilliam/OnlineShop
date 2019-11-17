@@ -1,34 +1,26 @@
 package entities;
 
+import java.io.Serializable;
+import javax.persistence.*;
+
+import utils.Price;
+
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
+/**
+ * The persistent class for the products database table.
+ * 
+ */
 @Entity
-@Table(name = "products")
-@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
-public class Product {
-
-	// CONST
-	// //////////////////////////////////////////////////////////////////////////////////////////////////
-	public static final int MAX_NAME_LEN = 100;
-	public static final String NAME_REGEX = "^[a-zA-Z0-9  ]{1," + MAX_NAME_LEN + "}$";
+@Table(name="products")
+@NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
+public class Product implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-	private Category category;
 
 	@Lob
 	private String description;
@@ -41,33 +33,34 @@ public class Product {
 
 	private int quantity;
 
-	// bi-directional many-to-many association to ProductList
+	//bi-directional many-to-many association to ProductList
 	@ManyToMany
-	@JoinTable(name = "lists_to_products", joinColumns = { @JoinColumn(name = "productId") }, inverseJoinColumns = {
-			@JoinColumn(name = "listId") })
+	@JoinTable(
+		name="lists_to_products"
+		, joinColumns={
+			@JoinColumn(name="productId")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="listId")
+			}
+		)
 	private List<ProductList> productLists;
 
+	//bi-directional many-to-one association to Category
+	@ManyToOne
+	@JoinColumn(name="category")
+	private Category categoryBean;
+
 	public Product() {
-		name = description = image = "";
-		price = new BigDecimal(0.0);
-		category = null;
 	}
 
-	public Product(String name, Category category, BigDecimal price, String description, int quantity,
-			String imageStoragePath) {
-		if (!name.matches(NAME_REGEX))
-			throw new IllegalArgumentException("Name doesn't match required pattern");
-
-		this.name = name;
-		this.category = category;
-		this.price = price;
-		this.description = description;
-		this.quantity = quantity;
-		this.image = imageStoragePath + name;
-	}
-
-	public static boolean isNameValid(String name) {
-		return name.matches(NAME_REGEX);
+	public Product(String name, Category cat, Price price, String desc, int quantity, String image) {
+		this.setName(name);
+		this.setCategoryBean(cat);
+		this.setDescription(desc);
+		this.setImage(image);
+		this.setPrice(price);
+		this.setQuantity(quantity);
 	}
 
 	public int getId() {
@@ -76,14 +69,6 @@ public class Product {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Category getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 
 	public String getDescription() {
@@ -133,4 +118,13 @@ public class Product {
 	public void setProductLists(List<ProductList> productLists) {
 		this.productLists = productLists;
 	}
+
+	public Category getCategoryBean() {
+		return this.categoryBean;
+	}
+
+	public void setCategoryBean(Category categoryBean) {
+		this.categoryBean = categoryBean;
+	}
+
 }

@@ -1,6 +1,6 @@
 <%@ page import="request_handlers.EditUserProfileRequestHandler"%>
 <%@ page import="utils.UserDataValidator"%>
-<%@ page import="entities.Admin"%>
+<%@ page import="entities.User"%>
 <%@ page import="utils.Result"%>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
@@ -15,7 +15,7 @@
 <body>
 
 	<!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
-	<jsp:useBean id="user" class="entities.Admin" scope="session">
+	<jsp:useBean id="user" class="entities.User" scope="session">
 		<jsp:setProperty name="user" property="*" />
 	</jsp:useBean>
 
@@ -29,7 +29,7 @@
 			useOtherUser = param != null ? param.equals("true") : false;
 		}
 
-		Admin otherAdmin = new Admin();
+		User otherAdmin = new User();
 
 		if (useOtherUser) {
 			otherAdmin.setFirstName(request.getParameter(application.getInitParameter("name")));

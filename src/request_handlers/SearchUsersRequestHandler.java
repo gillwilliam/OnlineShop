@@ -8,18 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import entities.Admin;
-import entities.Buyer;
-import entities.Seller;
 import entities.User;
 import utils.SQLUtils;
 import utils.UserType;
@@ -208,23 +202,23 @@ public class SearchUsersRequestHandler implements RequestHandler {
 
 		while (rs.next()) {
 			userType = UserType.getInstance(rs.getString(TYPE_COL));
-
-			switch (userType) {
-			case BUYER:
-				buyers.add(new Buyer(rs.getString(NAME_COL), rs.getString(SURNAME_COL), rs.getString(PHONE_COL),
-						rs.getString(ADDR_COL), rs.getString(EMAIL_COL), ""));
-				break;
-			case SELLER:
-				sellers.add(new Seller(rs.getString(NAME_COL), rs.getString(SURNAME_COL), rs.getString(PHONE_COL),
-						rs.getString(EMAIL_COL), ""));
-				break;
-			case ADMIN:
-				admins.add(new Admin(rs.getString(NAME_COL), rs.getString(SURNAME_COL), rs.getString(PHONE_COL),
-						rs.getString(EMAIL_COL), ""));
-				break;
-			default:
-				break;
-			}
+//			rs.get
+//			switch (userType) {
+//			case BUYER:
+//				buyers.add(new User(rs.getString(NAME_COL), rs.getString(SURNAME_COL), rs.getString(PHONE_COL),
+//						rs.getString(ADDR_COL), rs.getString(EMAIL_COL), ""));
+//				break;
+//			case SELLER:
+//				sellers.add(new User(rs.getString(NAME_COL), rs.getString(SURNAME_COL), rs.getString(PHONE_COL),
+//						rs.getString(EMAIL_COL), ""));
+//				break;
+//			case ADMIN:
+//				admins.add(new User(rs.getString(NAME_COL), rs.getString(SURNAME_COL), rs.getString(PHONE_COL),
+//						rs.getString(EMAIL_COL), ""));
+//				break;
+//			default:
+//				break;
+//			}
 		}
 
 		return result;

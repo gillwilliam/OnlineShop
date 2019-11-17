@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import entities.Seller;
 import entities.User;
 
 @WebFilter("/OnlySellerFilter")
@@ -43,7 +42,7 @@ public class OnlySellerFilter implements Filter {
 			HttpSession session = httpReq.getSession(true);
 			User user = (User) session.getAttribute(mUserSessionAttrParamName);
 
-			if (user != null && user instanceof Seller)
+			if (user != null && user.isSeller())
 				chain.doFilter(request, response);
 			else
 				request.getRequestDispatcher(mLoginPagePath).forward(request, response);

@@ -2,7 +2,6 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="utils.Price"%>
 <%@ page import="entities.User"%>
-<%@ page import="entities.Admin"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
@@ -82,7 +81,7 @@
 					<td><%=product.getName()%></td>
 					<td><%=product.getPrice()%></td>
 					<td><%=product.getQuantity()%></td>
-					<td><%=product.getCategory()%></td>
+					<td><%=product.getCategoryBean()%></td>
 					<td id="td_action"><a id="but_display_product"
 						class="but_action" href="<%="#"%>"> <img
 							src="${pageContext.request.contextPath}/img/display_product_icon.png"

@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+import javax.transaction.UserTransaction;
 
 import request_handlers.AddCategoryRequestHandler;
 import request_handlers.CheckoutRequestHandler;
@@ -48,22 +48,13 @@ public class MainFrontController extends HttpServlet {
 	private HashMap<String, RequestHandler> mRequestHandlers;
 	private String mRequestExtension;
 
-	// persistence - I'm creating this fields here because otherwise resources would
-	// have to be declared in web.xml,
-	// data injection is possible only in servlets and EJBs
-	@PersistenceContext(unitName = "OnlineShop")
-	EntityManager mEntityManager;
-	///@Resource(lookup = "OnlineShopDataSource")
-	//DataSource mDataSource;
-
+	
 	@Override
 	public void init() {
 		mRequestHandlers = new HashMap<String, RequestHandler>();
 		mRequestExtension = getServletContext().getInitParameter(REQUEST_EXTENSION_PARAM_NAME);
 
 		addUrlPatternsAndHandlers();
-
-		getServletContext().setAttribute("entity_manager", mEntityManager);
 	}
 
 	/**

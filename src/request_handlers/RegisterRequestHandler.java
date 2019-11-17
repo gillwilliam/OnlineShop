@@ -2,15 +2,13 @@ package request_handlers;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.UserTransaction;
 
-import entities.Buyer;
 import entities.User;
+import manager.UserManager;
 import utils.UserDataValidator;
 import utils.UserDataValidator.InputValidationResult;
 
@@ -54,16 +52,11 @@ public class RegisterRequestHandler implements RequestHandler {
 		if (result.isValid()) {
 
 			// For now, all new members are buyers
-			User user = new Buyer(name, surname, phone, address, email, confirmedPassword);
-			EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
-			UserTransaction ut = (UserTransaction) request.getServletContext().getAttribute("user_transaction");
-			try {
-				ut.begin();
-				em.persist(user);
-				ut.commit();
-			} catch (Exception e) {
-				// TODO handle database error
-			}
+			User user = new User(name, surname, phone, email, confirmedPassword, "BUYER", address);
+			UserManager m = new UserManager("OnlineShop");
+			System.out.println("Transaction begin");
+			m.create(user);
+			System.out.println("Transaction end");
 			request.getSession().setAttribute(mUserAttrName, user);
 			request.getRequestDispatcher(mHomepagePath).forward(request, response);
 

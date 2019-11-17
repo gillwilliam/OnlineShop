@@ -13,8 +13,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import entities.Admin;
-import entities.Seller;
 import entities.User;
 
 @WebFilter("/SellerAndAdminFilter")
@@ -43,7 +41,7 @@ public class SellerAndAdminFilter implements Filter {
 			HttpSession session = httpReq.getSession(true);
 			User user = (User) session.getAttribute(mUserSessionAttrParamName);
 
-			if (user != null && (user instanceof Admin || user instanceof Seller))
+			if (user != null && (user.isAdmin() || user.isSeller()))
 				chain.doFilter(request, response);
 			else
 				request.getRequestDispatcher(mLoginPagePath).forward(request, response);

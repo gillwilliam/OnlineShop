@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entities.Seller;
+import entities.User;
 import utils.Result;
 import utils.UserDataValidator;
 import utils.UserDataValidator.InputValidationResult;
@@ -61,7 +61,7 @@ public class CreateSellerRequestHandler implements RequestHandler {
 	@Override
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Seller newSeller = createSellerBeanFromRequest(request);
+		User newSeller = createSellerBeanFromRequest(request);
 		UserDataValidator.removeUnwantedWhiteCharacters(newSeller);
 
 		// data validation
@@ -104,7 +104,7 @@ public class CreateSellerRequestHandler implements RequestHandler {
 		mUsersMaintenancePath = context.getInitParameter(USERS_MAINTENANCE_PATH_PARAM);
 	}
 
-	private InputValidationResult validateInputs(Seller seller, String confirmedPassword) {
+	private InputValidationResult validateInputs(User seller, String confirmedPassword) {
 		InputValidationResult res = new InputValidationResult();
 
 		res.setIsNameValid(UserDataValidator.isNameValid(seller.getFirstName()));
@@ -132,7 +132,7 @@ public class CreateSellerRequestHandler implements RequestHandler {
 	 * @return
 	 */
 
-	private Seller createSellerBeanFromRequest(HttpServletRequest request) {
+	private User createSellerBeanFromRequest(HttpServletRequest request) {
 		String name = request.getParameter(mNameParamName);
 		String surname = request.getParameter(mSurnameParamName);
 		String phone = request.getParameter(mPhoneParamName);
@@ -145,14 +145,14 @@ public class CreateSellerRequestHandler implements RequestHandler {
 		email = email == null ? "" : email;
 		newPassword = newPassword == null ? "" : newPassword;
 
-		Seller seller = new Seller();
+		User seller = new User();
 
 		seller.setFirstName(name);
 		seller.setLastName(surname);
 		seller.setPhone(phone);
 		seller.setEmail(email);
 		seller.setPassword(newPassword);
-
+		seller.setType("SELLER");
 		return seller;
 	}
 

@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="entities.User"%>
-<%@ page import="entities.Buyer"%>
-<%@ page import="entities.Seller"%>
-<%@ page import="entities.Admin"%>
 <%@ page import="utils.UserType"%>
 <%@ page import="utils.Result"%>
 <%@ page import="java.util.HashMap"%>
@@ -24,9 +21,9 @@
 <body>
 
 	<%
-		ArrayList<Buyer> buyers = null;
-		ArrayList<Seller> sellers = null;
-		ArrayList<Admin> admins = null;
+		ArrayList<User> buyers = null;
+		ArrayList<User> sellers = null;
+		ArrayList<User> admins = null;
 
 		int currMaxAmountOfDisplayedUsers = 0;
 
@@ -39,11 +36,11 @@
 		}
 
 		if (buyers == null)
-			buyers = new ArrayList<Buyer>();
+			buyers = new ArrayList<>();
 		if (sellers == null)
-			sellers = new ArrayList<Seller>();
+			sellers = new ArrayList<>();
 		if (admins == null)
-			admins = new ArrayList<Admin>();
+			admins = new ArrayList<>();
 
 		currMaxAmountOfDisplayedUsers = Math.max(buyers.size(), Math.max(sellers.size(), admins.size()));
 
@@ -97,8 +94,8 @@
 						name="<%=application.getInitParameter("name")%>"
 						placeholder="name" /> <input id="input_user_surname" type="text"
 						name="<%=application.getInitParameter("surname")%>"
-						placeholder="surname" /> <input id="input_user_email" type="email"
-						name="<%=application.getInitParameter("email")%>"
+						placeholder="surname" /> <input id="input_user_email"
+						type="email" name="<%=application.getInitParameter("email")%>"
 						placeholder="email" />
 				</div>
 
@@ -132,7 +129,7 @@
 					<th>Action</th>
 				</tr>
 				<%
-					for (Buyer buyer : buyers) {
+					for (User buyer : buyers) {
 				%>
 				<tr>
 					<td><%=buyer.getFirstName()%></td>
@@ -223,7 +220,7 @@
 					<th>Action</th>
 				</tr>
 				<%
-					for (Seller seller : sellers) {
+					for (User seller : sellers) {
 				%>
 				<tr>
 					<td><%=seller.getFirstName()%></td>
@@ -309,7 +306,7 @@
 					<th>Action</th>
 				</tr>
 				<%
-					for (Admin admin : admins) {
+					for (User admin : admins) {
 				%>
 				<tr>
 					<td><%=admin.getFirstName()%></td>
@@ -327,8 +324,7 @@
 								style="display: none" /> <input type="text"
 								name="<%=application.getInitParameter("name")%>"
 								value="<%=admin.getFirstName()%>" style="display: none" /> <input
-								type="text"
-								name="<%=application.getInitParameter("surname")%>"
+								type="text" name="<%=application.getInitParameter("surname")%>"
 								value="<%=admin.getLastName()%>" style="display: none" /> <input
 								type="text" name="<%=application.getInitParameter("phone")%>"
 								value="<%=admin.getPhone()%>" style="display: none" /> <input

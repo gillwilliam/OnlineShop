@@ -2,7 +2,6 @@ package request_handlers;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +10,8 @@ import javax.servlet.http.Part;
 
 import entities.Category;
 import entities.Product;
+import manager.CategoryManager;
+import manager.ProductManager;
 import utils.Price;
 import utils.Result;
 
@@ -64,21 +65,20 @@ public class EditProductRequestHandler implements RequestHandler {
 		// to jsp
 
 		int id = Integer.parseInt(request.getParameter(mIdParamName));
-		EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
-
-		Product p = em.find(Product.class, id);
+		CategoryManager cm = new CategoryManager();
+		ProductManager pm = new ProductManager();
+		Product p = pm.findById(id);
 		if (p != null && (passOnlyStr == null || !Boolean.parseBoolean(passOnlyStr))) {
 			String name = request.getParameter(mNameParamName);
 			Price price = obtainPrice(request.getParameter(mPriceParamName));
 			int categoryId = Integer.parseInt(request.getParameter(mCategoryIdParamName));
-			Category c = em.find(Category.class, categoryId);
+			Category c = cm.findById(categoryId);
 			String desc = request.getParameter(mDescParamName);
 			int quantity = Integer.parseInt(request.getParameter(mQuantityParamName));
 			Part img = request.getPart(mImageParamName);
 
-			em.getTransaction().begin();
-			editProduct(p, name, c, price, desc, quantity, img.toString());
-			em.getTransaction().commit();
+			pm.edit(p, name, c, price, desc, quantity, img.toString());
+
 
 			request.setAttribute(mResultAttr, new Result(true, "good"));
 		}
@@ -103,31 +103,5 @@ public class EditProductRequestHandler implements RequestHandler {
 		return new Price(mainPart, fracPart, "EUR");
 	}
 
-	private void editProduct(Product product, String name, Category category, Price price, String desc, int quantity,
-			String imgName) {
-
-		if (product.getName() != name) {
-			product.setName(name);
-		}
-
-		if (!product.getCategory().equals(category)) {
-			product.setCategory(category);
-		}
-
-		if (!product.getPrice().equals(price)) {
-			product.setPrice(price);
-		}
-
-		if (!product.getDescription().equals(desc)) {
-			product.setDescription(desc);
-		}
-
-		if (product.getQuantity() != quantity) {
-			product.setQuantity(quantity);
-		}
-
-		if (imgName != null) {
-			product.setImage(mImgFolderPath + imgName);
-		}
-	}
+	
 }

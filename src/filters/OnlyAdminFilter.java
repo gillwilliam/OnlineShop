@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import entities.Admin;
 import entities.User;
 
 @WebFilter("/OnlyAdminFilter")
@@ -43,7 +42,7 @@ public class OnlyAdminFilter implements Filter {
 			HttpSession session = httpReq.getSession(true);
 			User user = (User) session.getAttribute(mUserSessionAttrParamName);
 
-			if (user != null && user instanceof Admin)
+			if (user != null && user.isAdmin())
 				chain.doFilter(request, response);
 			else
 				request.getRequestDispatcher(mLoginPagePath).forward(request, response);

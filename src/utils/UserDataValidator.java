@@ -25,7 +25,7 @@ public class UserDataValidator {
 
 	// params
 	public static final String NAME_PARAM = "name";
-	public static final String SURNAME_PARAM = "surname";
+	public static final String SURNAME_PARAM = "sur";
 	public static final String PHONE_PARAM = "phone";
 	public static final String ADDRESS_PARAM = "address";
 	public static final String EMAIL_PARAM = "email";

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="categories.CategoryTree" %>
-<%@ page import="categories.Category" %>
+<%@ page import="entities.Category" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="javax.servlet.jsp.JspWriter" %>
 <%@ page import="java.io.IOException" %>

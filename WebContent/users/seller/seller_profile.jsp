@@ -1,5 +1,5 @@
 <%@ page import="request_handlers.EditUserProfileRequestHandler"%>
-<%@ page import="entities.Seller"%>
+<%@ page import="entities.User"%>
 <%@ page import="utils.UserDataValidator"%>
 <%@ page import="utils.Result"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
@@ -23,8 +23,8 @@
 			useOtherUser = param != null ? param.equals("true") : false;
 		}
 
-		Seller otherSeller = new Seller();
-		Seller user = new Seller();
+		User otherSeller = new User();
+		User user = new User();
 
 		if (useOtherUser) {
 			otherSeller.setFirstName(request.getParameter(application.getInitParameter("name")));
@@ -32,7 +32,7 @@
 			otherSeller.setPhone(request.getParameter(application.getInitParameter("phone")));
 			otherSeller.setEmail(request.getParameter(application.getInitParameter("email")));
 		} else
-			user = (Seller) session.getAttribute("user");
+			user = (User) session.getAttribute("user");
 
 		// after data edit /////////////////////////////////////////////////////////////////////////////
 		// if user has changed data, then he is redirected to this page again and in case some errors

@@ -2,13 +2,13 @@ package request_handlers;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.User;
+import manager.UserManager;
 import utils.Result;
 import utils.UserDataValidator;
 import utils.UserDataValidator.InputValidationResult;
@@ -83,14 +83,15 @@ public class EditUserProfileRequestHandler implements RequestHandler {
 
 		// update in database
 		String email = request.getParameter(mEmailParamName);
-		EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
+		UserManager um = new UserManager();
 
-		User user = em.find(User.class, email);
+		User user = um.findById(email);
 		if (validationResult.isValid()) {
 
-			em.getTransaction().begin();
-			changeUserEntityData(user, request);
-			em.getTransaction().commit();
+			um.edit(user,request.getParameter(mNameParamName), 
+					request.getParameter(mSurnameParamName),
+					request.getParameter(mPhoneParamName),request.getParameter(mAddrParamName),
+					request.getParameter(mEmailParamName), request.getParameter(mNewPassParamName));
 		}
 		request.setAttribute(mUpdateResultParamName, new Result(true, "success"));
 		request.getSession().setAttribute(mUserAttr, user);
@@ -125,23 +126,6 @@ public class EditUserProfileRequestHandler implements RequestHandler {
 		mSellerProfilePath = context.getInitParameter(SELLER_PROFILE_PATH_PARAM);
 		mAdminProfilePath = context.getInitParameter(ADMIN_PROFILE_PATH_PARAM);
 		mUserAttr = context.getInitParameter(USER_ATTR_PARAM);
-	}
-
-	private void changeUserEntityData(User user, HttpServletRequest request) {
-		String name = request.getParameter(mNameParamName);
-		String surname = request.getParameter(mSurnameParamName);
-		String phone = request.getParameter(mPhoneParamName);
-		String address = request.getParameter(mAddrParamName);
-		String email = request.getParameter(mEmailParamName);
-		String newPassword = request.getParameter(mNewPassParamName);
-
-		user.setFirstName(name);
-		user.setLastName(surname);
-		user.setPhone(phone);
-		user.setAddress(address);
-		user.setEmail(email);
-		if (newPassword != null && !newPassword.isEmpty())
-			user.setPassword(newPassword);
 	}
 
 }

@@ -2,7 +2,6 @@ package request_handlers;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entities.User;
+import manager.UserManager;
 import utils.UserDataValidator.InputValidationResult;
 
 public class DeleteUserRequestHandler implements RequestHandler {
@@ -62,18 +62,11 @@ public class DeleteUserRequestHandler implements RequestHandler {
 		String email = request.getParameter(mParamEmailName);
 
 		if (requester != null && email != null) {
-			EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
-			User user = em.find(User.class, email);
+			UserManager um = new UserManager();
+			User user = um.findById(email);
 			String message = "success";
 			boolean deleteSuccess = true;
-			try {
-				em.getTransaction().begin();
-				em.remove(user);
-				em.getTransaction().commit();
-			} catch (Exception e) {
-				message = e.getMessage();
-				deleteSuccess = false;
-			}
+			um.delete(user);
 
 			if (requester.contentEquals(ADMIN_REQUESTER))
 				processAdminRequester(deleteSuccess, message, request, response);

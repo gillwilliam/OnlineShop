@@ -2,13 +2,13 @@ package request_handlers;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.User;
+import manager.UserManager;
 
 public class SignInRequestHandler implements RequestHandler {
 
@@ -33,12 +33,8 @@ public class SignInRequestHandler implements RequestHandler {
 		String email = request.getParameter(mEmailParamName);
 		String password = request.getParameter(mPasswordParamName);
 
-		EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
-		User user = em.find(User.class, email);
-		System.out.println(email);
-		System.out.println(user);
-		System.out.println(user.getPassword());
-		System.out.println(password);
+		UserManager um = new UserManager();
+		User user = um.findById(email);
 		if (user == null || !user.getPassword().equals(password)) {
 			request.setAttribute("errorMessage", "Incorrect credentials. Please try again.");
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
