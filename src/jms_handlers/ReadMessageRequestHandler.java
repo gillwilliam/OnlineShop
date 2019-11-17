@@ -101,7 +101,7 @@ public class ReadMessageRequestHandler implements RequestHandler {
 			
 			// Latest email at the top
 			Collections.reverse(messageArray);
-			messageArray = (ArrayList<MailMessage>) messageArray.subList(0, 9);
+			messageArray = new ArrayList<MailMessage>(messageArray.subList(0, 9));
 			
 			// con.stop();	This line is giving me error for some reason
 			browser.close();

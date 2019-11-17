@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
     <%@ page import="java.util.ArrayList" %>
     <%@ page import="messages.MailMessage" %>
 <!DOCTYPE html>
@@ -19,10 +20,6 @@ pageEncoding="ISO-8859-1"%>
   	
   	if (msgs != null && msgs instanceof ArrayList) {
   		messages = (ArrayList) msgs;
-  	}
-  	
-  	if (msgs == null) {
-  		System.out.println("It's not loading!!!");
   	}
   	
 
@@ -105,17 +102,14 @@ pageEncoding="ISO-8859-1"%>
                                                           <form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/readMessage.main" method="post">
                                                               <div class="form-group">
                                                                   <label class="col-lg-2 control-label">Sender:</label>
+                                                                  <div class="col-lg-10">
+                                                                  	<textarea readonly class="form-control" rows="1" cols="30" id="sender" name="sender"></textarea>
+                                                                  </div>                                
                                                               </div>
                                                               <div class="form-group">
-                                                                  <label class="col-lg-2 control-label">Time:</label>
+                                                                  <label class="col-lg-2 control-label">Message Content:</label>
                                                                   <div class="col-lg-10">
-                                                                      <input type="text" placeholder="" id="cc" class="form-control">
-                                                                  </div>
-                                                              </div>
-                                                              <div class="form-group">
-                                                                  <label class="col-lg-2 control-label" id="message_content">Message Content</label>
-                                                                  <div class="col-lg-10">
-                                                                      <textarea rows="10" cols="30" class="form-control" id="" name=""></textarea>
+                                                                      <textarea readonly rows="10" cols="30" class="form-control" id="message_content" name="message_content"></textarea>
                                                                   </div>
                                                               </div>
                 
@@ -153,22 +147,17 @@ pageEncoding="ISO-8859-1"%>
                                          </div>
                                           <table class="table table-inbox table-hover">
                                             <tbody>
-                                            	<tr class="message" a href="#readModal" data-toggle="modal">
-                                            	  <td class="view-message  dont-show"> Sender</td>
-                                                  <td class="view-message "> Subject </td>
-                                                  <td class="view-message  inbox-small-cells"></td>
-                                                  <td class="view-message  text-right">Time/Date?</td>
-                                              </tr>   
                                             <%
                                             	for (MailMessage message: messages) {
+                                            		
                                             %>
-                                              <tr class="message" a href="#readModal" data-toggle="modal">                                             
+                                              <tr class="message" a href="#readModal" data-toggle="modal" data-content=<%= message.getMessageContent() %> data-subject=<%= message.getSubject() %> data-sender=<%=message.getSenderName() %>>                                             
                                                   <td class="view-message  dont-show"><%= message.getSenderName() %></td>
                                                   <td class="view-message "><%= message.getSubject() %></td>
                                                   <td class="view-message  inbox-small-cells"></td>
-                                                  <td class="view-message  text-right">Time/Date?</td>
+                                                  <td class="view-message  text-right" id= "message-index" style="display:none"><%= messages.indexOf(message) %></td>
                                               </tr>   
-                                             <% } %>                                    
+                                             <% } %>                                   
                                           </tbody>
                                           </table>
                                       </div>

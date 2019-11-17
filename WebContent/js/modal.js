@@ -24,15 +24,24 @@ window.onclick = function(event) {
   }
 }
 
-$('.btn').click(function() {
-    $('#id_div_to_modify').html('your content');
-});
-
 
 // Trying to create a success feedback message
 function successMessage() {
 	var modalDiv = document.getElementById("modal-body");
 	modalDiv.html("Success.");
 }
+
+
+$('#readModal').on('show.bs.modal', function (e) {
+	
+	var content = $(e.relatedTarget).data('content');
+	var sender = $(e.relatedTarget).data('sender');
+	var subject = $(e.relatedTarget).data('subject');
+	
+	$(e.currentTarget).find('h4').html(subject);
+	$(e.currentTarget).find('textarea').first().val(sender);
+    $(e.currentTarget).find('textarea').last().val(content);
+})
+
 
 
