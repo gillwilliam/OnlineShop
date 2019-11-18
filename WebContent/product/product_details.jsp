@@ -7,15 +7,7 @@
 <body>
 
 	<%
-		ArrayList<Product> products = new ArrayList<Product>();
-
-		Price price1 = new Price(10, 50, "EUR");
-		Price price2 = new Price(30, 12, "EUR");
-		Price price3 = new Price(11, 34, "EUR");
-		Price price4 = new Price(130, 0, "EUR");
-
-		Product product = new Product("Mokasyny", null, price4, "description lorem ipsum et ...", 69,
-				application.getRealPath("/") + "img/product04.jpg");
+		Product product = new Product("Mokasyny", null, null, "description lorem ipsum et ...", 69, null);
 	%>
 
 	<!-- /HEADER -->
@@ -33,7 +25,8 @@
 			</div>
 			<div class="row">
 				<div class="col-md-6 text-center">
-					<img id="product_image" src="<%=product.getImage()%>"
+					<img id="product_image"
+						src="${pageContext.request.contextPath}/getImage.main?id=<%=product.getImage().getId()%>"
 						alt="product photo" />
 				</div>
 				<div class="col-md-6">

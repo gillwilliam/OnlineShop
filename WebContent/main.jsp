@@ -30,7 +30,7 @@
 					<h3><%=product.getName()%></h3>
 				</div>
 				<div class="row">
-					<img id="product_image" src="<%=product.getImage()%>"
+					<img id="product_image" src="${pageContext.request.contextPath}/getImage.main?id=<%=product.getImage().getId()%>"
 						alt="product photo" />
 				</div>
 				<div class="row">

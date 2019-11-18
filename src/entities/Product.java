@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -12,18 +13,19 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import utils.Price;
-
 
 /**
  * The persistent class for the products database table.
  * 
  */
 @Entity
-@Table(name="products")
-@NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
+@Table(name = "products")
+@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -33,7 +35,9 @@ public class Product implements Serializable {
 	@Lob
 	private String description;
 
-	private String image;
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn(name = "id")
+	private Image image;
 
 	private String name;
 
@@ -41,28 +45,21 @@ public class Product implements Serializable {
 
 	private int quantity;
 
-	//bi-directional many-to-many association to ProductList
+	// bi-directional many-to-many association to ProductList
 	@ManyToMany
-	@JoinTable(
-		name="lists_to_products"
-		, joinColumns={
-			@JoinColumn(name="productId")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="listId")
-			}
-		)
+	@JoinTable(name = "lists_to_products", joinColumns = { @JoinColumn(name = "productId") }, inverseJoinColumns = {
+			@JoinColumn(name = "listId") })
 	private List<ProductList> productLists;
 
-	//bi-directional many-to-one association to Category
+	// bi-directional many-to-one association to Category
 	@ManyToOne
-	@JoinColumn(name="category")
+	@JoinColumn(name = "category")
 	private Category categoryBean;
 
 	public Product() {
 	}
 
-	public Product(String name, Category cat, Price price, String desc, int quantity, String image) {
+	public Product(String name, Category cat, Price price, String desc, int quantity, Image image) {
 		this.setName(name);
 		this.setCategory(cat);
 		this.setDescription(desc);
@@ -87,11 +84,11 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
-	public String getImage() {
+	public Image getImage() {
 		return this.image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(Image image) {
 		this.image = image;
 	}
 

@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import entities.Category;
 import entities.Product;
 import entities.User;
+import entities.Image;
 import utils.Price;
 
 public class ProductManager {
@@ -28,11 +29,12 @@ public class ProductManager {
 		emf = Persistence.createEntityManagerFactory("OnlineShop");
 	}
 
-	public void create(Product user) {
+	public void create(Product product) {
 		EntityManager em = emf.createEntityManager();
 		try {
 			em.getTransaction().begin();
-			em.persist(user);
+			product.setCategory(em.merge(product.getCategory()));
+			em.persist(product);
 			em.getTransaction().commit();
 		} catch (Exception ex) {
 			try {
@@ -50,7 +52,7 @@ public class ProductManager {
 	}
 
 	public void edit(Product product, String name, Category category, Price price, String desc, int quantity,
-			String imgName) {
+			Image img) {
 
 		if (product.getName() != name) {
 			product.setName(name);
@@ -72,18 +74,17 @@ public class ProductManager {
 			product.setQuantity(quantity);
 		}
 
-		if (imgName != null) {
-			product.setImage(imgName);
+		if (img != null) {
+			product.setImage(img);
 		}
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public List<Product> findAll() {
 		List<Product> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query query = em.createNamedQuery("User.findAll", User.class);
+			Query query = em.createNamedQuery("Product.findAll", Product.class);
 			resultado = query.getResultList();
 		} finally {
 			em.close();
@@ -108,7 +109,7 @@ public class ProductManager {
 		EntityManager em = emf.createEntityManager();
 
 		Query query = em.createQuery("SELECT p " + " FROM Product p " + " WHERE p.name LIKE '%" + search + "%'");
-		return (List<Product>)query.getResultList();
+		return (List<Product>) query.getResultList();
 	}
 
 }

@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="entities.User"%>
+<%@ page import="manager.UserManager"%>
 <%@ page import="utils.UserType"%>
 <%@ page import="utils.Result"%>
 <%@ page import="java.util.HashMap"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
 <%@ page import="java.lang.Math"%>
 <%@ page import="request_handlers.CreateSellerRequestHandler"%>
 <!DOCTYPE html>
@@ -21,28 +23,12 @@
 <body>
 
 	<%
-		ArrayList<User> buyers = null;
-		ArrayList<User> sellers = null;
-		ArrayList<User> admins = null;
+		UserManager um = new UserManager();
 
-		int currMaxAmountOfDisplayedUsers = 0;
+		List<User> buyers = um.findAllType("BUYER");
+		List<User> sellers = um.findAllType("SELLER");
+		List<User> admins = um.findAllType("ADMIN");
 
-		Object usersToDisplayObj = request.getAttribute("found_users");
-		if (usersToDisplayObj != null && usersToDisplayObj instanceof HashMap) {
-			HashMap<UserType, ArrayList<User>> usersToDisplay = (HashMap) usersToDisplayObj;
-			buyers = (ArrayList) usersToDisplay.get(UserType.BUYER);
-			sellers = (ArrayList) usersToDisplay.get(UserType.SELLER);
-			admins = (ArrayList) usersToDisplay.get(UserType.ADMIN);
-		}
-
-		if (buyers == null)
-			buyers = new ArrayList<>();
-		if (sellers == null)
-			sellers = new ArrayList<>();
-		if (admins == null)
-			admins = new ArrayList<>();
-
-		currMaxAmountOfDisplayedUsers = Math.max(buyers.size(), Math.max(sellers.size(), admins.size()));
 
 		Result sellerCreationRes = (Result) request
 				.getAttribute(application.getInitParameter("user_profile_update_result"));
@@ -79,31 +65,6 @@
 		<a
 			href="${pageContext.request.contextPath}/<%= application.getInitParameter("seller_creation_path") %>"
 			id="but_create_seller">Create seller</a>
-
-		<!--  section for searching users -->
-		<section id="section_search_user">
-			<h1>Search</h1>
-			<p>Leave field empty if you want it to match any value</p>
-			<!--  search user form  -->
-			<form id="search_user_form"
-				action="${pageContext.request.contextPath}/searchUsers
-				<%= application.getInitParameter("main_front_controller_request_extension") %>"
-				method="get">
-				<div id="search_inputs_container">
-					<input id="input_user_name" type="text"
-						name="<%=application.getInitParameter("name")%>"
-						placeholder="name" /> <input id="input_user_surname" type="text"
-						name="<%=application.getInitParameter("surname")%>"
-						placeholder="surname" /> <input id="input_user_email"
-						type="email" name="<%=application.getInitParameter("email")%>"
-						placeholder="email" />
-				</div>
-
-				<input id="but_search" type="submit" value="Search" />
-			</form>
-			<!--  /search user form  -->
-		</section>
-		<!--  /section for searching users -->
 
 		<!--  displaying users list  -->
 		<section id="section_users_list">
@@ -344,25 +305,6 @@
 
 		</section>
 		<!--  /displaying users list  -->
-
-		<form
-			action="${pageContext.request.contextPath}/searchUsers<%= application.getInitParameter("main_front_controller_request_extension") %>"
-			method="post">
-			<input type="text" name="<%=application.getInitParameter("name")%>"
-				value="<%=request.getParameter(application.getInitParameter("name"))%>"
-				style="display: none" /> <input type="text"
-				name="<%=application.getInitParameter("surname")%>"
-				value="<%=request.getParameter(application.getInitParameter("surname"))%>"
-				style="display: none" /> <input type="text"
-				name="<%=application.getInitParameter("email")%>"
-				value="<%=request.getParameter(application.getInitParameter("email"))%>"
-				style="display: none" /> <input
-				name="<%=application.getInitParameter("max_num_of_results")%>"
-				value="<%=currMaxAmountOfDisplayedUsers + 200%>"
-				style="display: none;" /> <input id="but_load_more" type="submit"
-				value="Load more" />
-		</form>
-
 	</div>
 	<!--  /content  -->
 

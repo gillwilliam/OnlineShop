@@ -101,7 +101,7 @@ public class CategoryManager {
 	public List<Category> getRoots() {
 		EntityManager em = emf.createEntityManager();
 
-		Query query = em.createQuery("SELECT c " + " FROM Category c " + " WHERE p.parent IS NULL");
+		Query query = em.createQuery("SELECT c " + " FROM Category c " + " WHERE c.parent IS NULL");
 		return (List<Category>)query.getResultList();
 	}
 

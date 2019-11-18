@@ -12,7 +12,7 @@ import entities.Category;
 import entities.Product;
 import manager.CategoryManager;
 import manager.ProductManager;
-import utils.Image;
+import entities.Image;
 import utils.Price;
 import utils.Result;
 
@@ -28,7 +28,6 @@ public class CreateProductRequestHandler implements RequestHandler {
 	private String mEditPagePath;
 	private String mResultAttr;
 	private String mProductAttr;
-	private String mImgFolderPath;
 
 	public CreateProductRequestHandler(ServletContext context) {
 		mNameParamName = context.getInitParameter("name");
@@ -40,13 +39,13 @@ public class CreateProductRequestHandler implements RequestHandler {
 		mEditPagePath = context.getInitParameter("product_edition_path");
 		mResultAttr = context.getInitParameter("result");
 		mProductAttr = context.getInitParameter("product_attr");
-		mImgFolderPath = context.getInitParameter("prod_img_folder_path");
 	}
 
 	@Override
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		CategoryManager cm = new CategoryManager();
+		ProductManager pm = new ProductManager();
 
 		String name = request.getParameter(mNameParamName);
 		Price price = EditProductRequestHandler.obtainPrice(request.getParameter(mPriceParamName));
@@ -54,30 +53,25 @@ public class CreateProductRequestHandler implements RequestHandler {
 		Category cat = cm.findById(categoryId);
 		String desc = request.getParameter(mDescParamName);
 		int quantity = Integer.parseInt(request.getParameter(mQuantityParamName));
-		Part img = request.getPart(mImageParamName);
+		Part filePart = request.getPart(mImageParamName);
 
-		ProductValidationResult validationResult = validateProduct(name, cat, desc, quantity, img);
+		ProductValidationResult validationResult = validateProduct(name, cat, desc, quantity);
 		Product product = new Product(name, cat, price, desc, quantity, null);
-		ProductManager pm = new ProductManager();
-		if (validationResult.success) {
-			// TODO image storage
-			Result imgStoreRes = Image.storeImage(img, desc);
-			if (imgStoreRes.success) {
-				product.setImage(mImgFolderPath + imgStoreRes.message);
-				validationResult.message = "You created a new product";
-				pm.create(product);
-			} else {
-				validationResult.message = imgStoreRes.message;
-			}
-		}
+
+		byte[] data = new byte[(int) filePart.getSize()];
+		filePart.getInputStream().read(data, 0, data.length);
+		Image img = new Image();
+		img.setImage(data);
+		product.setImage(img);
+		
+		pm.create(product);
 
 		request.setAttribute(mProductAttr, product);
 		request.setAttribute(mResultAttr, validationResult);
 		request.getRequestDispatcher(mEditPagePath).forward(request, response);
 	}
 
-	private ProductValidationResult validateProduct(String name, Category category, String desc, int quantity,
-			Part img) {
+	private ProductValidationResult validateProduct(String name, Category category, String desc, int quantity) {
 		boolean success = true;
 		StringBuilder message = new StringBuilder();
 
@@ -94,12 +88,6 @@ public class CreateProductRequestHandler implements RequestHandler {
 		if (quantity < 0) {
 			success = false;
 			message.append("quantity must be greater or equal to 0");
-		}
-
-		if (img.getSize() > EditProductRequestHandler.MAX_IMG_SIZE_IN_BYTES) {
-			success = false;
-			message.append("image is too big. It cannot be bigger than "
-					+ (int) (EditProductRequestHandler.MAX_IMG_SIZE_IN_BYTES / 1000000) + "MB");
 		}
 
 		return new ProductValidationResult(success, message.toString());

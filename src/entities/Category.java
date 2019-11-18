@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,11 +35,11 @@ public class Category implements Serializable {
 	private Category parent;
 
 	// bi-directional many-to-one association to Category
-	@OneToMany(mappedBy = "parent")
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Category> categories;
 
 	// bi-directional many-to-one association to Product
-	@OneToMany(mappedBy = "categoryBean")
+	@OneToMany(mappedBy = "categoryBean", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Product> products;
 
 	public Category() {

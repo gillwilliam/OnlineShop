@@ -11,5 +11,6 @@
 		<class>entities.ProductList</class>
 		<class>entities.Category</class>
 		<class>entities.Order</class>
+		<class>entities.Image</class>
 	</persistence-unit>
 </persistence>

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import entities.Category;
+import entities.Image;
 import entities.Product;
 import manager.CategoryManager;
 import manager.ProductManager;
@@ -34,7 +35,6 @@ public class EditProductRequestHandler implements RequestHandler {
 	private String mEditPagePath;
 	private String mResultAttr;
 	private String mProductAttr;
-	private String mImgFolderPath;
 
 	public EditProductRequestHandler(ServletContext context) {
 		mIdParamName = context.getInitParameter("id");
@@ -48,7 +48,6 @@ public class EditProductRequestHandler implements RequestHandler {
 		mEditPagePath = context.getInitParameter("product_edition_path");
 		mResultAttr = context.getInitParameter("result");
 		mProductAttr = context.getInitParameter("product_attr");
-		mImgFolderPath = context.getInitParameter("prod_img_folder_path");
 	}
 
 	@Override
@@ -75,9 +74,13 @@ public class EditProductRequestHandler implements RequestHandler {
 			Category c = cm.findById(categoryId);
 			String desc = request.getParameter(mDescParamName);
 			int quantity = Integer.parseInt(request.getParameter(mQuantityParamName));
-			Part img = request.getPart(mImageParamName);
+			Part filePart = request.getPart(mImageParamName);
 
-			pm.edit(p, name, c, price, desc, quantity, img.toString());
+			byte[] data = new byte[(int) filePart.getSize()];
+			filePart.getInputStream().read(data, 0, data.length);
+			Image img = new Image();
+			img.setImage(data);
+			pm.edit(p, name, c, price, desc, quantity, img);
 
 
 			request.setAttribute(mResultAttr, new Result(true, "good"));

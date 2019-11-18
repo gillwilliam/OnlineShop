@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -63,11 +64,11 @@ public class UserManager {
 
 	@SuppressWarnings("unchecked")
 	public List<User> findAll() {
-		List<User> resultado;
+		List<User> resultado = new ArrayList<>();
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createNamedQuery("User.findAll", User.class);
-			resultado = query.getResultList();
+			resultado = (List<User>)query.getResultList();
 		} finally {
 			em.close();
 		}
@@ -75,6 +76,18 @@ public class UserManager {
 
 	}
 
+	public List<User> findAllType(String type) {
+		List<User> resultado = new ArrayList<>();
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createQuery("SELECT u " + " FROM User u " + " WHERE u.type = '" + type + "'");
+			resultado = (List<User>)query.getResultList();
+		} finally {
+			em.close();
+		}
+		return resultado;
+
+	}
 	public User findById(int id) {
 		User resultado;
 		EntityManager em = emf.createEntityManager();

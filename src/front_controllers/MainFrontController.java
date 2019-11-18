@@ -17,6 +17,7 @@ import request_handlers.CreateProductRequestHandler;
 import request_handlers.CreateSellerRequestHandler;
 import request_handlers.DeleteCategoryRequestHandler;
 import request_handlers.DeleteUserRequestHandler;
+import request_handlers.DisplayImage;
 import request_handlers.DisplayUserProfileRequestHandler;
 import request_handlers.EditProductRequestHandler;
 import request_handlers.EditUserProfileRequestHandler;
@@ -24,7 +25,6 @@ import request_handlers.RegisterRequestHandler;
 import request_handlers.RenameCategoryRequestHandler;
 import request_handlers.RequestHandler;
 import request_handlers.SearchProductsRequestHandler;
-import request_handlers.SearchUsersRequestHandler;
 import request_handlers.SignInRequestHandler;
 import request_handlers.SignOutRequestHandler;
 
@@ -44,7 +44,6 @@ public class MainFrontController extends HttpServlet {
 	private HashMap<String, RequestHandler> mRequestHandlers;
 	private String mRequestExtension;
 
-	
 	@Override
 	public void init() {
 		mRequestHandlers = new HashMap<String, RequestHandler>();
@@ -70,7 +69,6 @@ public class MainFrontController extends HttpServlet {
 				new DisplayUserProfileRequestHandler(context, mRequestExtension));
 		mRequestHandlers.put("/displayAdminProfile" + mRequestExtension,
 				new DisplayUserProfileRequestHandler(context, mRequestExtension));
-		mRequestHandlers.put("/searchUsers" + mRequestExtension, new SearchUsersRequestHandler(context));
 		mRequestHandlers.put("/deleteBuyer" + mRequestExtension,
 				new DeleteUserRequestHandler(context, mRequestExtension));
 		mRequestHandlers.put("/deleteSeller" + mRequestExtension,
@@ -87,6 +85,7 @@ public class MainFrontController extends HttpServlet {
 		mRequestHandlers.put("/createProduct" + mRequestExtension, new CreateProductRequestHandler(context));
 		mRequestHandlers.put("/createSeller" + mRequestExtension, new CreateSellerRequestHandler(context));
 		mRequestHandlers.put("/searchProducts" + mRequestExtension, new SearchProductsRequestHandler(context));
+		mRequestHandlers.put("/getImage" + mRequestExtension, new DisplayImage());
 	}
 
 	@Override
@@ -98,13 +97,14 @@ public class MainFrontController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("GET");
 		handleRequest(request, response);
 	}
 
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		RequestHandler handler = mRequestHandlers.get(request.getServletPath());
-
+		System.out.println(request.getServletPath());
 		if (handler == null) {
 			request.setAttribute("page", request.getServletPath());
 			request.getRequestDispatcher(PAGE_NOT_FOUND_PATH).forward(request, response);
