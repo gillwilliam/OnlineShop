@@ -1,139 +1,420 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
-  
-  <display-name>OnlineShop</display-name>
-  
-  <welcome-file-list>
-    <welcome-file>main.jsp</welcome-file>
-  </welcome-file-list>
-  
-  
-  <!-- servlets -->
-  
-  
-  <servlet>
-  	<servlet-name>MainFrontController</servlet-name>
-  	<servlet-class>front_controllers.MainFrontController</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-  	<servlet-name>MainFrontController</servlet-name>
-  	<url-pattern>*.main</url-pattern>
-  </servlet-mapping>
-  
-  <context-param>
-  	<param-name>main_front_controller_request_extension</param-name>
-  	<param-value>.main</param-value>
-  </context-param>      
-  
-  <!-- general context parameters to use in your jsp if you need parameters with such semantics -->
-    <context-param>
-        <param-name>name</param-name>
-        <param-value>name</param-value>
-    </context-param>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID" version="4.0">
 
-    <context-param>
-        <param-name>surname</param-name>
-        <param-value>sur</param-value>
-    </context-param>
+	<display-name>OnlineShop</display-name>
 
-    <context-param>
-        <param-name>address</param-name>
-        <param-value>add</param-value>
-    </context-param>
+	<welcome-file-list>
+		<welcome-file>main.jsp</welcome-file>
+	</welcome-file-list>
 
-    <context-param>
-        <param-name>email</param-name>
-        <param-value>email</param-value>
-    </context-param>
 
-    <context-param>
-        <param-name>phone</param-name>
-        <param-value>phone</param-value>
-    </context-param>
+	<!-- servlets -->
 
-    <context-param>
-        <param-name>password</param-name>
-        <param-value>pass</param-value>
-    </context-param>
 
-    <context-param>
-        <param-name>new_password</param-name>
-        <param-value>new_pass</param-value>
-    </context-param>
+	<servlet>
+		<servlet-name>MainFrontController</servlet-name>
+		<servlet-class>front_controllers.MainFrontController</servlet-class>
+	</servlet>
 
-    <context-param>
-        <param-name>confirmed_password</param-name>
-        <param-value>conf_pass</param-value>
-    </context-param>
+	<servlet-mapping>
+		<servlet-name>MainFrontController</servlet-name>
+		<url-pattern>*.main</url-pattern>
+	</servlet-mapping>
 
-    <context-param>
-        <param-name>buyer_profile_edit_result</param-name>
-        <param-value>edit_res</param-value>
-    </context-param>
+	<context-param>
+		<param-name>main_front_controller_request_extension</param-name>
+		<param-value>.main</param-value>
+	</context-param>
 
-    <context-param>
-        <param-name>products_list_attr</param-name>
-        <param-value>prod_list</param-value>
-    </context-param>
+
+	<!-- filters -->
+
+
+	<!-- only admin -->
+	<filter>
+		<filter-name>OnlyAdminFilter</filter-name>
+		<filter-class>filters.OnlyAdminFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>OnlyAdminFilter</filter-name>
+		<url-pattern>/users/admin/categories_maintenance.jsp</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>OnlyAdminFilter</filter-name>
+		<url-pattern>/users/admin/admin_profile.jsp</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>OnlyAdminFilter</filter-name>
+		<url-pattern>/users/admin/users_maintenance.jsp</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>OnlyAdminFilter</filter-name>
+		<url-pattern>/searchUsers.main</url-pattern>
+	</filter-mapping>
+
+
+	<!-- seller and admin -->
+	<filter>
+		<filter-name>SellerAndAdminFilter</filter-name>
+		<filter-class>filters.SellerAndAdminFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>SellerAndAdminFilter</filter-name>
+		<url-pattern>/catalogue/catalogue_maintenance.jsp</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>SellerAndAdminFilter</filter-name>
+		<url-pattern>/product/product_edition.jsp</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>SellerAndAdminFilter</filter-name>
+		<url-pattern>/addCategory.main</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>SellerAndAdminFilter</filter-name>
+		<url-pattern>/renameCategory.main</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>SellerAndAdminFilter</filter-name>
+		<url-pattern>/deleteCategory.main</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>SellerAndAdminFilter</filter-name>
+		<url-pattern>/createSeller.main</url-pattern>
+	</filter-mapping>
+
+
+	<!-- only seller -->
+	<filter>
+		<filter-name>OnlySellerFilter</filter-name>
+		<filter-class>filters.OnlySellerFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>OnlySellerFilter</filter-name>
+		<url-pattern>/users/seller/seller_profile.jsp</url-pattern>
+	</filter-mapping>
+
+
+	<!-- only buyer -->
+	<filter>
+		<filter-name>OnlyBuyerFilter</filter-name>
+		<filter-class>filters.OnlyBuyerFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>OnlyBuyerFilter</filter-name>
+		<url-pattern>/users/buyer/buyer_profile.jsp</url-pattern>
+	</filter-mapping>
+
+
+	<!-- product data filter - checks whether any data is passed, not necessarily 
+		valid -->
+	<filter>
+		<filter-name>OnlyCompleteProductDataFilter</filter-name>
+		<filter-class>filters.OnlyCompleteProductDataFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>OnlyCompleteProductDataFilter</filter-name>
+		<url-pattern>/editProduct.main</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>OnlyCompleteProductDataFilter</filter-name>
+		<url-pattern>/createProduct.main</url-pattern>
+	</filter-mapping>
+
+
+	<!-- buyer data filter - checks whether request contains all non confidential 
+		buyer data -->
+	<filter>
+		<filter-name>BuyerDataFilter</filter-name>
+		<filter-class>filters.BuyerDataFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>BuyerDataFilter</filter-name>
+		<url-pattern>/editBuyerProfile.main</url-pattern>
+	</filter-mapping>
+
+
+	<!-- seller and admin filter - checks whether request contains all non confidential 
+		admin and seller data -->
+	<filter>
+		<filter-name>SellerAndAdminDataFilter</filter-name>
+		<filter-class>filters.SellerAndAdminDataFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>SellerAndAdminDataFilter</filter-name>
+		<url-pattern>/editSellerProfile.main</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>SellerAndAdminDataFilter</filter-name>
+		<url-pattern>/editAdminProfile.main</url-pattern>
+	</filter-mapping>
+
+
+	<!-- is user email present in request filter - checks whether email was 
+		specified -->
+	<filter>
+		<filter-name>IsUserEmailPresentFilter</filter-name>
+		<filter-class>filters.IsUserEmailPresentFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>IsUserEmailPresentFilter</filter-name>
+		<url-pattern>/deleteBuyer.main</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>IsUserEmailPresentFilter</filter-name>
+		<url-pattern>/deleteSeller.main</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>IsUserEmailPresentFilter</filter-name>
+		<url-pattern>/deleteAdmin.main</url-pattern>
+	</filter-mapping>
+
+
+
+	<!-- general context parameters to use in your jsp if you need parameters 
+		with such semantics -->
+
+
+
+	<context-param>
+		<param-name>name</param-name>
+		<param-value>name</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>surname</param-name>
+		<param-value>sur</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>address</param-name>
+		<param-value>add</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>email</param-name>
+		<param-value>email</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>phone</param-name>
+		<param-value>phone</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>password</param-name>
+		<param-value>pass</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>new_password</param-name>
+		<param-value>new_pass</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>confirmed_password</param-name>
+		<param-value>conf_pass</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>id</param-name>
+		<param-value>id</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>description</param-name>
+		<param-value>desc</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>price</param-name>
+		<param-value>price</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>quantity</param-name>
+		<param-value>quantity</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>category</param-name>
+		<param-value>cat</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>image</param-name>
+		<param-value>img</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>message</param-name>
+		<param-value>message</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>result</param-name>
+		<param-value>result</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>category_tree_attr</param-name>
+		<param-value>category_tree</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>buyer_profile_edit_result</param-name>
+		<param-value>edit_res</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>register_result</param-name>
+		<param-value>register_res</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>user_profile_edit_result</param-name>
+		<param-value>edit_res</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>user_profile_update_result</param-name>
+		<param-value>update_res</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>products_list_attr</param-name>
+		<param-value>prod_list</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>max_num_of_results</param-name>
+		<param-value>max_res</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>signed_user_attribute_name</param-name>
+		<param-value>user</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>category_maintenance_result_param</param-name>
+		<param-value>error_message</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>category_maintenance_result</param-name>
+		<param-value>res</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>product_attr</param-name>
+		<param-value>product</param-value>
+	</context-param>
+	
+	<context-param>
+    		<param-name>message_array</param-name>
+    		<param-value>messages</param-value>
+    	</context-param>
     
-    <context-param>
-    	<param-name>max_num_of_results</param-name>
-    	<param-value>max_res</param-value>
-    </context-param>
-    
-    <context-param>
-    	<param-name>signed_user_attribute_name</param-name>
-    	<param-value>user</param-value>
-    </context-param>
-    
-    <context-param>
-    	<param-name>message_array</param-name>
-    	<param-value>messages</param-value>
-    </context-param>
-    
-    
-    <!-- jsp pathes -->
-    
-    
-    <context-param>
-    	<param-name>homepage_path</param-name>
-    	<param-value>/main.jsp</param-value>
-    </context-param>
-    
-    <context-param>
-    	<param-name>login_path</param-name>
-    	<param-value>/login.jsp</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>admin_profile_edit_path</param-name>
-        <param-value>/users/admin/admin_profile.jsp</param-value>
-    </context-param>
-          
-    <context-param>
-    	<param-name>users_maintenance_path</param-name>
-    	<param-value>/users/admin/users_maintenance.jsp</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>buyer_profile_edit_path</param-name>
-        <param-value>/users/buyer/buyer_profile.jsp</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>seller_profile_edit_path</param-name>
-        <param-value>/users/seller/seller_profile.jsp</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>catalogue_maintenance_path</param-name>
-        <param-value>/catalogue/catalogue_maintenance.jsp</param-value>
-    </context-param>
-    
-    <context-param>
-    	<param-name>messages_path</param-name>
-    	<param-value>/users/mailbox/mailbox.jsp</param-value>
-    </context-param>
-    
+
+	<!-- data source -->
+
+	<context-param>
+		<param-name>data_source_name</param-name>
+		<param-value>OnlineShopDS</param-value>
+	</context-param>
+
+
+
+	<!-- jsp pathes -->
+
+
+	<context-param>
+		<param-name>homepage_path</param-name>
+		<param-value>/main.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>login_path</param-name>
+		<param-value>/login.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>register_path</param-name>
+		<param-value>/register.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>admin_profile_edit_path</param-name>
+		<param-value>/users/admin/admin_profile.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>users_maintenance_path</param-name>
+		<param-value>/users/admin/users_maintenance.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>seller_creation_path</param-name>
+		<param-value>/users/admin/seller_creation.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>buyer_profile_edit_path</param-name>
+		<param-value>/users/buyer/buyer_profile.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>seller_profile_edit_path</param-name>
+		<param-value>/users/seller/seller_profile.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>catalogue_maintenance_path</param-name>
+		<param-value>/catalogue/catalogue_maintenance.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>category_maintenance_path</param-name>
+		<param-value>/users/admin/categories_maintenance.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>product_edition_path</param-name>
+		<param-value>/product/product_edition.jsp</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>product_search</param-name>
+		<param-value>/main.jsp</param-value>
+	</context-param>
+
+    	<context-param>
+    		<param-name>messages_path</param-name>
+    		<param-value>/users/mailbox/mailbox.jsp
+	</param-value>
+
 </web-app>

@@ -1,29 +1,38 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import utils.Price;
 
 /**
- * The persistent class for the Product database table.
+ * The persistent class for the products database table.
  * 
  */
 @Entity
-@NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
+@Table(name = "products")
+@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int idProduct;
-
-	private String category;
+	private int id;
 
 	@Lob
 	private String description;
 
-	private String image;
+	private byte[] image;
 
 	private String name;
 
@@ -31,23 +40,35 @@ public class Product implements Serializable {
 
 	private int quantity;
 
+	// bi-directional many-to-many association to ProductList
+	@ManyToMany
+	@JoinTable(name = "lists_to_products", joinColumns = { @JoinColumn(name = "productId") }, inverseJoinColumns = {
+			@JoinColumn(name = "listId") })
+	private List<ProductList> productLists;
+
+	// bi-directional many-to-one association to Category
+	@ManyToOne
+	@JoinColumn(name = "category")
+	private Category categoryBean;
+
 	public Product() {
 	}
 
-	public int getIdProduct() {
-		return this.idProduct;
+	public Product(String name, Category cat, Price price, String desc, int quantity, byte[] image) {
+		this.setName(name);
+		this.setCategory(cat);
+		this.setDescription(desc);
+		this.setImage(image);
+		this.setPrice(price);
+		this.setQuantity(quantity);
 	}
 
-	public void setIdProduct(int idProduct) {
-		this.idProduct = idProduct;
+	public int getId() {
+		return this.id;
 	}
 
-	public String getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getDescription() {
@@ -58,11 +79,11 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
-	public String getImage() {
+	public byte[] getImage() {
 		return this.image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 
@@ -88,6 +109,22 @@ public class Product implements Serializable {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public List<ProductList> getProductLists() {
+		return this.productLists;
+	}
+
+	public void setProductLists(List<ProductList> productLists) {
+		this.productLists = productLists;
+	}
+
+	public Category getCategory() {
+		return this.categoryBean;
+	}
+
+	public void setCategory(Category categoryBean) {
+		this.categoryBean = categoryBean;
 	}
 
 }

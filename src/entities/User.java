@@ -1,28 +1,36 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
- * The persistent class for the User database table.
+ * The persistent class for the users database table.
  * 
  */
 @Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@Table(name = "users")
+@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String email;
-
 	private String address;
 
-	@Column(name="first_name")
+	private String email;
+
 	private String firstName;
 
-	@Column(name="last_name")
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id;
+
 	private String lastName;
 
 	private String password;
@@ -31,19 +39,35 @@ public class User implements Serializable {
 
 	private String type;
 
-	//bi-directional one-to-one association to Buyer
-	@OneToOne(mappedBy="user")
-	private Buyer buyer;
+	// bi-directional many-to-one association to Order
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders;
+
+	// bi-directional many-to-one association to ProductList
+	@OneToMany(mappedBy = "userBean")
+	private List<ProductList> productLists;
 
 	public User() {
 	}
 
-	public String getEmail() {
-		return this.email;
+	public User(String firstName, String surname, String phone, String email, String password, String type,
+			String address) {
+		this(firstName, surname, phone, email, password, type);
+		this.address = address;
 	}
 
-	public void setEmail(String email) {
+	public User(String firstName, String surname, String phone, String email, String password) {
+		this(firstName, surname, phone, email, password, "BUYER");
+	}
+
+	public User(String firstName, String surname, String phone, String email, String password, String type) {
+		this.firstName = firstName;
+		this.lastName = surname;
+		this.phone = phone;
 		this.email = email;
+		this.password = password;
+		this.type = type == null ? "BUYER" : type;
+		this.address = "";
 	}
 
 	public String getAddress() {
@@ -54,12 +78,28 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getFirstName() {
 		return this.firstName;
 	}
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getLastName() {
@@ -94,12 +134,59 @@ public class User implements Serializable {
 		this.type = type;
 	}
 
-	public Buyer getBuyer() {
-		return this.buyer;
+	public List<Order> getOrders() {
+		return this.orders;
 	}
 
-	public void setBuyer(Buyer buyer) {
-		this.buyer = buyer;
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
+	public Order addOrder(Order order) {
+		getOrders().add(order);
+		order.setUser(this);
+
+		return order;
+	}
+
+	public Order removeOrder(Order order) {
+		getOrders().remove(order);
+		order.setUser(null);
+
+		return order;
+	}
+
+	public List<ProductList> getProductLists() {
+		return this.productLists;
+	}
+
+	public void setProductLists(List<ProductList> productLists) {
+		this.productLists = productLists;
+	}
+
+	public ProductList addProductList(ProductList productList) {
+		getProductLists().add(productList);
+		productList.setUserBean(this);
+
+		return productList;
+	}
+
+	public ProductList removeProductList(ProductList productList) {
+		getProductLists().remove(productList);
+		productList.setUserBean(null);
+
+		return productList;
+	}
+
+	public boolean isBuyer() {
+		return getType() != null && getType().equals("BUYER");
+	}
+
+	public boolean isSeller() {
+		return getType() != null && getType().equals("SELLER");
+	}
+
+	public boolean isAdmin() {
+		return getType() != null && getType().equals("ADMIN");
+	}
 }

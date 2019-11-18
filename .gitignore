@@ -94,3 +94,8 @@ local.properties
 
 # Testing environment specific
 derby.log
+
+#####################################
+# my files
+#####################################
+Category.png

@@ -1,21 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ page import="request_handlers.RegisterRequestHandler"%>
+<%@ page import="utils.UserDataValidator"%>
+<%@ page import="entities.User"%>
 <!DOCTYPE html>
 <html>
-	<jsp:include page="Header.jsp"/>
-<body>
-	<jsp:include page="Navigation.jsp"/>
 
-	<!-- BREADCRUMB -->
-	<div id="breadcrumb">
-		<div class="container">
-			<ul class="breadcrumb">
-				<li><a href="#">Home</a></li>
-				<li class="active">Register</li>
-			</ul>
-		</div>
-	</div>
-	<!-- /BREADCRUMB -->
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Register Account</title>
+
+</head>
+<jsp:include page="Header.jsp" />
+<body>
+
+	<!-- beans |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-->
+	<jsp:useBean id="user" class="entities.User" scope="session">
+		<jsp:setProperty name="user" property="*" />
+	</jsp:useBean>
+
+	<%
+		// After Data Edit
+		// Show Error Messages
+		UserDataValidator.InputValidationResult validationResult = (UserDataValidator.InputValidationResult) request
+				.getAttribute(application.getInitParameter("register_result"));
+
+		String nameMessage, surnameMessage, phoneMessage, addressMessage, emailMessage, passwordMessage,
+				confirmedPasswordMessage;
+
+		if (validationResult != null) {
+			nameMessage = validationResult.getNameMessage();
+			surnameMessage = validationResult.getSurnameMessage();
+			phoneMessage = validationResult.getPhoneMessage();
+			addressMessage = validationResult.getAddressMessage();
+			emailMessage = validationResult.getEmailMessage();
+			passwordMessage = validationResult.getNewPasswordMessage();
+			confirmedPasswordMessage = validationResult.getConfirmedPasswordMessage();
+		} else {
+			nameMessage = surnameMessage = phoneMessage = addressMessage = emailMessage = passwordMessage = confirmedPasswordMessage = "";
+		}
+	%>
+	<jsp:include page="Navigation.jsp" />
+
 
 	<!-- section -->
 	<div class="section">
@@ -23,118 +52,54 @@
 		<div class="container">
 			<!-- row -->
 			<div class="row">
-					<div class="col-md-6">
-							<form id="login-form">
-								<h3>Register</h3>
-								<div class="form-group">
-									<input class="input" type="text" name="first-name" placeholder="First Name">
-								</div>
-								<div class="form-group">
-									<input class="input" type="text" name="last-name" placeholder="Last Name">
-								</div>
-								<div class="form-group">
-									<input class="input" type="text" name="email" placeholder="Email">
-								</div>
-								<div class="form-group">
-									<input class="input" type="password" name="password" placeholder="Password">
-								</div>
-								<div class="form-group">
-									<input class="input" type="text" name="address" placeholder="Address">
-								</div>
-								<div class="form-group">
-									<input class="input" type="text" name="phone" placeholder="Phone Number">
-								</div>
-								<button class="primary-btn">Register</button>
-							</div>
+				<div class="col-md-6">
+					<form id="login-form"
+						action="${pageContext.request.contextPath}/register.main"
+						method="post">
+						<h3>Register Account</h3>
+						<div style="color: #FF0000;">${ registerErrorMessage }</div>
+						<div class="form-group">
+							<input class="input" type="text"
+								name="<%=application.getInitParameter("name")%>"
+								placeholder="Name"> <span style="color: red"><%=nameMessage%></span>
+						</div>
+						<div class="form-group">
+							<input class="input" type="text"
+								name="<%=application.getInitParameter("surname")%>"
+								placeholder="Surname"> <span style="color: red"><%=surnameMessage%></span>
+						</div>
+						<div class="form-group">
+							<input class="input" type="text" name="address"
+								placeholder="Address"> <span style="color: red"><%=addressMessage%></span>
+						</div>
+						<div class="form-group">
+							<input class="input" type="text" name="phone"
+								placeholder="Phone Number"> <span style="color: red"><%=phoneMessage%></span>
+						</div>
+						<div class="form-group">
+							<input class="input" type="text" name="email" placeholder="Email">
+							<span style="color: red"><%=emailMessage%></span>
+						</div>
+						<div class="form-group">
+							<input class="input" type="password" name="new_password"
+								placeholder="Password"> <span style="color: red"><%=passwordMessage%></span>
+						</div>
+						<div class="form-group">
+							<input class="input" type="password" name="confirmed_password"
+								placeholder="Repeat password"> <span style="color: red"><%=confirmedPasswordMessage%></span>
+						</div>
+						<input type="submit" class="primary-btn" value="Register" /> <a
+							href="${pageContext.request.contextPath}/login.jsp"
+							class="main-btn">Login</a>
+					</form>
+
+				</div>
 			</div>
 			<!-- /row -->
 		</div>
 		<!-- /container -->
 	</div>
 	<!-- /section -->
-
-	<!-- FOOTER -->
-	<footer id="footer" class="section section-grey">
-		<!-- container -->
-		<div class="container">
-			<!-- row -->
-			<div class="row">
-				<!-- footer widget -->
-				<div class="col-md-3 col-sm-6 col-xs-6">
-					<div class="footer">
-						<!-- footer logo -->
-						<div class="footer-logo">
-							<a class="logo" href="#">
-		            <img src="./img/logo.png" alt="">
-		          </a>
-						</div>
-						<!-- /footer logo -->
-
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-
-						<!-- footer social -->
-						<ul class="footer-social">
-							<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-							<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-							<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-							<li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-						</ul>
-						<!-- /footer social -->
-					</div>
-				</div>
-				<!-- /footer widget -->
-
-				<!-- footer widget -->
-				<div class="col-md-3 col-sm-6 col-xs-6">
-					<div class="footer">
-						<h3 class="footer-header">My Account</h3>
-						<ul class="list-links">
-							<li><a href="#">My Account</a></li>
-							<li><a href="#">My Wishlist</a></li>
-							<li><a href="#">Checkout</a></li>
-							<li><a href="#">Login</a></li>
-						</ul>
-					</div>
-				</div>
-				<!-- /footer widget -->
-
-				<div class="clearfix visible-sm visible-xs"></div>
-
-				<!-- footer widget -->
-				<div class="col-md-3 col-sm-6 col-xs-6">
-					<div class="footer">
-						<h3 class="footer-header">Customer Service</h3>
-						<ul class="list-links">
-							<li><a href="#">About Us</a></li>
-							<li><a href="#">Shiping & Return</a></li>
-							<li><a href="#">Shiping Guide</a></li>
-							<li><a href="#">FAQ</a></li>
-						</ul>
-					</div>
-				</div>
-				<!-- /footer widget -->
-
-			</div>
-			<!-- /row -->
-			<hr>
-			<!-- row -->
-			<div class="row">
-				<div class="col-md-8 col-md-offset-2 text-center">
-					<!-- footer copyright -->
-					<div class="footer-copyright">
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					</div>
-					<!-- /footer copyright -->
-				</div>
-			</div>
-			<!-- /row -->
-		</div>
-		<!-- /container -->
-	</footer>
-	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
 	<script src="js/jquery.min.js"></script>
