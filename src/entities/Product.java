@@ -56,7 +56,7 @@ public class Product implements Serializable {
 
 	public Product(String name, Category cat, Price price, String desc, int quantity, String image) {
 		this.setName(name);
-		this.setCategoryBean(cat);
+		this.setCategory(cat);
 		this.setDescription(desc);
 		this.setImage(image);
 		this.setPrice(price);
@@ -119,11 +119,11 @@ public class Product implements Serializable {
 		this.productLists = productLists;
 	}
 
-	public Category getCategoryBean() {
+	public Category getCategory() {
 		return this.categoryBean;
 	}
 
-	public void setCategoryBean(Category categoryBean) {
+	public void setCategory(Category categoryBean) {
 		this.categoryBean = categoryBean;
 	}
 

@@ -2,8 +2,9 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="entities.Product"%>
 <%@ page import="entities.Category"%>
+<%@ page import="manager.CategoryManager"%>
 <%@ page import="java.io.IOException"%>
-<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
 <%@ page import="utils.Result"%>
 <%@ page
 	import="request_handlers.CreateProductRequestHandler.ProductValidationResult"%>
@@ -25,11 +26,11 @@
 	private void createHierarchy(Category category, JspWriter out, int indentation) throws IOException {
 		// printing category
 		// div that contains category and all it's descendants
-		out.println("<div id='" + category.getId() + "' style='margin-left:" + indentation + "px;display:"
-				+ (category.isRootCategory() ? "block" : "none") + "' " + " class='category'>");
+		out.println("<div id='" + category.getCategoryId() + "' style='margin-left:" + indentation + "px;display:"
+				+ (category.isRoot() ? "block" : "none") + "' " + " class='category'>");
 
 		// category name
-		out.println("<span class='category_name' " + "onclick=\"chooseCategory('" + category.getId() + "','"
+		out.println("<span class='category_name' " + "onclick=\"chooseCategory('" + category.getCategoryId() + "','"
 				+ category.getName() + "')\"" + ">" + category.getName() + "</span>");
 
 		// icon to show descendants
@@ -40,7 +41,7 @@
 		// stop condition
 		if (!category.isLeaf()) {
 			// printing children
-			ArrayList<Category> children = category.getSubcategories();
+			List<Category> children = category.getChildren();
 
 			for (Category child : children)
 				createHierarchy(child, out, indentation);
@@ -58,23 +59,16 @@
 		if (productObj instanceof Product)
 			product = (Product) productObj;
 
-		// obtain current category tree
-		CategoryTree tree = (CategoryTree) application.getAttribute("category_tree_attr");
-		if (tree == null) {
-			tree = new CategoryTree();
-			tree.loadFromDatabase();
-			application.setAttribute("category_tree_attr", tree);
-		}
-
 		// if product was just edited obtain result
 		Result result = (Result) request.getAttribute(application.getInitParameter("result"));
+		
+		CategoryManager cm = new CategoryManager();
 	%>
 
 	<jsp:include page="../Header.jsp" />
 
 
 	<div id="container">
-
 		<!-- contains message about successful edit. Initially it's invisible -->
 		<section id="message_box"
 			class="<%=result == null ? "invisible" : ""%>"
@@ -99,7 +93,6 @@
 			<!-- name -->
 			<label for="name">Name</label> <input id="name" type="text"
 				name="<%=application.getInitParameter("name")%>"
-				pattern="<%=Product.NAME_REGEX%>"
 				value="<%=product == null ? "" : product.getName()%>" required />
 
 			<!-- description -->
@@ -123,15 +116,15 @@
 			<!-- category -->
 			<label for="category">Category</label> <input id="category_id"
 				type="hidden" name="category_id"
-				value="<%=product == null ? tree.getRootCategories().get(0).getId() : product.getCategory().getId()%>" />
+				value="<%=product == null ? cm.getRoots().get(0).getCategoryId() : product.getCategory().getCategoryId()%>" />
 			<input id="category" type="text"
-				value="<%=product == null ? tree.getRootCategories().get(0).getName() : product.getCategory().getName()%>"
+				value="<%=product == null ? cm.getRoots().get(0).getName() : product.getCategory().getName()%>"
 				disabled readonly required />
 
 			<!-- user must choose category from this tree by clicking it -->
 			<div id="category_tree">
 				<%
-					ArrayList<Category> rootCategories = tree.getRootCategories();
+					List<Category> rootCategories = cm.getRoots();
 
 					for (Category rootCategory : rootCategories) {
 						createHierarchy(rootCategory, out, 10);

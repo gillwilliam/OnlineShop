@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="entities.Category" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="manager.CategoryManager" %>
+<%@ page import="java.util.List" %>
 <%@ page import="javax.servlet.jsp.JspWriter" %>
 <%@ page import="java.io.IOException" %>
 <!DOCTYPE html>
@@ -15,15 +16,6 @@
 <body>
 
 	<%
-		// obtain current category tree
-		CategoryTree tree = (CategoryTree) application.getAttribute("category_tree_attr");
-		if (tree == null)
-		{
-			tree = new CategoryTree();
-			tree.loadFromDatabase();
-			application.setAttribute("category_tree_attr", tree);
-		}
-		
 		String message = (String) request.getAttribute(application.getInitParameter("category_maintenance_result_param"));
 		boolean success = Boolean.parseBoolean((String) request.getAttribute(application.getInitParameter("category_maintenance_result")));
 	%>
@@ -35,46 +27,34 @@
 	<%!
 		// function, that creates hierarchy of categories for specific category
 		// and shows only top category
-		private void createHierarchy(Category category, JspWriter out, int indentation) throws IOException
-		{
-			// printing category
-			// div that contains category and all it's descendants
-			out.println("<div id='" + category.getId() + 
-				"' style='margin-left:" + indentation + "px;display:" + (category.isRootCategory() ? "block" : "none") + "' " +
-				" class='category'>");
-			
-				// category name
-				out.println("<span class='category_name' " +
-					"onclick=\"editCategory('" + category.getId() + "','" + category.getName() + "')\"" + 
-				">" + category.getName() + "</span>");
-				
-				// icon to show descendants
-				out.println("<div class='icon_extend'" +
-						"onclick='showCategories(this," + category.getSubcategoriesAsJavascriptArray() + ")'"
-						+
-						" style='display:" + (
-								 category.isLeaf() ?
-								 "none"
-								 :
-								 "inline-block"
-								)
-						+ "'></div>");
-				
-				// stop condition
-				if (!category.isLeaf())
-				{
-					// printing children
-					ArrayList<Category> children = category.getSubcategories();
-					
-					for (Category child : children)
-						createHierarchy(child, out, indentation);
-				}
-				
-			// close div that contains category and all it's descendants
-			out.println("</div>");
+		private void createHierarchy(Category category, JspWriter out, int indentation) throws IOException {
+		// printing category
+		// div that contains category and all it's descendants
+		out.println("<div id='" + category.getCategoryId() + "' style='margin-left:" + indentation + "px;display:"
+				+ (category.isRoot() ? "block" : "none") + "' " + " class='category'>");
 
+		// category name
+		out.println("<span class='category_name' " + "onclick=\"chooseCategory('" + category.getCategoryId() + "','"
+				+ category.getName() + "')\"" + ">" + category.getName() + "</span>");
+
+		// icon to show descendants
+		out.println("<div class='icon_extend'" + "onclick='showCategories(this,"
+				+ category.getSubcategoriesAsJavascriptArray() + ")'" + " style='display:"
+				+ (category.isLeaf() ? "none" : "inline-block") + "'></div>");
+
+		// stop condition
+		if (!category.isLeaf()) {
+			// printing children
+			List<Category> children = category.getChildren();
+
+			for (Category child : children)
+				createHierarchy(child, out, indentation);
 		}
-	%>
+
+		// close div that contains category and all it's descendants
+		out.println("</div>");
+
+	}%>
 	
 	
 	<!-- site content ------------------------------------------------------------------------------------------------------- -->
@@ -94,7 +74,8 @@
 	    
 	    <section id="category_tree">
 	    	<%
-				ArrayList<Category> rootCategories = tree.getRootCategories();
+	    		CategoryManager cm = new CategoryManager();
+				List<Category> rootCategories = cm.getRoots();
 		
 				for (Category rootCategory : rootCategories)
 				{

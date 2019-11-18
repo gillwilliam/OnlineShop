@@ -4,34 +4,33 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
 /**
  * The persistent class for the category database table.
  * 
  */
 @Entity
-@Table(name="category")
-@NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
+@Table(name = "category")
+@NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="category_id")
+	@Column(name = "category_id")
 	private int categoryId;
 
 	private String name;
 
-	//bi-directional many-to-one association to Category
+	// bi-directional many-to-one association to Category
 	@ManyToOne
-	@JoinColumn(name="parent")
+	@JoinColumn(name = "parent")
 	private Category parent;
 
-	//bi-directional many-to-one association to Category
-	@OneToMany(mappedBy="parent")
+	// bi-directional many-to-one association to Category
+	@OneToMany(mappedBy = "parent")
 	private List<Category> categories;
 
-	//bi-directional many-to-one association to Product
-	@OneToMany(mappedBy="categoryBean")
+	// bi-directional many-to-one association to Product
+	@OneToMany(mappedBy = "categoryBean")
 	private List<Product> products;
 
 	public Category() {
@@ -42,6 +41,7 @@ public class Category implements Serializable {
 		this.parent = parent;
 		this.name = name;
 	}
+
 	public int getCategoryId() {
 		return this.categoryId;
 	}
@@ -74,14 +74,14 @@ public class Category implements Serializable {
 		this.categories = categories;
 	}
 
-	public Category addCategory(Category category) {
+	public Category addChild(Category category) {
 		getChildren().add(category);
 		category.setParent(this);
 
 		return category;
 	}
 
-	public Category removeCategory(Category category) {
+	public Category removeChild(Category category) {
 		getChildren().remove(category);
 		category.setParent(null);
 
@@ -98,16 +98,37 @@ public class Category implements Serializable {
 
 	public Product addProduct(Product product) {
 		getProducts().add(product);
-		product.setCategoryBean(this);
+		product.setCategory(this);
 
 		return product;
 	}
 
 	public Product removeProduct(Product product) {
 		getProducts().remove(product);
-		product.setCategoryBean(null);
+		product.setCategory(null);
 
 		return product;
+	}
+
+	public boolean isLeaf() {
+		return getChildren().size() == 0;
+	}
+
+	public boolean isRoot() {
+		return getParent() == null;
+	}
+
+	public String getSubcategoriesAsJavascriptArray() {
+		StringBuilder res = new StringBuilder();
+		res.append("[");
+		for (Category subcategory : getChildren()) {
+			res.append(subcategory.getCategoryId() + ",");
+		}
+
+		if (res.length() > 1)
+			res = res.deleteCharAt(res.length() - 1);
+
+		return res.toString() + "]";
 	}
 
 }

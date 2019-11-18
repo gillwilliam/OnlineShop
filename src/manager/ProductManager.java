@@ -56,8 +56,8 @@ public class ProductManager {
 			product.setName(name);
 		}
 
-		if (!product.getCategoryBean().equals(category)) {
-			product.setCategoryBean(category);
+		if (!product.getCategory().equals(category)) {
+			product.setCategory(category);
 		}
 
 		if (!product.getPrice().equals(price)) {

@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="entities.Product"%>
-<%@ page import="java.util.ArrayList"%>
+<%@ page import="manager.ProductManager"%>
+<%@ page import="java.util.List"%>
 <%@ page import="utils.Price"%><!DOCTYPE html>
 <html>
 <jsp:include page="Header.jsp" />
 <body>
 	<%
 		//replace with db call to all products in db
-
-		ArrayList<Product> products = new ArrayList<Product>();
+		ProductManager pm = new ProductManager();
+		List<Product> products;
 
 		if (request.getAttribute("found_products") != null) {
-			products = (ArrayList<Product>) request.getAttribute("found_products");
+			products = (List<Product>) request.getAttribute("found_products");
+		} else {
+			products = pm.findAll();
 		}
 	%>
 	<jsp:include page="Navigation.jsp" />

@@ -34,9 +34,6 @@
 		<!-- /container -->
 	</div>
 	<!-- /section -->
-
-	<jsp:include page="Footer.jsp"/>
-
 	<!-- jQuery Plugins -->
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
