@@ -1,169 +1,198 @@
 * {
-	box-sizing: border-box;
-	padding: 0;
-	margin: 0; -
-	-bright: #f8694a; -
-	-header-height: 50px; -
-	-header-color: #30323a; -
-	-header-bright: #3d404a; -
-	-header-text-color: #ffffff; -
-	-bright: #f8694a; -
-	-input-width: 240px; -
-	-input-height: 40px; -
-	-error-message-color: red; -
-	-message-box-height: 60px; -
-	-border-color: #DADADA; -
-	-top-navigation-buttons-margin: 8px;
+	box-sizing:			border-box;
+    padding:            0;
+    margin:             0;
+    --bright:				#f8694a;
+    --header-height:        50px;
+    --header-color:         #30323a;
+    --header-bright:        #3d404a;
+    --header-text-color:    #ffffff;
+    --bright:               #f8694a;
+    --input-width:          240px;
+    --input-height:         40px;
+    --error-message-color:  red;
+    --message-box-height:   60px;
+    --border-color:         #DADADA;
+    --top-navigation-buttons-margin:	8px;
 }
+
 
 .invisible {
-	display: none;
+	display:			none;
 }
+
 
 #header {
-	border: 0;
-	border-bottom: 1px solid var(- -border-color);
+    border:             0;
+    border-bottom:      1px solid var(--border-color);
 }
+
 
 #but_my_account {
-	color: var(- -bright);
+	color:				var(--bright);
 }
+
 
 #my_cart {
-	float: right;
-	color: var(- -header-text-color);
-	padding-left: 10px;
-	padding-right: 10px;
+    float:              right;
+    color:              var(--header-text-color);
+    padding-left:       10px;
+    padding-right:      10px;
 }
+
 
 #my_cart:hover {
-	background-color: var(- -header-bright);
+    background-color:   var(--header-bright);
 }
+
 
 #my_cart span {
-	line-height: var(- -header-height);
+    line-height:        var(--header-height);
 }
+
 
 #my_cart_caption {
-	margin-right: 5px;
+    margin-right:       5px;
 }
+
 
 /* content */
+
+
 #container {
-	display: flex;
-	flex-direction: column;
-	width: 75%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 100px;
-	padding-bottom: 30px;
-	border: 1px solid var(- -border-color);
-	border-top: 0;
+    display:            flex;
+    flex-direction:     column;
+    width:              75%;
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-bottom:      100px;
+    padding-bottom:		30px;
+    border:             1px solid var(--border-color);
+    border-top:         0;
 }
+
 
 #container h1 {
-	margin: 20px auto;
+    margin:             20px auto;
 }
 
-#container input:not ([type=submit] ) {
-	width: var(- -input-width);
-	height: var(- -input-height);
-	margin: 10px;
-	padding-left: 10px;
-	border-left: 0;
-	border-top: 0;
-	border-right: 0;
+
+#container input:not([type=submit]) {
+    width:              var(--input-width);
+    height:             var(--input-height);
+    margin:             10px;
+    padding-left:       10px;
+    border-left:        0;
+    border-top:         0;
+    border-right:       0;
 }
+
 
 #container input:focus {
-	border-bottom: 1px solid var(- -bright);
+    border-bottom:      1px solid var(--bright);
 }
+
 
 #message_box {
-	width: 100%;
-	height: var(- -message-box-height);
-	color: white;
-	padding-left: 10px;
+    width:              100%;
+    height:             var(--message-box-height);
+    color:              white;
+    padding-left:       10px;
 }
+
 
 #message_box span {
-	line-height: var(- -message-box-height);
-	font-size: medium;
+    line-height:        var(--message-box-height);
+    font-size:          medium;
 }
+
 
 #user_data_form {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+    width:              100%;
+    height:             100%;
+    display:            flex;
+    flex-direction:     column;
+    align-items:        center;
 }
+
 
 #user_data_form span {
-	color: var(- -error-message-color);
+    color:              var(--error-message-color);
 }
+
 
 #personal_data_section {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 10px auto;
+    display:            flex;
+    flex-direction:     column;
+    align-items:        center;
+    margin:             10px auto;
 }
+
 
 #login_data_section {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+    display:            flex;
+    flex-direction:     column;
+    align-items:        center;
 }
+
 
 #but_save {
-	background-color: var(- -bright);
-	border: 0;
-	width: var(- -input-width);
-	height: var(- -input-height);
-	margin-top: 40px;
-	font-weight: bolder;
-	color: var(- -header-text-color);
-	font-size: large;
+    background-color:   var(--bright);
+    border:             0;
+    width:              var(--input-width);
+    height:             var(--input-height);
+    margin-top:         40px;
+    font-weight:        bolder;
+    color:              var(--header-text-color);
+    font-size:          large;
 }
+
 
 #but_save:hover {
-	animation: button_hover;
-	animation-duration: 0.3s;
-	animation-fill-mode: forwards;
+    animation:          button_hover;
+    animation-duration: 0.3s;
+    animation-fill-mode:    forwards;
 }
 
-@
-keyframes button_hover {from { background-color:var( --bright);
-	
+
+@keyframes button_hover {
+    from {
+        background-color:   var(--bright);
+    }
+    to {
+        background-color:   var(--header-color);
+    }
 }
 
-to {
-	background-color: var(- -header-color);
-}
 
-}
 #but_delete_account {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	width: 170px;
-	height: var(- -input-height);
-	background-color: var(- -bright);
-	color: var(- -header-text-color);
-	border-radius: 30px;
-	margin: 30px 30px 0 30px;
+    display:            flex;
+    flex-direction:     row;
+    align-items:        center;
+    justify-content:    center;
+    width:              170px;
+    height:             var(--input-height);
+    background-color:   var(--bright);
+    color:              var(--header-text-color);
+    border-radius:      30px;
+    margin:             30px 30px 0 30px;
 }
+
 
 #but_delete_account:hover {
-	animation: button_hover;
-	animation-duration: 0.3s;
-	animation-fill-mode: forwards;
+    animation:          button_hover;
+    animation-duration: 0.3s;
+    animation-fill-mode:    forwards;
 }
 
+
 #but_delete_account img {
-	height: var(- -input-height);
-	width: auto;
-	padding: 5px;
+    height:             var(--input-height);
+    width:              auto;
+    padding:            5px;
 }
+
+
+
+
+

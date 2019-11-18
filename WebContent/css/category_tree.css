@@ -1,169 +1,196 @@
 @charset "ISO-8859-1";
 
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+	box-sizing:				border-box;
+	margin:					0;
+	padding:				0;
+	
 	/* variables */
-	/* colors */ -
-	-bright: #f8694a; -
-	-text-color-on-bright: white; -
-	-bright-hover: #30323a; -
-	-border-color: #DADADA;
-	/* dimensions */ -
-	-extend-icon-dim: 16px; -
-	-category-edit-dialog-width: 380px; -
-	-category-edit-dialog-height: 240px; -
-	-category-edit-dialog-close-but-dim: 15px; -
-	-category-edit-dialog-but-width: 120px; -
-	-category-edit-dialog-but-height: 30px; -
-	-category-input-text-height: var(- -category-edit-dialog-but-height);
+	/* colors */
+	--bright:               	#f8694a;
+	--text-color-on-bright:		white;	
+	--bright-hover:				#30323a;
+	--border-color:         	#DADADA;
+	/* dimensions */
+	--extend-icon-dim:						16px;
+	--category-edit-dialog-width:			380px;
+	--category-edit-dialog-height:			240px;
+	--category-edit-dialog-close-but-dim: 	15px;
+	--category-edit-dialog-but-width:		120px;
+	--category-edit-dialog-but-height:		30px;
+	--category-input-text-height:			var(--category-edit-dialog-but-height);
 }
+
+
 
 .invisible {
-	visibitlity: hidden;
+	visibitlity:			hidden;
 }
+
 
 #header {
-	border: 0;
-	border-bottom: 1px solid var(- -border-color);
+    border:             0;
+    border-bottom:      1px solid var(--border-color);
 }
+
 
 #but_categories_maintenance {
-	color: var(- -bright);
+	color:				var(--bright);
 }
+
 
 #content {
-	display: flex;
-	flex-direction: column;
-	width: 75%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 100px;
-	padding-bottom: 30px;
-	border: 1px solid var(- -border-color);
-	border-top: 0;
+    display:            flex;
+    flex-direction:     column;
+    width:              75%;
+    margin-left:        auto;
+    margin-right:       auto;
+    margin-bottom:      100px;
+    padding-bottom:		30px;
+    border:             1px solid var(--border-color);
+    border-top:         0;
 }
+
 
 #message_box {
-	width: 100%;
-	height: var(- -message-box-height);
-	background-color: var(- -bright);
-	color: white;
-	padding-left: 10px;
+    width:              100%;
+    height:             var(--message-box-height);
+    background-color:   var(--bright);
+    color:              white;
+    padding-left:       10px;
 }
+
 
 #message_box span {
-	line-height: var(- -message-box-height);
-	font-size: medium;
+    line-height:        var(--message-box-height);
+    font-size:          medium;
 }
+
 
 #add_root_category_but {
-	width: 200px;
-	height: 40px;
-	background-color: var(- -bright);
-	color: white;
-	font-weight: bold;
-	font-size: 16px;
-	text-align: center;
-	line-height: 40px;
-	margin: 10px auto;
+	width:				200px;
+	height:				40px;
+	background-color:	var(--bright);
+	color:				white;
+	font-weight:		bold;
+	font-size:			16px;
+	text-align:			center;
+	line-height:		40px;
+	margin:				10px auto;
 }
+
 
 #add_root_category_but:hover {
-	animation: button_hover;
-	animation-duration: 0.3s;
-	animation-fill-mode: forwards;
+	animation:				button_hover;
+	animation-duration:		0.3s;
+	animation-fill-mode:	forwards;
 }
 
-@
-keyframes button_hover {to { background-color:var( --bright-hover);
-	
+
+@keyframes button_hover {
+	to {
+		background-color:	var(--bright-hover);
+	}
 }
 
-}
+
 #category_tree {
-	margin: 30px;
+	margin:				30px;
 }
+
 
 .category {
-	font-size: 20px;
+	font-size:				20px;
 }
+
 
 .category_name:hover {
-	color: var(- -bright);
-	text-decoration: underline;
-	cursor: pointer;
+	color:					var(--bright);
+	text-decoration:		underline;
+	cursor:					pointer;
 }
+
 
 .icon_extend {
-	display: inline-block;
-	width: var(- -extend-icon-dim);
-	height: var(- -extend-icon-dim);
-	background-image: url("../img/icon_extend.png");
-	background-size: var(- -extend-icon-dim) var(- -extend-icon-dim);
-	cursor: pointer;
+	display:				inline-block;
+	width:					var(--extend-icon-dim);
+	height:					var(--extend-icon-dim);
+	background-image:		url("../img/icon_extend.png");
+	background-size:		var(--extend-icon-dim) var(--extend-icon-dim);
+	cursor:					pointer;
 }
+
 
 #category_edit_dialog, #root_category_creation_dialog {
-	display: none;
-	position: fixed;
-	top: calc(50% - var(- -category-edit-dialog-height)/2);
-	left: calc(50% - var(- -category-edit-dialog-width)/2);
-	width: var(- -category-edit-dialog-width);
-	height: var(- -category-edit-dialog-height);
-	box-shadow: 0 0 5px gray;
-	padding: 20px;
-	background-color: white;
-	z-index: 1000;
+	display:				none;
+	position:				fixed;
+	top:					calc(50% - var(--category-edit-dialog-height) / 2);
+	left:					calc(50% - var(--category-edit-dialog-width) / 2);
+	width:					var(--category-edit-dialog-width);
+	height:					var(--category-edit-dialog-height);
+	box-shadow:				0 0 5px gray;
+	padding:				20px;
+	background-color:		white;
+	z-index:				1000;
 }
+
 
 #root_category_creation_dialog form {
-	display: block;
-	margin: auto auto;
+	display:				block;
+	margin:					auto auto;
 }
+
 
 #category_edit_dialog img, #root_category_creation_dialog img {
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	widht: var(- -category-edit-dialog-close-but-dim);
-	height: var(- -category-edit-dialog-close-but-dim);
+	position:				absolute;
+	top:					5px;
+	right:					5px;
+	widht:					var(--category-edit-dialog-close-but-dim);
+	height:					var(--category-edit-dialog-close-but-dim);
 }
+
 
 #category_edit_dialog input, #root_category_creation_dialog input {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 10px;
+	display:				block;
+	margin-left:			auto;
+	margin-right:			auto;
+	margin-bottom:			10px;
 }
 
-#category_edit_dialog input[type="submit"],
-	#root_category_creation_dialog input[type="submit"] {
-	width: var(- -category-edit-dialog-but-width);
-	height: var(- -category-edit-dialog-but-height);
-	background-color: var(- -bright);
-	color: var(- -text-color-on-bright);
-	border: none;
+
+#category_edit_dialog input[type="submit"], #root_category_creation_dialog input[type="submit"] {
+	width:					var(--category-edit-dialog-but-width);
+	height:					var(--category-edit-dialog-but-height);
+	background-color:		var(--bright);
+	color:					var(--text-color-on-bright);
+	border:					none;
 }
 
-#category_edit_dialog input[type="submit"]:hover,
-	#root_category_creation_dialog input[type="submit"]:hover {
-	animation: button_hover;
-	animation-duration: 0.3s;
-	animation-fill-mode: forwards;
+
+#category_edit_dialog input[type="submit"]:hover, #root_category_creation_dialog input[type="submit"]:hover {
+	animation:				button_hover;
+	animation-duration:		0.3s;
+	animation-fill-mode:	forwards;
 }
 
-@
-keyframes button_hover {to { background-color:var( --bright-hover);
-	
+
+@keyframes button_hover {
+	to {
+		background-color:	var(--bright-hover);
+	}
 }
 
+
+#category_edit_dialog input[type="text"], #root_category_creation_dialog input[type="text"] {
+	width:					100%;
+	border:					none;
+	border-bottom:			1px solid var(--bright);
+	height:					var(--category-input-text-height);
 }
-#category_edit_dialog input[type="text"], #root_category_creation_dialog input[type="text"]
-	{
-	width: 100%;
-	border: none;
-	border-bottom: 1px solid var(- -bright);
-	height: var(- -category-input-text-height);
-}
+
+
+
+
+
+
+
