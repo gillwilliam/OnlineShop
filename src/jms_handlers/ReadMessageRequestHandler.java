@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.session.UserBean;
 import messages.MailMessage;
 import request_handlers.RequestHandler;
 
@@ -41,13 +42,13 @@ public class ReadMessageRequestHandler implements RequestHandler {
 	private String mMailboxPagePath;
 	private ArrayList<MailMessage> messageArray;
 	private String mMessageArrayParamName;
+	private String mUserAttrName;
 	
 	public ReadMessageRequestHandler(ServletContext context) {
 		
-		System.out.println("creating readmessagerh...");
-		
 		mMailboxPagePath = context.getInitParameter("messages_path");
 		mMessageArrayParamName = context.getInitParameter("message_array");
+		mUserAttrName = context.getInitParameter("signed_user_attribute_name");
 		
 		try {
 			ic = new InitialContext();
@@ -62,8 +63,9 @@ public class ReadMessageRequestHandler implements RequestHandler {
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		System.out.println("routing via readmessagerh...");
-		readMessages();
+		UserBean user = (UserBean) request.getSession().getAttribute(mUserAttrName);
+		
+		readMessages(user.getEmail());
 		
 		// Place messages in request
 		request.getSession().setAttribute(mMessageArrayParamName, messageArray);
@@ -72,13 +74,14 @@ public class ReadMessageRequestHandler implements RequestHandler {
 		response.sendRedirect(request.getContextPath() + mMailboxPagePath);
 	}
 	
-	protected void readMessages() {
+	protected void readMessages(String email) {
 		
 		try {
 			
 			Connection con = cf.createConnection();
 			Session ses = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			QueueBrowser browser = ses.createBrowser(queue);
+			String filter = "sendTo='" + SendMessageRequestHandler.cleanEmailAddress(email) + "'";
+			QueueBrowser browser = ses.createBrowser(queue, filter);
 			
 			con.start();
 			
@@ -89,19 +92,20 @@ public class ReadMessageRequestHandler implements RequestHandler {
 			// Load latest 10 messages or less
 			
 			while(enumMessages.hasMoreElements()) {	
-				if (enumMessages.hasMoreElements()) {
 					Message message = (Message)enumMessages.nextElement();
 					if (message != null && message instanceof ObjectMessage) {
 						ObjectMessage om = (ObjectMessage) message;
 						MailMessage msg = (MailMessage) om.getObject();
 						messageArray.add(msg);
 					}
-				}
 			}
 			
 			// Latest email at the top
 			Collections.reverse(messageArray);
-			messageArray = new ArrayList<MailMessage>(messageArray.subList(0, 9));
+			if (messageArray.size() > 10) {
+				messageArray = new ArrayList<MailMessage>(messageArray.subList(0, 9));
+			}
+			
 			
 			// con.stop();	This line is giving me error for some reason
 			browser.close();

@@ -63,15 +63,12 @@ public class SendMessageRequestHandler implements RequestHandler {
 			throws ServletException, IOException {
 		
 		UserBean user = (UserBean) request.getSession().getAttribute(mUserAttrName);
+		
 		mSenderEmail = user.getEmail();
 		mSenderName = user.getName() + ' ' + user.getSurname();
 		mRecipientEmail = request.getParameter("recipientEmail");
 		mSubject = request.getParameter("subject");
 		mMessage = request.getParameter("messageContent");
-		
-		
-		System.out.println("Sending message...");
-		System.out.println("Forwarding to " + mMailboxPagePath);
 		
 		MailMessage msg = new MailMessage(mSenderName, mSenderEmail, mRecipientEmail, mSubject, mMessage);
 		
@@ -79,7 +76,8 @@ public class SendMessageRequestHandler implements RequestHandler {
 		
 		// Refreshes the page
 		// TODO: Success/ Failure feedback message
-		response.sendRedirect(request.getContextPath() + mMailboxPagePath);
+		// response.sendRedirect(request.getContextPath() + mMailboxPagePath);
+		request.getRequestDispatcher("/readMessage.main").forward(request, response);;
 		
 	}
 	
@@ -93,6 +91,8 @@ public class SendMessageRequestHandler implements RequestHandler {
 			
 			ObjectMessage mess = ses.createObjectMessage();
 			mess.setObject(msg);
+			mess.setStringProperty("id", msg.getId());
+			mess.setStringProperty("sendTo", cleanEmailAddress(mRecipientEmail));
 			
 //			TextMessage mess = ses.createTextMessage();
 //			mess.setText(msg.getMessageContent());
@@ -107,6 +107,10 @@ public class SendMessageRequestHandler implements RequestHandler {
 			System.out.println("SendMessageRequestHandler Error:" + e);
 			e.printStackTrace();
 		}
+	}
+	
+	public static String cleanEmailAddress(String email) {
+		return email = email.replace("@", "_at_").replace(".", "dot");
 	}
 
 }

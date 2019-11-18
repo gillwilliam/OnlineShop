@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jms_handlers.DeleteMessageRequestHandler;
 import jms_handlers.ReadMessageRequestHandler;
 import jms_handlers.SendMessageRequestHandler;
 import request_handlers.RequestHandler;
@@ -92,6 +93,8 @@ public class MainFrontController extends HttpServlet {
      			new SendMessageRequestHandler(context));
      	mRequestHandlers.put("/readMessage" + mRequestExtension,
      			new ReadMessageRequestHandler(context));
+     	mRequestHandlers.put("/deleteMessage" + mRequestExtension,
+     			new DeleteMessageRequestHandler(context));
     }
 
 

@@ -97,7 +97,7 @@ pageEncoding="ISO-8859-1"%>
                                                           <h4 class="modal-title">Message Title Here</h4>
                                                       </div>
                                                       <div class="modal-body">
-                                                          <form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/readMessage.main" method="post">
+                                                          <form role="form" class="form-horizontal" action="${pageContext.request.contextPath}/deleteMessage.main" method="post">
                                                               <div class="form-group">
                                                                   <label class="col-lg-2 control-label">Sender:</label>
                                                                   <div class="col-lg-10">
@@ -110,6 +110,11 @@ pageEncoding="ISO-8859-1"%>
                                                                       <textarea readonly rows="10" cols="30" class="form-control" id="message_content" name="message_content"></textarea>
                                                                   </div>
                                                               </div>
+                                                              <div class="form-group">
+                                                                  <div class="col-lg-10">
+                                                                      <input type="text" placeholder="" name="message-id" id="message-id" style="display:none">
+                                                                  </div>
+                                                              </div>
                 
                                                               <div class="form-group">
                                                                   <div class="col-lg-offset-2 col-lg-10">
@@ -117,7 +122,7 @@ pageEncoding="ISO-8859-1"%>
                                                                   <!-- TODO: Complete Reply button --> 
                                                                                                                                    
                                                                       <button type="button" class="main-btn" id="reply-btn" data-toggle="modal">Reply</button>
-                                                                      <button type="button" class="primary-btn" id="delete-btn">Delete</button>
+                                                                      <button type="submit" class="primary-btn" id="delete-btn">Delete</button>
                                                                   </div>
                                                               </div>
                                                           </form>
@@ -156,7 +161,7 @@ pageEncoding="ISO-8859-1"%>
                                             	for (MailMessage message: messages) {
                                             		
                                             %>
-                                              <tr class="message" a href="#readModal" data-toggle="modal" data-content=<%= message.getMessageContent() %> data-subject=<%= message.getSubject() %> data-sender=<%=message.getSenderName()%> data-email=<%=message.getSenderEmail() %>>                                             
+                                              <tr class="message" a href="#readModal" data-toggle="modal" data-id=<%=message.getId() %> data-content="<%= message.getMessageContent() %>" data-subject="<%= message.getSubject() %>" data-sender="<%=message.getSenderName()%>" data-email="<%=message.getSenderEmail() %>">                                             
                                                   <td class="view-message  dont-show"><%= message.getSenderName() %></td>
                                                   <td class="view-message "><%= message.getSubject() %></td>
                                                   <td class="view-message  inbox-small-cells"></td>

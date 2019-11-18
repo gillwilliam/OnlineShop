@@ -31,6 +31,7 @@ var content;
 var sender;
 var subject;
 var email;
+var id;
 
 // Reply Button
 $("#reply-btn").click(function() {
@@ -48,10 +49,12 @@ $('#readModal').on('show.bs.modal', function (e) {
 	sender = $(e.relatedTarget).data('sender');
 	subject = $(e.relatedTarget).data('subject');
 	email = $(e.relatedTarget).data('email');
+	id = $(e.relatedTarget).data('id');
 	
 	$(e.currentTarget).find('h4').html(subject);
 	$(e.currentTarget).find('textarea').first().val(sender);
-    $(e.currentTarget).find('textarea').last().val(content);
+	$(e.currentTarget).find('textarea').last().val(content);
+    $(e.currentTarget).find('#message-id').val(id);
 })
 
 

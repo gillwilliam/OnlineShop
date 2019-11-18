@@ -1,10 +1,12 @@
 package messages;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class MailMessage implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	private String id;
 	private String senderEmail;
 	private String senderName;
 	private String recipientEmail;
@@ -13,6 +15,7 @@ public class MailMessage implements Serializable{
 	
 	public MailMessage(String senderName, String senderEmail, String recipientEmail, String subject, String messageContent) {
 		super();
+		this.id = UUID.randomUUID().toString();
 		this.senderEmail = senderEmail;
 		this.recipientEmail = recipientEmail;
 		this.subject = subject;
@@ -21,6 +24,9 @@ public class MailMessage implements Serializable{
 	}
 	
 	
+	public String getId() {
+		return id;
+	}
 	public String getSenderName() {
 		return senderName;
 	}
