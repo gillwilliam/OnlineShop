@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -13,8 +12,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import utils.Price;
@@ -35,9 +32,7 @@ public class Product implements Serializable {
 	@Lob
 	private String description;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn(name = "id")
-	private Image image;
+	private byte[] image;
 
 	private String name;
 
@@ -59,7 +54,7 @@ public class Product implements Serializable {
 	public Product() {
 	}
 
-	public Product(String name, Category cat, Price price, String desc, int quantity, Image image) {
+	public Product(String name, Category cat, Price price, String desc, int quantity, byte[] image) {
 		this.setName(name);
 		this.setCategory(cat);
 		this.setDescription(desc);
@@ -84,11 +79,11 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
-	public Image getImage() {
+	public byte[] getImage() {
 		return this.image;
 	}
 
-	public void setImage(Image image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 

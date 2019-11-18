@@ -9,8 +9,6 @@ import javax.persistence.Query;
 
 import entities.Category;
 import entities.Product;
-import entities.User;
-import entities.Image;
 import utils.Price;
 
 public class ProductManager {
@@ -33,7 +31,6 @@ public class ProductManager {
 		EntityManager em = emf.createEntityManager();
 		try {
 			em.getTransaction().begin();
-			product.setCategory(em.merge(product.getCategory()));
 			em.persist(product);
 			em.getTransaction().commit();
 		} catch (Exception ex) {
@@ -52,8 +49,10 @@ public class ProductManager {
 	}
 
 	public void edit(Product product, String name, Category category, Price price, String desc, int quantity,
-			Image img) {
-
+			byte[] img) {
+		EntityManager em = emf.createEntityManager();
+		product = em.merge(product);
+		em.getTransaction().begin();
 		if (product.getName() != name) {
 			product.setName(name);
 		}
@@ -77,6 +76,8 @@ public class ProductManager {
 		if (img != null) {
 			product.setImage(img);
 		}
+		em.getTransaction().commit();
+		em.close();
 	}
 
 	@SuppressWarnings("unchecked")

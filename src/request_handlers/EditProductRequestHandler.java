@@ -78,9 +78,7 @@ public class EditProductRequestHandler implements RequestHandler {
 
 			byte[] data = new byte[(int) filePart.getSize()];
 			filePart.getInputStream().read(data, 0, data.length);
-			Image img = new Image();
-			img.setImage(data);
-			pm.edit(p, name, c, price, desc, quantity, img);
+			pm.edit(p, name, c, price, desc, quantity, data);
 
 
 			request.setAttribute(mResultAttr, new Result(true, "good"));

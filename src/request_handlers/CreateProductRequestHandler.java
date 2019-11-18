@@ -12,7 +12,6 @@ import entities.Category;
 import entities.Product;
 import manager.CategoryManager;
 import manager.ProductManager;
-import entities.Image;
 import utils.Price;
 import utils.Result;
 
@@ -60,9 +59,7 @@ public class CreateProductRequestHandler implements RequestHandler {
 
 		byte[] data = new byte[(int) filePart.getSize()];
 		filePart.getInputStream().read(data, 0, data.length);
-		Image img = new Image();
-		img.setImage(data);
-		product.setImage(img);
+		product.setImage(data);
 		
 		pm.create(product);
 

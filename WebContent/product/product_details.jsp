@@ -26,7 +26,7 @@
 			<div class="row">
 				<div class="col-md-6 text-center">
 					<img id="product_image"
-						src="${pageContext.request.contextPath}/getImage.main?id=<%=product.getImage().getId()%>"
+						src="${pageContext.request.contextPath}/getImage.main?id=<%=product.getId()%>"
 						alt="product photo" />
 				</div>
 				<div class="col-md-6">
