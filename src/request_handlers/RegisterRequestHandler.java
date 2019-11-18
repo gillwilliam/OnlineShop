@@ -54,9 +54,7 @@ public class RegisterRequestHandler implements RequestHandler {
 			// For now, all new members are buyers
 			User user = new User(name, surname, phone, email, confirmedPassword, "BUYER", address);
 			UserManager m = new UserManager("OnlineShop");
-			System.out.println("Transaction begin");
 			m.create(user);
-			System.out.println("Transaction end");
 			request.getSession().setAttribute(mUserAttrName, user);
 			request.getRequestDispatcher(mHomepagePath).forward(request, response);
 

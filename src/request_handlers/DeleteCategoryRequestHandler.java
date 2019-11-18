@@ -2,7 +2,6 @@ package request_handlers;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sun.istack.NotNull;
 
 import entities.Category;
+import manager.CategoryManager;
 
 public class DeleteCategoryRequestHandler implements RequestHandler {
 
@@ -36,19 +36,17 @@ public class DeleteCategoryRequestHandler implements RequestHandler {
 			return;
 		}
 
-		EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
+		CategoryManager cm = new CategoryManager();
 
 		int id = Integer.parseInt(idStr);
 
-		Category c = em.find(Category.class, id);
-		if (c != null) {
+		Category c = cm.findById(id);
+		if (c == null) {
 			dealWithWrongId(request, response, id);
 			return;
 		}
 
-		em.getTransaction().begin();
-		em.remove(c);
-		em.getTransaction().commit();
+		cm.delete(c);
 		successfulRemove(request, response);
 	}
 

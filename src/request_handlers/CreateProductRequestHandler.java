@@ -46,12 +46,12 @@ public class CreateProductRequestHandler implements RequestHandler {
 	@Override
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		CategoryManager em = new CategoryManager();
+		CategoryManager cm = new CategoryManager();
 
 		String name = request.getParameter(mNameParamName);
 		Price price = EditProductRequestHandler.obtainPrice(request.getParameter(mPriceParamName));
 		int categoryId = Integer.parseInt(request.getParameter(mCategoryIdParamName));
-		Category cat = em.findById(categoryId);
+		Category cat = cm.findById(categoryId);
 		String desc = request.getParameter(mDescParamName);
 		int quantity = Integer.parseInt(request.getParameter(mQuantityParamName));
 		Part img = request.getPart(mImageParamName);

@@ -77,11 +77,10 @@ public class ProductManager {
 		}
 	}
 
-	// Esta anotaci�n es para quitar el warning avisandonos que es est�
-	// haciendo una conversi�n de List a List<Imagenenbbdd> y puede no ser v�lida
+
 	@SuppressWarnings("unchecked")
-	public List<User> findAll() {
-		List<User> resultado;
+	public List<Product> findAll() {
+		List<Product> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createNamedQuery("User.findAll", User.class);
@@ -102,6 +101,14 @@ public class ProductManager {
 			em.close();
 		}
 		return resultado;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Product> findByName(String search) {
+		EntityManager em = emf.createEntityManager();
+
+		Query query = em.createQuery("SELECT p " + " FROM Product p " + " WHERE p.name LIKE '%" + search + "%'");
+		return (List<Product>)query.getResultList();
 	}
 
 }

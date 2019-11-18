@@ -2,14 +2,15 @@ package request_handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.Product;
+import manager.ProductManager;
 
 public class SearchProductsRequestHandler implements RequestHandler {
 
@@ -50,10 +51,9 @@ public class SearchProductsRequestHandler implements RequestHandler {
 		if (searchedProduct == null)
 			searchedProduct = (String) request.getAttribute(PRODUCT_INIT_PARAM_NAME);
 
-		EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
+		ProductManager pm = new ProductManager();
 
-		// TODO SELECT ALL WHERE search matches
-		ArrayList<Product> searchResult = searchForProducts(searchedProduct);
+		List<Product> searchResult = pm.findByName(searchedProduct);
 
 		request.setAttribute(ATTR_FOUND_PRODUCTS, searchResult);
 		request.getRequestDispatcher("/main.jsp").forward(request, response);
@@ -73,26 +73,6 @@ public class SearchProductsRequestHandler implements RequestHandler {
 				: DEFAULT_MAX_NUM_OF_RESULTS;
 
 		return maxNumOfResults > 0 ? maxNumOfResults : DEFAULT_MAX_NUM_OF_RESULTS;
-	}
-
-	/**
-	 * 
-	 * @param name            name to be searched, if == "" then any value will be
-	 *                        matched
-	 * @param surname         surname to be searched, if == "" then any value will
-	 *                        be matched
-	 * @param email           email to be searched, if == "" then any value will be
-	 *                        matched
-	 * @param maxNumOfResults maximum number of users which will be found
-	 * @return HashMaps containing ArrayLists with users matching searching
-	 *         parameters
-	 */
-	private ArrayList<Product> searchForProducts(String product) {
-		// TODO conntect to database, at this moment just simulate
-
-		ArrayList<Product> products = new ArrayList<>();
-
-		return products;
 	}
 
 }

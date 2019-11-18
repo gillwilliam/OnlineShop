@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.User;
+import manager.UserManager;
 import utils.Result;
 import utils.UserDataValidator;
 import utils.UserDataValidator.InputValidationResult;
@@ -70,25 +71,17 @@ public class CreateSellerRequestHandler implements RequestHandler {
 		request.setAttribute(mValidatResultParamName, validationResult);
 		Result addResult = new Result(true, "success");
 
-		if (validationResult.isValid()) {
-			EntityManager em = (EntityManager) request.getServletContext().getAttribute("entity_manager");
-			try {
-				em.getTransaction().begin();
-				em.persist(newSeller);
-				em.getTransaction().commit();
-			} catch (Exception e) {
-				addResult.message = e.getMessage();
-				addResult.success = false;
-			}
-			request.setAttribute(mUpdateResultParamName, addResult);
+		UserManager um = new UserManager();
+		um.create(newSeller);
+		request.setAttribute(mUpdateResultParamName, addResult);
 
-		} // update in database
 
 		// redirecting to appropriate page
 		if (!validationResult.isValid() || !addResult.success)
 			request.getRequestDispatcher(mSellerCreationPath).forward(request, response);
 		else
 			request.getRequestDispatcher(mUsersMaintenancePath).forward(request, response);
+
 	}
 
 	private void initParams(ServletContext context) {

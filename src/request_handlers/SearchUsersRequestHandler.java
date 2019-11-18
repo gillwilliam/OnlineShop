@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import entities.User;
+import manager.UserManager;
 import utils.SQLUtils;
 import utils.UserType;
 
@@ -74,14 +76,15 @@ public class SearchUsersRequestHandler implements RequestHandler {
 		if (searchedEmail == null)
 			searchedEmail = (String) request.getAttribute(mContext.getInitParameter(EMAIL_INIT_PARAM_NAME));
 
-		SearchResult searchResult = searchForUsers(searchedName, searchedSurname, searchedEmail, maxNumOfResults);
+		UserManager um = new UserManager();
+		List<User> searchResult = um.findAll();
 
-		request.setAttribute(ATTR_FOUND_USERS, searchResult.results);
-		if (!searchResult.isSuccessful) {
-			request.setAttribute(ATTR_MESSAGE, searchResult.message);
-			request.setAttribute(ATTR_SUCCESS, false);
-		}
+		request.setAttribute(ATTR_FOUND_USERS, searchResult);
+
+		request.setAttribute(ATTR_MESSAGE, "success");
+		request.setAttribute(ATTR_SUCCESS, false);
 		request.getRequestDispatcher(mUsersMaintenancePath).forward(request, response);
+
 	}
 
 	/**

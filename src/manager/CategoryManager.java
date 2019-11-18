@@ -16,6 +16,7 @@ public class CategoryManager {
 	public CategoryManager() {
 		emf = Persistence.createEntityManagerFactory("OnlineShop");
 	}
+
 	public CategoryManager(String unidadDePersistencia) {
 		emf = Persistence.createEntityManagerFactory(unidadDePersistencia);
 	}
@@ -71,6 +72,30 @@ public class CategoryManager {
 			em.close();
 		}
 		return resultado;
+	}
+
+	public void delete(Category user) {
+		EntityManager em = emf.createEntityManager();
+		try {
+			user = em.merge(user);
+			em.getTransaction().begin();
+			em.remove(user);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
+	}
+
+	public void edit(Category category, String name) {
+		EntityManager em = emf.createEntityManager();
+		try {
+			category = em.merge(category);
+			em.getTransaction().begin();
+			category.setName(name);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
 	}
 
 }
