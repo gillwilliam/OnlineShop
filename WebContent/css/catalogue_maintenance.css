@@ -1,238 +1,209 @@
 * {
-    box-sizing:     border-box;
-    padding:        0;
-    margin:         0;
-
-    /* variables */
-    --content-width:            75%;
-    --content-content-width:    80%;
-    --content-min-height:       90%;
-    --search-section-height:    200px;
-    --dark:                     #30323a;
-    --light-dark:               #b3b6c4;
-    --bright:                   #f8694a;
-    --table-alt-color-1:        #dce0f2;
-    --table-alt-color-2:        #c1c5d6;
-    --text-on-dark-color:       #ffffff;
-    --table-row-height:         100px;
-    --product-image-dim:        70px;
-    --products-list-min-height: 200px;
-    --but-action-dim:           40px;
-    --border-color:             #DADADA;
-    --top-navigation-buttons-margin:	8px;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	/* variables */ -
+	-content-width: 75%; -
+	-content-content-width: 80%; -
+	-content-min-height: 90%; -
+	-search-section-height: 200px; -
+	-dark: #30323a; -
+	-light-dark: #b3b6c4; -
+	-bright: #f8694a; -
+	-table-alt-color-1: #dce0f2; -
+	-table-alt-color-2: #c1c5d6; -
+	-text-on-dark-color: #ffffff; -
+	-table-row-height: 100px; -
+	-product-image-dim: 70px; -
+	-products-list-min-height: 200px; -
+	-but-action-dim: 40px; -
+	-border-color: #DADADA; -
+	-top-navigation-buttons-margin: 8px;
 }
-
 
 #header {
-    border:             0;
-    border-bottom:      1px solid var(--border-color);
+	border: 0;
+	border-bottom: 1px solid var(- -border-color);
 }
-
 
 #but_catalog_maintenance {
-    color:              var(--bright);
+	color: var(- -bright);
 }
-
 
 /* content /////////////////////////////////////////////////////////////////////////////////////////////////// */
-
-
 #content {
-    display:            flex;
-    flex-direction:     column;
-    align-items:        center;
-    justify-content:    flex-start;
-    width:              var(--content-width);
-    min-height:         var(--content-min-height);
-    margin-bottom:      100px;
-    margin-left:        auto;
-    margin-right:       auto;
-    padding-bottom:     70px;
-    border:             1px solid var(--border-color);
-    border-top:         0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	width: var(- -content-width);
+	min-height: var(- -content-min-height);
+	margin-bottom: 100px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 70px;
+	border: 1px solid var(- -border-color);
+	border-top: 0;
 }
-
 
 #search_section {
-    width:              var(--content-content-width);
-    height:             var(--search-section-height);
-    background-color:   var(--dark);
-    color:              var(--text-on-dark-color);
-    margin:             70px auto;
+	width: var(- -content-content-width);
+	height: var(- -search-section-height);
+	background-color: var(- -dark);
+	color: var(- -text-on-dark-color);
+	margin: 70px auto;
 }
-
 
 #but_add_new_product {
-    display:            block;
-    width:              200px;
-    height:             50px;
-    margin-bottom:		50px;
-    background-color:   var(--bright);
-    color:              var(--text-on-dark-color);
-    text-align:         center;
-    line-height:        50px;
-    cursor:				pointer;
+	display: block;
+	width: 200px;
+	height: 50px;
+	margin-bottom: 50px;
+	background-color: var(- -bright);
+	color: var(- -text-on-dark-color);
+	text-align: center;
+	line-height: 50px;
+	cursor: pointer;
 }
-
 
 #but_add_new_product:hover {
-    animation:          	button_hover;
-    animation-duration: 	0.3s;
-    animation-fill-mode:    forwards;
+	animation: button_hover;
+	animation-duration: 0.3s;
+	animation-fill-mode: forwards;
 }
-
 
 #products_list {
-    display:            flex;
-    flex-direction:     column;
-    align-items:        center;
-    width:              var(--content-content-width);
-    min-height:         var(--products-list-min-height);
-    background-color:   var(--light-dark);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: var(- -content-content-width);
+	min-height: var(- -products-list-min-height);
+	background-color: var(- -light-dark);
 }
-
 
 #products_table {
-    width:              100%;
+	width: 100%;
 }
-
 
 #products_table_header {
-    background-color:   var(--dark);
-    color:              var(--text-on-dark-color);
-    text-align:         center;
+	background-color: var(- -dark);
+	color: var(- -text-on-dark-color);
+	text-align: center;
 }
-
 
 #products_table th {
-    text-align:         center;
+	text-align: center;
 }
-
 
 #products_table td {
-    text-align:         center;
+	text-align: center;
 }
 
-
-#products_table tr:not(:first-child) {
-    height:             var(--table-row-height);
+#products_table tr:not (:first-child ) {
+	height: var(- -table-row-height);
 }
-
 
 #products_table tr:nth-child(n + 2) {
-    background-color:   var(--table-alt-color-1);
+	background-color: var(- -table-alt-color-1);
 }
 
-
-#products_table tr:nth-child(n + 2):hover, #products_table tr:nth-child(2n + 2):hover {
-    animation:          row_hover_animation;
-    animation-duration: 0.4s;
-    animation-fill-mode:    forwards;
+#products_table tr:nth-child(n + 2):hover, #products_table tr:nth-child(2n + 2):hover
+	{
+	animation: row_hover_animation;
+	animation-duration: 0.4s;
+	animation-fill-mode: forwards;
 }
 
-
-@keyframes row_hover_animation {
-    to {
-        background-color:   var(--bright);
-        color:              var(--text-on-dark-color);
-    }
+@
+keyframes row_hover_animation {to { background-color:var( --bright);
+	color: var(- -text-on-dark-color);
 }
 
-
+}
 #products_table tr:nth-child(2n + 2) {
-    background-color:   var(--table-alt-color-2);
+	background-color: var(- -table-alt-color-2);
 }
-
 
 #product_image {
-    display:            inline-block;
-    width:              auto;
-    height:             var(--product-image-dim);
-    margin:             auto 7px;
-    background-color:   var(--light-dark);
+	display: inline-block;
+	width: auto;
+	height: var(- -product-image-dim);
+	margin: auto 7px;
+	background-color: var(- -light-dark);
 }
-
 
 #td_action {
-    display:            flex;
-    flex-direction:     row;
-    align-items:        center;
-    justify-content:    space-evenly;
-    height:             100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-evenly;
+	height: 100%;
 }
-
 
 .but_action {
-    display:            flex;
-    justify-content:    center;
-    align-items:        center;
-    width:              var(--but-action-dim);
-    height:             var(--but-action-dim);
-    box-shadow:         inset 0 0 2px rgba(255, 255, 255, 0.5);
-    border-radius:      10px;
-    cursor:				pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: var(- -but-action-dim);
+	height: var(- -but-action-dim);
+	box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.5);
+	border-radius: 10px;
+	cursor: pointer;
 }
-
 
 #but_edit_product {
-	padding:	15%;
+	padding: 15%;
 }
 
-
-#but_display_product:hover, #but_edit_product:hover, #but_delete_product:hover {
-    animation:          	button_hover;
-    animation-duration: 	0.3s;
-    animation-fill-mode:    forwards;
+#but_display_product:hover, #but_edit_product:hover, #but_delete_product:hover
+	{
+	animation: button_hover;
+	animation-duration: 0.3s;
+	animation-fill-mode: forwards;
 }
 
-
-@keyframes button_hover {
-    to {background-color:   var(--dark)}
+@
+keyframes button_hover {
+	to {background-color: var(- -dark)
 }
 
-
+}
 .but_action img {
-    display:            inline-block;
-    width:              80%;
-    height:             80%;
+	display: inline-block;
+	width: 80%;
+	height: 80%;
 }
-
 
 #but_display_product {
-    background-color:   #41B3A3;
+	background-color: #41B3A3;
 }
-
 
 #but_edit_product {
-    background-color:   #C38D9E;
+	background-color: #C38D9E;
 }
-
 
 #but_edit_product img {
-    width:              60%;
-    height:             60%;
+	width: 60%;
+	height: 60%;
 }
-
 
 #but_delete_product {
-    background-color:   #E8A87C;
+	background-color: #E8A87C;
 }
-
 
 #but_load_more {
-    display:            inline-block;
-    width:              200px;
-    height:             70px;
-    margin:             50px auto;
-    background-color:   var(--bright);
-    color:              var(--text-on-dark-color);
-    text-align:         center;
-    line-height:        70px;
+	display: inline-block;
+	width: 200px;
+	height: 70px;
+	margin: 50px auto;
+	background-color: var(- -bright);
+	color: var(- -text-on-dark-color);
+	text-align: center;
+	line-height: 70px;
 }
 
-
 #but_load_more:hover {
-    animation:          button_hover;
-    animation-duration: 0.3s;
-    animation-fill-mode:    forwards;
+	animation: button_hover;
+	animation-duration: 0.3s;
+	animation-fill-mode: forwards;
 }

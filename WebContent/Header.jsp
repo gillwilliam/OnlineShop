@@ -127,7 +127,8 @@
 						<!-- /Account ------------------------------------------------------------------------------------- -->
 
 						<!-- wish list ------------------------------------------------------------------------------------ -->
-						<li style="display:<%=user != null && user.isBuyer() ? "inline" : "none"%>">
+						<li
+							style="display:<%=user != null && user.isBuyer() ? "inline" : "none"%>">
 							<a id="but_wish_list" href="#"> <b class="text-uppercase">Wish
 									list</b>
 						</a>
@@ -162,7 +163,8 @@
 						<!-- /Sign out button ----------------------------------------------------------------------------- -->
 
 						<!-- Cart -->
-						<li style="display:<%=user != null && user.isBuyer() ? "inline" : "none"%>">
+						<li
+							style="display:<%=user != null && user.isBuyer() ? "inline" : "none"%>">
 							<a
 							href="${pageContext.request.contextPath}/product/shopping_cart.jsp">
 								<b class="text-uppercase">My Cart</b>
