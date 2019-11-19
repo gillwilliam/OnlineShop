@@ -76,6 +76,7 @@ public class UserManager {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<User> findAllType(String type) {
 		List<User> resultado = new ArrayList<>();
 		EntityManager em = emf.createEntityManager();

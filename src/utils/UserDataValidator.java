@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.sun.istack.NotNull;
-
 import entities.User;
 import manager.UserManager;
 
@@ -50,7 +48,7 @@ public class UserDataValidator {
 		seller.setFirstName(seller.getFirstName().trim());
 		seller.setPassword(seller.getPassword().trim());
 		seller.setPhone(seller.getPhone().replaceAll("\\s+", ""));
-		seller.setFirstName(seller.getLastName().trim());
+		seller.setLastName(seller.getLastName().trim());
 	}
 
 	/**
@@ -59,7 +57,7 @@ public class UserDataValidator {
 	 * @param name - must be trimmed and have redundant spaces removed
 	 * @return true - name is valid, false - name is invalid
 	 */
-	public static boolean isNameValid(@NotNull String name) {
+	public static boolean isNameValid(String name) {
 		boolean isLengthValid = StringUtils.isInRange(name, MIN_NAME_LEN, MAX_NAME_LEN);
 		boolean lettersAndSpacesOnly = name.matches("[\\p{L}\\s]+");
 
@@ -72,7 +70,7 @@ public class UserDataValidator {
 	 * @param surname - must be trimmed and have redundant spaces removed
 	 * @return true - surname is valid, false - surname is invalid
 	 */
-	public static boolean isSurnameValid(@NotNull String surname) {
+	public static boolean isSurnameValid(String surname) {
 		boolean isLengthValid = StringUtils.isInRange(surname, MIN_SURNAME_LEN, MAX_SURNAME_LEN);
 		boolean lettersAndSpacesOnly = surname.matches("[\\p{L}\\s-]+");
 
@@ -85,7 +83,7 @@ public class UserDataValidator {
 	 * @param phone - must be trimmed and have redundant spaces removed
 	 * @return true - phone number is valid, false - phone number is invalid
 	 */
-	public static boolean isPhoneValid(@NotNull String phone) {
+	public static boolean isPhoneValid(String phone) {
 		phone = phone.replaceAll("\\s+", "");
 
 		boolean isLengthValid = StringUtils.isInRange(phone, MIN_PHONE_LEN, MAX_PHONE_LEN);
@@ -105,11 +103,11 @@ public class UserDataValidator {
 	 * @param address - must be trimmed and have redundant spaces removed
 	 * @return true - address is valid, false - address is invalid
 	 */
-	public static boolean isAddressValid(@NotNull String address) {
+	public static boolean isAddressValid(String address) {
 		return StringUtils.isInRange(address, MIN_ADDR_LEN, MAX_ADDR_LEN);
 	}
 
-	public static boolean isEmailValid(@NotNull String email) {
+	public static boolean isEmailValid(String email) {
 		String emailRegex = "[\\w+-]+(?:\\.[\\w+-]+)*@[\\w+-]+(?:\\.[\\w+-]+)*(?:\\.[a-zA-Z]{2,4})";
 		return email.matches(emailRegex);
 	}
@@ -120,7 +118,7 @@ public class UserDataValidator {
 	 * @param password - password to check
 	 * @return true - password is valid, false - password is invalid
 	 */
-	public static boolean isPasswordValid(@NotNull String password) {
+	public static boolean isPasswordValid(String password) {
 		return StringUtils.isInRange(password.trim(), MIN_PASS_LEN, MAX_PASS_LEN);
 	}
 
@@ -131,7 +129,7 @@ public class UserDataValidator {
 	 * @param confirmedPassword confirmed password
 	 * @return true - new password is valid, false - new password is invalid
 	 */
-	public static boolean isNewPasswordValid(@NotNull String password, @NotNull String confirmedPassword) {
+	public static boolean isNewPasswordValid(String password, String confirmedPassword) {
 		return isPasswordValid(password) && password.equals(confirmedPassword);
 	}
 
