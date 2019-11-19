@@ -112,5 +112,14 @@ public class ProductManager {
 		Query query = em.createQuery("SELECT p " + " FROM Product p " + " WHERE p.name LIKE '%" + search + "%'");
 		return (List<Product>) query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Product> findByCategory(int id) {
+		EntityManager em = emf.createEntityManager();
+		CategoryManager cm = new CategoryManager();
+		Category c = cm.findById(id);
+		Query query = em.createQuery("SELECT p FROM Product p WHERE p.categoryBean = :c").setParameter("c", c);
+		return (List<Product>) query.getResultList();
+	}
 
 }

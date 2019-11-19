@@ -14,6 +14,8 @@
 
 		if (request.getAttribute("found_products") != null) {
 			products = (List<Product>) request.getAttribute("found_products");
+		} else if(request.getParameter("category") != null) {
+			products = pm.findByCategory(Integer.parseInt(request.getParameter("category")));
 		} else {
 			products = pm.findAll();
 		}
