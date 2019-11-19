@@ -68,18 +68,17 @@ public class CreateSellerRequestHandler implements RequestHandler {
 		InputValidationResult validationResult = validateInputs(newSeller,
 				request.getParameter(mConfirmedPassParamName));
 		request.setAttribute(mValidatResultParamName, validationResult);
-		Result addResult = new Result(true, "success");
-
-		UserManager um = new UserManager();
-		um.create(newSeller);
-		request.setAttribute(mUpdateResultParamName, addResult);
-
 
 		// redirecting to appropriate page
-		if (!validationResult.isValid() || !addResult.success)
+		if (validationResult.isValid()) {
+			UserManager um = new UserManager();
+			um.create(newSeller);
+			request.setAttribute(mUpdateResultParamName, new Result(true, "success"));
 			request.getRequestDispatcher(mSellerCreationPath).forward(request, response);
-		else
+		} else {
+			request.setAttribute(mUpdateResultParamName, new Result(false, "failure"));
 			request.getRequestDispatcher(mUsersMaintenancePath).forward(request, response);
+		}
 
 	}
 
@@ -130,7 +129,8 @@ public class CreateSellerRequestHandler implements RequestHandler {
 		String phone = request.getParameter(mPhoneParamName);
 		String email = request.getParameter(mEmailParamName);
 		String newPassword = request.getParameter(mNewPassParamName);
-
+		System.out.println(mNameParamName);
+		System.out.println(mSurnameParamName);
 		name = name == null ? "" : name;
 		surname = surname == null ? "" : surname;
 		phone = phone == null ? "" : phone;

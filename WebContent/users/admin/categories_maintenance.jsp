@@ -35,7 +35,7 @@
 				+ (category.isRoot() ? "block" : "none") + "' " + " class='category'>");
 
 		// category name
-		out.println("<span class='category_name' " + "onclick=\"chooseCategory('" + category.getCategoryId() + "','"
+		out.println("<span class='category_name' " + "onclick=\"editCategory('" + category.getCategoryId() + "','"
 				+ category.getName() + "')\"" + ">" + category.getName() + "</span>");
 
 		// icon to show descendants
@@ -160,8 +160,7 @@
 		
 		function showCategories(extendBut, categoriesIds)
 		{
-			var i;
-			for (i = 0; i < categoriesIds.length; i++)
+			for (var i = 0; i < categoriesIds.length; i++)
 			{
 				document.getElementById(categoriesIds[i]).style.display = "block";
 			}

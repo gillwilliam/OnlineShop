@@ -42,6 +42,7 @@ public class AddCategoryRequestHandler implements RequestHandler {
 
 		Category newCategory = new Category(name, parent);
 		cm.create(newCategory);
+		successfulFinish(request, response);
 	}
 
 	/**

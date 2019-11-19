@@ -29,6 +29,10 @@ public class CategoryManager {
 		EntityManager em = emf.createEntityManager();
 		try {
 			em.getTransaction().begin();
+			if (user.getParent() != null) {
+				Category parent = em.merge(user.getParent());
+				parent.addChild(user);
+			}
 			em.persist(user);
 			em.getTransaction().commit();
 		} catch (Exception ex) {
@@ -47,8 +51,7 @@ public class CategoryManager {
 		return "";
 	}
 
-	// Esta anotaci�n es para quitar el warning avisandonos que es est�
-	// haciendo una conversi�n de List a List<Imagenenbbdd> y puede no ser v�lida
+	
 	@SuppressWarnings("unchecked")
 	public List<Category> findAllRoots() {
 		List<Category> resultado;
@@ -79,6 +82,9 @@ public class CategoryManager {
 		try {
 			user = em.merge(user);
 			em.getTransaction().begin();
+			if (user.getParent() != null) {
+				user.getParent().removeChild(user);
+			}
 			em.remove(user);
 			em.getTransaction().commit();
 		} finally {
@@ -89,8 +95,8 @@ public class CategoryManager {
 	public void edit(Category category, String name) {
 		EntityManager em = emf.createEntityManager();
 		try {
-			category = em.merge(category);
 			em.getTransaction().begin();
+			category = em.merge(category);
 			category.setName(name);
 			em.getTransaction().commit();
 		} finally {

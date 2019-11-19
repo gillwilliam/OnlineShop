@@ -63,7 +63,7 @@
 		</div>
 
 		<a
-			href="${pageContext.request.contextPath}/<%= application.getInitParameter("seller_creation_path") %>"
+			href="${pageContext.request.contextPath}<%= application.getInitParameter("seller_creation_path") %>"
 			id="but_create_seller">Create seller</a>
 
 		<!--  displaying users list  -->
