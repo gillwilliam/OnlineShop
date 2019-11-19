@@ -79,6 +79,9 @@ public class CategoryManager {
 		try {
 			user = em.merge(user);
 			em.getTransaction().begin();
+			if (user.getParent() != null) {
+				user.getParent().removeChild(user);
+			}
 			em.remove(user);
 			em.getTransaction().commit();
 		} finally {

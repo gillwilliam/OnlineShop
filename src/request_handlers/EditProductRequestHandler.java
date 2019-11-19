@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import entities.Category;
-import entities.Image;
 import entities.Product;
 import manager.CategoryManager;
 import manager.ProductManager;

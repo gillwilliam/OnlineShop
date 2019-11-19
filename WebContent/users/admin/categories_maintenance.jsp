@@ -35,7 +35,7 @@
 				+ (category.isRoot() ? "block" : "none") + "' " + " class='category'>");
 
 		// category name
-		out.println("<span class='category_name' " + "onclick=\"chooseCategory('" + category.getCategoryId() + "','"
+		out.println("<span class='category_name' " + "onclick=\"editCategory('" + category.getCategoryId() + "','"
 				+ category.getName() + "')\"" + ">" + category.getName() + "</span>");
 
 		// icon to show descendants
