@@ -160,8 +160,7 @@
 		
 		function showCategories(extendBut, categoriesIds)
 		{
-			var i;
-			for (i = 0; i < categoriesIds.length; i++)
+			for (var i = 0; i < categoriesIds.length; i++)
 			{
 				document.getElementById(categoriesIds[i]).style.display = "block";
 			}
