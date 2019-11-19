@@ -46,7 +46,7 @@ public class UserDataValidator {
 		seller.setFirstName(seller.getFirstName().trim());
 		seller.setPassword(seller.getPassword().trim());
 		seller.setPhone(seller.getPhone().replaceAll("\\s+", ""));
-		seller.setFirstName(seller.getLastName().trim());
+		seller.setLastName(seller.getLastName().trim());
 	}
 
 	/**
