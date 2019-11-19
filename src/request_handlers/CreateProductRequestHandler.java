@@ -60,7 +60,7 @@ public class CreateProductRequestHandler implements RequestHandler {
 		byte[] data = new byte[(int) filePart.getSize()];
 		filePart.getInputStream().read(data, 0, data.length);
 		product.setImage(data);
-		
+
 		pm.create(product);
 
 		request.setAttribute(mProductAttr, product);

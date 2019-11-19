@@ -68,7 +68,7 @@ public class UserManager {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createNamedQuery("User.findAll", User.class);
-			resultado = (List<User>)query.getResultList();
+			resultado = (List<User>) query.getResultList();
 		} finally {
 			em.close();
 		}
@@ -82,13 +82,14 @@ public class UserManager {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createQuery("SELECT u " + " FROM User u " + " WHERE u.type = '" + type + "'");
-			resultado = (List<User>)query.getResultList();
+			resultado = (List<User>) query.getResultList();
 		} finally {
 			em.close();
 		}
 		return resultado;
 
 	}
+
 	public User findById(int id) {
 		User resultado;
 		EntityManager em = emf.createEntityManager();

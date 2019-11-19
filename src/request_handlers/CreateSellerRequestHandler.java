@@ -69,6 +69,12 @@ public class CreateSellerRequestHandler implements RequestHandler {
 				request.getParameter(mConfirmedPassParamName));
 		request.setAttribute(mValidatResultParamName, validationResult);
 
+		Result addResult = new Result(true, "success");
+
+		UserManager um = new UserManager();
+		um.create(newSeller);
+		request.setAttribute(mUpdateResultParamName, addResult);
+
 		// redirecting to appropriate page
 		if (validationResult.isValid()) {
 			UserManager um = new UserManager();

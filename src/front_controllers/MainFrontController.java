@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jms_handlers.DeleteMessageRequestHandler;
+import jms_handlers.ReadMessageRequestHandler;
+import jms_handlers.SendMessageRequestHandler;
 import request_handlers.AddCategoryRequestHandler;
 import request_handlers.CheckoutRequestHandler;
 import request_handlers.CreateProductRequestHandler;
@@ -86,6 +89,11 @@ public class MainFrontController extends HttpServlet {
 		mRequestHandlers.put("/createSeller" + mRequestExtension, new CreateSellerRequestHandler(context));
 		mRequestHandlers.put("/searchProducts" + mRequestExtension, new SearchProductsRequestHandler(context));
 		mRequestHandlers.put("/getImage" + mRequestExtension, new DisplayImage());
+		mRequestHandlers.put("/users/mailbox/mailbox" + mRequestExtension, new ReadMessageRequestHandler(context));
+		mRequestHandlers.put("/sendMessage" + mRequestExtension, new SendMessageRequestHandler(context));
+		mRequestHandlers.put("/readMessage" + mRequestExtension, new ReadMessageRequestHandler(context));
+		mRequestHandlers.put("/deleteMessage" + mRequestExtension, new DeleteMessageRequestHandler(context));
+
 	}
 
 	@Override
