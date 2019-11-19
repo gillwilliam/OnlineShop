@@ -3,6 +3,7 @@ pageEncoding="ISO-8859-1"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
     <%@ page import="java.util.ArrayList" %>
     <%@ page import="messages.MailMessage" %>
+    <%@ page import="entities.User"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +22,8 @@ pageEncoding="ISO-8859-1"%>
   	if (msgs != null && msgs instanceof ArrayList) {
   		messages = (ArrayList) msgs;
   	}
+  	
+	User user = (User) session.getAttribute(application.getInitParameter("signed_user_attribute_name"));
   	
 
   
@@ -80,6 +83,9 @@ pageEncoding="ISO-8859-1"%>
                                                                   <div class="col-lg-offset-2 col-lg-10">
                                                                             
                                                                       <button class="main-btn" type="submit">Send</button>
+                                                                      <div style="display:<%=user != null && (user.isSeller()) ? "inline" : "none"%>"> 
+                                                                      	<input type="checkbox" name="sendAllBuyers" id="sendAllBuyers" value="true"> Send to All Buyers
+                                                                      </div>
                                                                   </div>
                                                               </div>
                                                           </form>

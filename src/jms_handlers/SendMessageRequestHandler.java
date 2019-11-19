@@ -1,6 +1,7 @@
 package jms_handlers;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entities.User;
+import manager.UserManager;
 import messages.MailMessage;
 import request_handlers.RequestHandler;
 
@@ -38,6 +40,7 @@ public class SendMessageRequestHandler implements RequestHandler {
 
 	private String mMailboxPagePath;
 	private String mUserAttrName;
+	private String mSendAllBuyers;
 
 	public SendMessageRequestHandler(ServletContext context) {
 
@@ -65,11 +68,17 @@ public class SendMessageRequestHandler implements RequestHandler {
 		mRecipientEmail = request.getParameter("recipientEmail");
 		mSubject = request.getParameter("subject");
 		mMessage = request.getParameter("messageContent");
+		mSendAllBuyers = request.getParameter("sendAllBuyers");
+		System.out.println(mSendAllBuyers);
 
 		MailMessage msg = new MailMessage(mSenderName, mSenderEmail, mRecipientEmail, mSubject, mMessage);
-
-		sendMessage(msg);
-
+		
+		if (mSendAllBuyers != null) {
+			sendMessageToAllBuyers(msg);
+		} else {
+			sendMessage(msg);
+		}
+		
 		// Refreshes the page
 		// TODO: Success/ Failure feedback message
 		// response.sendRedirect(request.getContextPath() + mMailboxPagePath);
@@ -78,7 +87,7 @@ public class SendMessageRequestHandler implements RequestHandler {
 	}
 
 	protected void sendMessage(MailMessage msg) {
-		// TODO: Null Pointer Exception
+
 		try {
 
 			Connection con = cf.createConnection();
@@ -107,6 +116,40 @@ public class SendMessageRequestHandler implements RequestHandler {
 
 	public static String cleanEmailAddress(String email) {
 		return email = email.replace("@", "_at_").replace(".", "dot");
+	}
+	
+	protected void sendMessageToAllBuyers(MailMessage msg) {
+		
+		UserManager um = new UserManager();
+		List<User> users = um.findAllType("BUYER");
+		
+		try {
+
+			Connection con = cf.createConnection();
+			Session ses = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			MessageProducer prod = ses.createProducer(queue);
+			
+			for (User user: users) {
+				System.out.println(user.getEmail());
+				mRecipientEmail = user.getEmail();
+				ObjectMessage mess = ses.createObjectMessage();
+				mess.setObject(msg);
+				mess.setStringProperty("id", msg.getId());
+				mess.setStringProperty("sendTo", cleanEmailAddress(mRecipientEmail));
+
+				prod.send(mess);
+				
+			}
+
+
+			prod.close();
+			ses.close();
+			con.close();
+
+		} catch (Exception e) {
+			System.out.println("SendMessageRequestHandler Error:" + e);
+			e.printStackTrace();
+		}
 	}
 
 }
