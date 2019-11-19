@@ -86,10 +86,10 @@
 			<section id="personal_data_section">
 				<h1>Personal data</h1>
 				<input id="name" type="text"
-					name="<%=application.getInitParameter("name")%>"
-					placeholder="Name" value="<%=seller.getFirstName()%>"> <span
-					class="error"><%=nameMessage%></span> <input id="surname"
-					type="text" name="<%=application.getInitParameter("surname")%>"
+					name="<%=application.getInitParameter("name")%>" placeholder="Name"
+					value="<%=seller.getFirstName()%>" /> <span class="error"><%=nameMessage%></span>
+				<input id="surname" type="text"
+					name="sur"
 					placeholder="Surname" value="<%=seller.getLastName()%>" /> <span
 					class="error"><%=surnameMessage%></span> <input id="phone"
 					type="tel" name="<%=application.getInitParameter("phone")%>"
