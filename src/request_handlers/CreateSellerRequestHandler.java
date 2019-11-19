@@ -74,7 +74,6 @@ public class CreateSellerRequestHandler implements RequestHandler {
 		um.create(newSeller);
 		request.setAttribute(mUpdateResultParamName, addResult);
 
-
 		// redirecting to appropriate page
 		if (!validationResult.isValid() || !addResult.success)
 			request.getRequestDispatcher(mSellerCreationPath).forward(request, response);

@@ -333,12 +333,12 @@
 		<param-name>product_attr</param-name>
 		<param-value>product</param-value>
 	</context-param>
-	
+
 	<context-param>
-    		<param-name>message_array</param-name>
-    		<param-value>messages</param-value>
-    	</context-param>
-    
+		<param-name>message_array</param-name>
+		<param-value>messages</param-value>
+	</context-param>
+
 
 	<!-- data source -->
 
@@ -412,9 +412,9 @@
 		<param-value>/main.jsp</param-value>
 	</context-param>
 
-    	<context-param>
-    		<param-name>messages_path</param-name>
-    		<param-value>/users/mailbox/mailbox.jsp
-	</param-value>
+	<context-param>
+		<param-name>messages_path</param-name>
+		<param-value>/users/mailbox/mailbox.jsp
+	</param-value>	</context-param>
 
 </web-app>

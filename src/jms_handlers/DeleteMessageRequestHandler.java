@@ -22,20 +22,20 @@ import messages.MailMessage;
 import request_handlers.RequestHandler;
 
 public class DeleteMessageRequestHandler implements RequestHandler {
-	
+
 	private String mMailboxPagePath;
 	private InitialContext ic;
 	private ConnectionFactory cf;
 	private Queue queue;
 	private String mMessageID;
-	
+
 	public DeleteMessageRequestHandler(ServletContext context) {
 		mMailboxPagePath = context.getInitParameter("messages_path");
-		
+
 		try {
 			ic = new InitialContext();
-			cf = (ConnectionFactory)ic.lookup("tiwconnectionfactory");
-			queue = (Queue)ic.lookup("tiwqueue");
+			cf = (ConnectionFactory) ic.lookup("tiwconnectionfactory");
+			queue = (Queue) ic.lookup("tiwqueue");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -46,27 +46,27 @@ public class DeleteMessageRequestHandler implements RequestHandler {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		mMessageID = (String) request.getParameter("message-id");
-		
+
 		deleteMessage(mMessageID);
-		
+
 		request.getRequestDispatcher("/readMessage.main").forward(request, response);
 		// response.sendRedirect(request.getContextPath() + mMailboxPagePath);;
 
 	}
 
 	private void deleteMessage(String messageID) {
-		
+
 		try {
-			
+
 			Connection con = cf.createConnection();
 			Session ses = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			QueueBrowser browser = ses.createBrowser(queue);
-			
+
 			con.start();
-			
+
 			Enumeration enumMessages = browser.getEnumeration();
 			System.out.println(messageID);
-			
+
 			while (enumMessages.hasMoreElements()) {
 				ObjectMessage om = (ObjectMessage) enumMessages.nextElement();
 				System.out.println(om.getStringProperty("id"));
@@ -74,24 +74,20 @@ public class DeleteMessageRequestHandler implements RequestHandler {
 					System.out.println("Deleting this...");
 					MessageConsumer consumer = ses.createConsumer(queue, "id='" + messageID + "'");
 					consumer.receive(500);
-					
+
 				}
-				
+
 			}
-			
-			
-			
+
 			browser.close();
 			ses.close();
 			con.close();
-			
-			
-			
+
 		} catch (Exception e) {
 			System.out.println("JMS DeleteMessageRequestHandler Error: " + e);
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

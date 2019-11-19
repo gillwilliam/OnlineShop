@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jms_handlers.DeleteMessageRequestHandler;
+import jms_handlers.ReadMessageRequestHandler;
+import jms_handlers.SendMessageRequestHandler;
 import request_handlers.AddCategoryRequestHandler;
 import request_handlers.CheckoutRequestHandler;
 import request_handlers.CreateProductRequestHandler;
@@ -24,20 +27,9 @@ import request_handlers.EditUserProfileRequestHandler;
 import request_handlers.RegisterRequestHandler;
 import request_handlers.RenameCategoryRequestHandler;
 import request_handlers.RequestHandler;
-import jms_handlers.DeleteMessageRequestHandler;
-import jms_handlers.ReadMessageRequestHandler;
-import jms_handlers.SendMessageRequestHandler;
-import request_handlers.authorization.SignInRequestHandler;
-import request_handlers.authorization.SignOutRequestHandler;
-import request_handlers.product.CheckoutRequestHandler;
-import request_handlers.categories.AddCategoryRequestHandler;
-import request_handlers.categories.DeleteCategoryRequestHandler;
-import request_handlers.categories.RenameCategoryRequestHandler;
-import request_handlers.users.DeleteAdminRequestHandler;
-import request_handlers.users.DeleteBuyerRequestHandler;
-import request_handlers.users.DeleteSellerRequestHandler;
-import request_handlers.users.EditUserProfileRequestHandler;
-import request_handlers.users.maintenance.SearchUsersRequestHandler;
+import request_handlers.SearchProductsRequestHandler;
+import request_handlers.SignInRequestHandler;
+import request_handlers.SignOutRequestHandler;
 
 @WebServlet(name = "MainFrontController")
 @MultipartConfig
@@ -97,16 +89,12 @@ public class MainFrontController extends HttpServlet {
 		mRequestHandlers.put("/createSeller" + mRequestExtension, new CreateSellerRequestHandler(context));
 		mRequestHandlers.put("/searchProducts" + mRequestExtension, new SearchProductsRequestHandler(context));
 		mRequestHandlers.put("/getImage" + mRequestExtension, new DisplayImage());
-		     	mRequestHandlers.put("/users/mailbox/mailbox" + mRequestExtension, 
-     			new ReadMessageRequestHandler(context));
-     	mRequestHandlers.put("/sendMessage" + mRequestExtension,
-     			new SendMessageRequestHandler(context));
-     	mRequestHandlers.put("/readMessage" + mRequestExtension,
-     			new ReadMessageRequestHandler(context));
-     	mRequestHandlers.put("/deleteMessage" + mRequestExtension,
-     			new DeleteMessageRequestHandler(context));
+		mRequestHandlers.put("/users/mailbox/mailbox" + mRequestExtension, new ReadMessageRequestHandler(context));
+		mRequestHandlers.put("/sendMessage" + mRequestExtension, new SendMessageRequestHandler(context));
+		mRequestHandlers.put("/readMessage" + mRequestExtension, new ReadMessageRequestHandler(context));
+		mRequestHandlers.put("/deleteMessage" + mRequestExtension, new DeleteMessageRequestHandler(context));
 
-}
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
