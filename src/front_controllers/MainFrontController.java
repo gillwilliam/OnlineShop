@@ -107,7 +107,6 @@ public class MainFrontController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("GET");
 		handleRequest(request, response);
 	}
 

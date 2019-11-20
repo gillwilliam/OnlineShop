@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import entities.Category;
 import entities.Product;
+import entities.User;
 import utils.Price;
 
 public class ProductManager {
@@ -120,6 +121,17 @@ public class ProductManager {
 		Category c = cm.findById(id);
 		Query query = em.createQuery("SELECT p FROM Product p WHERE p.categoryBean = :c").setParameter("c", c);
 		return (List<Product>) query.getResultList();
+	}
+	public void delete(Product user) {
+		EntityManager em = emf.createEntityManager();
+		try {
+			user = em.merge(user);
+			em.getTransaction().begin();
+			em.remove(user);
+			em.getTransaction().commit();
+		} finally {
+			em.close();
+		}
 	}
 
 }

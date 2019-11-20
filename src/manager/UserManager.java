@@ -47,7 +47,7 @@ public class UserManager {
 		}
 	}
 
-	public void edit(User user, String name, String surname, String phone, String address, String email,
+	public User edit(User user, String name, String surname, String phone, String address, String email,
 			String newPassword) {
 		EntityManager em = emf.createEntityManager();
 		user = em.merge(user);
@@ -60,6 +60,7 @@ public class UserManager {
 		if (newPassword != null && !newPassword.isEmpty())
 			user.setPassword(newPassword);
 		em.getTransaction().commit();
+		return user;
 	}
 
 	@SuppressWarnings("unchecked")

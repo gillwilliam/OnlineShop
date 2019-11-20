@@ -88,7 +88,7 @@ public class EditUserProfileRequestHandler implements RequestHandler {
 		User user = um.findById(email);
 		if (validationResult.isValid()) {
 
-			um.edit(user, request.getParameter(mNameParamName), request.getParameter(mSurnameParamName),
+			user = um.edit(user, request.getParameter(mNameParamName), request.getParameter(mSurnameParamName),
 					request.getParameter(mPhoneParamName), request.getParameter(mAddrParamName),
 					request.getParameter(mEmailParamName), request.getParameter(mNewPassParamName));
 		}
