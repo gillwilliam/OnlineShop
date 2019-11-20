@@ -79,7 +79,6 @@ public class EditProductRequestHandler implements RequestHandler {
 			filePart.getInputStream().read(data, 0, data.length);
 			pm.edit(p, name, c, price, desc, quantity, data);
 
-
 			request.setAttribute(mResultAttr, new Result(true, "good"));
 		}
 
@@ -103,5 +102,4 @@ public class EditProductRequestHandler implements RequestHandler {
 		return new Price(mainPart, fracPart, "EUR");
 	}
 
-	
 }

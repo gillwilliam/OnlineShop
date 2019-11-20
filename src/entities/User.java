@@ -28,7 +28,7 @@ public class User implements Serializable {
 	private String firstName;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	private String lastName;

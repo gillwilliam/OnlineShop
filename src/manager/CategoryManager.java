@@ -32,6 +32,7 @@ public class CategoryManager {
 			if (user.getParent() != null) {
 				Category parent = em.merge(user.getParent());
 				parent.addChild(user);
+				user.setParent(parent);
 			}
 			em.persist(user);
 			em.getTransaction().commit();
@@ -103,12 +104,13 @@ public class CategoryManager {
 			em.close();
 		}
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<Category> getRoots() {
 		EntityManager em = emf.createEntityManager();
 
 		Query query = em.createQuery("SELECT c " + " FROM Category c " + " WHERE c.parent IS NULL");
-		return (List<Category>)query.getResultList();
+		return (List<Category>) query.getResultList();
 	}
 
 }

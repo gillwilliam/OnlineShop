@@ -16,14 +16,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
 /**
  * The persistent class for the product_lists database table.
  * 
  */
 @Entity
-@Table(name="product_lists")
-@NamedQuery(name="ProductList.findAll", query="SELECT p FROM ProductList p")
+@Table(name = "product_lists")
+@NamedQuery(name = "ProductList.findAll", query = "SELECT p FROM ProductList p")
 public class ProductList implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -39,13 +38,13 @@ public class ProductList implements Serializable {
 			@JoinColumn(name = "listId") })
 	private List<Product> products;
 
-	//bi-directional many-to-one association to User
+	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="user")
+	@JoinColumn(name = "user")
 	private User userBean;
 
-	//bi-directional one-to-one association to Order
-	@OneToOne(mappedBy="productList")
+	// bi-directional one-to-one association to Order
+	@OneToOne(mappedBy = "productList")
 	private Order order;
 	
 	public ProductList(List<Product> products, User userBean) {

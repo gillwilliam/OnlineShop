@@ -23,20 +23,39 @@
 <body>
 
 	<%
-		UserManager um = new UserManager();
-
-		List<User> buyers = um.findAllType("BUYER");
-		List<User> sellers = um.findAllType("SELLER");
-		List<User> admins = um.findAllType("ADMIN");
-
-
-		Result sellerCreationRes = (Result) request
-				.getAttribute(application.getInitParameter("user_profile_update_result"));
-
-		String message = (String) request.getAttribute("message");
-		Boolean deleteSuccess = (Boolean) request.getAttribute("deleteResult");
-		deleteSuccess = deleteSuccess == null ? true : deleteSuccess;
+		ArrayList<User> buyers		= null;
+		ArrayList<User> sellers 	= null;
+		ArrayList<User> admins		= null;
+		
+		int currMaxAmountOfDisplayedUsers = 0;
+	
+		Object usersToDisplayObj = request.getAttribute("found_users");
+		if (usersToDisplayObj != null && usersToDisplayObj instanceof HashMap)
+		{
+			out.println("TEST");
+			HashMap<UserType, ArrayList<User>> usersToDisplay = (HashMap) usersToDisplayObj;
+			buyers 	= (ArrayList) usersToDisplay.get(UserType.BUYER);
+			sellers = (ArrayList) usersToDisplay.get(UserType.SELLER);
+			admins 	= (ArrayList) usersToDisplay.get(UserType.ADMIN);
+		}
+		
+		if (buyers == null)
+			buyers = new ArrayList<User>();
+		if (sellers == null)
+			sellers = new ArrayList<User>();
+		if (admins == null)
+			admins = new ArrayList<User>();
+		
+		currMaxAmountOfDisplayedUsers = Math.max(buyers.size(), Math.max(sellers.size(), admins.size()));
+		
+		Result sellerCreationRes = (Result)
+				request.getAttribute(application.getInitParameter("user_profile_update_result"));
+		
+		String message 			= (String) request.getAttribute("message");
+		Boolean deleteSuccess 	= (Boolean) request.getAttribute("deleteResult");
+		deleteSuccess = deleteSuccess == null ? true : deleteSuccess;	
 	%>
+
 
 
 	<!-- HEADER -->
@@ -65,7 +84,25 @@
 		<a
 			href="${pageContext.request.contextPath}<%= application.getInitParameter("seller_creation_path") %>"
 			id="but_create_seller">Create seller</a>
-
+<!--  section for searching users -->
+		<section id="section_search_user">
+			<h1>Search</h1>
+			<p>Leave field empty if you want it to match any value</p>
+			<!--  search user form  -->
+			<form id="search_user_form" action="${pageContext.request.contextPath}/searchUsers
+				<%= application.getInitParameter("main_front_controller_request_extension") %>" method="get">
+				<div id="search_inputs_container">
+					<input id="input_user_name" type="text" name="<%= application.getInitParameter("name") %>" 
+						placeholder="name"/>
+					<input id="input_user_surname" type="text" name="<%= application.getInitParameter("surname") %>"
+						placeholder="surname"/>
+					<input id="input_user_email" type="email" name="<%= application.getInitParameter("email") %>"
+						placeholder="email"/>	
+				</div>
+				
+				<input id="but_search" type="submit" value="Search"/>
+			</form><!--  /search user form  -->
+		</section><!--  /section for searching users -->
 		<!--  displaying users list  -->
 		<section id="section_users_list">
 			<!--  bar for choosing user type  -->
