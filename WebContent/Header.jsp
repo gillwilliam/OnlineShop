@@ -137,8 +137,7 @@
 						<!-- wish list ------------------------------------------------------------------------------------ -->
 						<li
 							style="display:<%=user != null && user.isBuyer() ? "inline" : "none"%>">
-							<a id="but_wish_list" href="#"> <b class="text-uppercase">Wish
-									list</b>
+							<a id="but_wish_list" href="${pageContext.request.contextPath}/product/wishlist.jsp"> <b class="text-uppercase">Wishlist</b>
 						</a>
 						</li>
 						<!-- /wish list ----------------------------------------------------------------------------------- -->
