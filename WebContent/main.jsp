@@ -56,6 +56,21 @@
 						value=<%=product.getId()%> />
 					</form>
 				</div>
+				<div class="row">
+					<form id="product"
+					action="${pageContext.request.contextPath}/addToWishList<%= application.getInitParameter("main_front_controller_request_extension") %>"
+					method="post">
+					
+					<input id="show" type="submit" class="btn btn-success" style="margin-bottom: 10px"
+								name="show"
+								value="Add to wishlist"/>
+	
+					<input id="product"
+						style="display: none"
+						name="product"
+						value=<%=product.getId()%> />
+					</form>
+				</div>
 			</div>
 			<%
 				}
