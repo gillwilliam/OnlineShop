@@ -77,6 +77,8 @@ public class CheckoutRequestHandler implements RequestHandler {
 
 		Order curOrder = new Order(self, curProductList);
 		om.create(curOrder);
+		
+		ms.setAttribute("shoppingcarts", new HashMap<Integer, Integer>());
 
 		// redirect to home?
 		response.sendRedirect(request.getContextPath() + MAIN_JSP);
