@@ -9,7 +9,6 @@ import javax.persistence.Query;
 
 import entities.Category;
 import entities.Product;
-import entities.User;
 import utils.Price;
 
 public class ProductManager {
