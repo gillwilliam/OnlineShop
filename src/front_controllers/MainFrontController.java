@@ -16,6 +16,7 @@ import jms_handlers.ReadMessageRequestHandler;
 import jms_handlers.SendMessageRequestHandler;
 import request_handlers.AddCategoryRequestHandler;
 import request_handlers.AddToShoppingCartRequestHandler;
+import request_handlers.AddToWishListRequestHandler;
 import request_handlers.CheckoutRequestHandler;
 import request_handlers.CreateProductRequestHandler;
 import request_handlers.CreateSellerRequestHandler;
@@ -29,10 +30,11 @@ import request_handlers.RegisterRequestHandler;
 import request_handlers.RenameCategoryRequestHandler;
 import request_handlers.RequestHandler;
 import request_handlers.SearchProductsRequestHandler;
-import request_handlers.ShoppingCartRequestHandler;
 import request_handlers.SearchUsersRequestHandler;
+import request_handlers.ShoppingCartRequestHandler;
 import request_handlers.SignInRequestHandler;
 import request_handlers.SignOutRequestHandler;
+import request_handlers.WishListRequestHandler;
 
 @WebServlet(name = "MainFrontController")
 @MultipartConfig
@@ -84,8 +86,12 @@ public class MainFrontController extends HttpServlet {
 				new CheckoutRequestHandler(context, mRequestExtension));
 		mRequestHandlers.put("/addToShoppingCart" + mRequestExtension,
 				new AddToShoppingCartRequestHandler(context, mRequestExtension));
+		mRequestHandlers.put("/addToWishList" + mRequestExtension,
+				new AddToWishListRequestHandler(context, mRequestExtension));
 		mRequestHandlers.put("/editShoppingCart" + mRequestExtension,
 				new ShoppingCartRequestHandler(context, mRequestExtension));
+		mRequestHandlers.put("/editWishList" + mRequestExtension,
+				new WishListRequestHandler(context, mRequestExtension));
 		mRequestHandlers.put("/addCategory" + mRequestExtension, new AddCategoryRequestHandler(context));
 		mRequestHandlers.put("/renameCategory" + mRequestExtension, new RenameCategoryRequestHandler(context));
 		mRequestHandlers.put("/deleteCategory" + mRequestExtension, new DeleteCategoryRequestHandler(context));
