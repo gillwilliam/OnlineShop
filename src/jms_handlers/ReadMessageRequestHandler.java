@@ -65,7 +65,7 @@ public class ReadMessageRequestHandler implements RequestHandler {
 		
 		if (user.isAdmin()) {
 			// Admin has access to read all messages in the queue.
-			readAllMessages();
+			readMessages("admin");
 		} else {
 			readMessages(user.getEmail());
 		}
@@ -79,56 +79,13 @@ public class ReadMessageRequestHandler implements RequestHandler {
 		response.sendRedirect(request.getContextPath() + mMailboxPagePath);
 	}
 
-	private void readAllMessages() {
-		
-		try {
-
-			Connection con = cf.createConnection();
-			Session ses = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			QueueBrowser browser = ses.createBrowser(queue);
-
-			con.start();
-
-			java.util.Enumeration enumMessages = browser.getEnumeration();
-
-			messageArray = new ArrayList<MailMessage>();
-
-			// Load latest 10 messages or less
-
-			while (enumMessages.hasMoreElements()) {
-				Message message = (Message) enumMessages.nextElement();
-				if (message != null && message instanceof ObjectMessage) {
-					ObjectMessage om = (ObjectMessage) message;
-					MailMessage msg = (MailMessage) om.getObject();
-					messageArray.add(msg);
-				}
-			}
-
-			// Latest email at the top
-			Collections.reverse(messageArray);
-			if (messageArray.size() > 10) {
-				messageArray = new ArrayList<MailMessage>(messageArray.subList(0, 9));
-			}
-
-			// con.stop(); This line is giving me error for some reason
-			browser.close();
-			ses.close();
-			con.close();
-
-		} catch (Exception e) {
-			System.out.println("JMS ReadMessageRequestHandler Error: " + e);
-			e.printStackTrace();
-		}
-		
-	}
-
 	protected void readMessages(String email) {
 
 		try {
 
 			Connection con = cf.createConnection();
 			Session ses = con.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			String filter = "sendTo='" + SendMessageRequestHandler.cleanEmailAddress(email) + "'";
+			String filter = email.equals("admin") ? null : "sendTo='" + SendMessageRequestHandler.cleanEmailAddress(email) + "'";
 			QueueBrowser browser = ses.createBrowser(queue, filter);
 
 			con.start();
