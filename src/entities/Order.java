@@ -3,6 +3,8 @@ package entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,6 +23,7 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
 	// bi-directional many-to-one association to User
@@ -34,6 +37,12 @@ public class Order implements Serializable {
 	private ProductList productList;
 
 	public Order() {
+		
+	}
+	
+	public Order(User user, ProductList pl) {
+		this.user = user;
+		this.productList = pl;
 	}
 
 	public int getId() {

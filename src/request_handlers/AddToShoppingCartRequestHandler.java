@@ -1,6 +1,7 @@
 package request_handlers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletConfig;
@@ -14,11 +15,10 @@ import javax.servlet.http.HttpSession;
 import entities.Product;
 import manager.ProductManager;
 
-public class ShoppingCartRequestHandler implements RequestHandler {
+public class AddToShoppingCartRequestHandler implements RequestHandler {
 	private static final long serialVersionUID = 1L;
 
-	private static final String SHOPPINGCART_JSP = "/product/shopping_cart.jsp";
-	private static final String CHECKOUT_JSP = "/product/checkout.jsp";
+	private static final String MAIN_JSP = "/main.jsp";
 
 	private ServletConfig config;
 
@@ -27,7 +27,7 @@ public class ShoppingCartRequestHandler implements RequestHandler {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ShoppingCartRequestHandler(ServletContext context, String requestExtension) {
+	public AddToShoppingCartRequestHandler(ServletContext context, String requestExtension) {
 		super();
 
 		mRequestExtension = requestExtension;
@@ -40,12 +40,6 @@ public class ShoppingCartRequestHandler implements RequestHandler {
 		// TODO Auto-generated method stub
 
 		// get the other params and insert them?
-		
-		System.out.println(request.getParameter("product"));
-		
-		String param = request.getParameter("product");
-		
-		
 		
 		HttpSession ms = request.getSession();
 		
@@ -62,33 +56,13 @@ public class ShoppingCartRequestHandler implements RequestHandler {
 		//shoppingcart.add((Product) request.getParameter("product"));
 		
 		ProductManager pm = new ProductManager();
-
+		Product product = pm.findById(Integer.parseInt(request.getParameter("product")));
+		shoppingcart.put(product.getId(), shoppingcart.getOrDefault(product.getId(), 0) + 1);
 		
-		if(param.startsWith("increment")) {
-			
-			Product product = pm.findById(Integer.parseInt(param.split(" ")[1]));
-			shoppingcart.put(product.getId(), shoppingcart.getOrDefault(product.getId(), 0) + 1);
-			
-			request.getSession().setAttribute("shoppingcarts", shoppingcart);
-			
-			response.sendRedirect(request.getContextPath() + SHOPPINGCART_JSP);
-			
-		} else if (param.startsWith("decrement")) {
-			Product product = pm.findById(Integer.parseInt(param.split(" ")[1]));
-			shoppingcart.put(product.getId(), shoppingcart.getOrDefault(product.getId(), 0) - 1);
-			
-			if(shoppingcart.get(product.getId()) == 0) {
-				shoppingcart.remove(product.getId());
-			}
-			
-			request.getSession().setAttribute("shoppingcarts", shoppingcart);
-			response.sendRedirect(request.getContextPath() + SHOPPINGCART_JSP);
-		} else {
-			response.sendRedirect(request.getContextPath() + CHECKOUT_JSP);
-		}
-		
-		//response.sendRedirect(request.getContextPath() + CHECKOUT_JSP);
+		request.getSession().setAttribute("shoppingcarts", shoppingcart);
 
+		// redirect to home?
+		response.sendRedirect(request.getContextPath() + MAIN_JSP);
 
 	}
 

@@ -109,6 +109,14 @@
 								<b class="text-uppercase">Catalog Maintenance</b>
 						</a>
 						</li>
+						
+						<li
+							style="display:<%=user != null && (user.isBuyer()) ? "inline" : "none"%>">
+							<a id="but_catalog_maintenance"
+							href="${pageContext.request.contextPath}/product/orders.jsp">
+								<b class="text-uppercase">My Orders</b>
+						</a>
+						</li>
 						<!-- /catalog maintenance --------------------------------------------------------------------------- -->
 
 						<!-- Account ---------------------------------------------------------------------------------------- -->
