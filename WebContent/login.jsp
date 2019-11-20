@@ -31,7 +31,6 @@
 							type="button" class="main-btn"
 							href="${pageContext.request.contextPath}/register.jsp">Register</a>
 					</form>
-					<%= request.getAttribute("errorMessage") %>
 				</div>
 			</div>
 			<!-- /row -->
