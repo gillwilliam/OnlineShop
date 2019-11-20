@@ -3,9 +3,13 @@ package entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
@@ -23,12 +27,15 @@ public class ProductList implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int listId;
 
-	private byte isShoppingCart;
+	private boolean isShoppingCart;
 
-	// bi-directional many-to-many association to Product
-	@ManyToMany(mappedBy = "productLists")
+	//bi-directional many-to-many association to Product
+	@ManyToMany(mappedBy="productLists", cascade = CascadeType.ALL)
+	@JoinTable(name = "lists_to_products", joinColumns = { @JoinColumn(name = "productId") }, inverseJoinColumns = {
+			@JoinColumn(name = "listId") })
 	private List<Product> products;
 
 	// bi-directional many-to-one association to User
@@ -39,6 +46,12 @@ public class ProductList implements Serializable {
 	// bi-directional one-to-one association to Order
 	@OneToOne(mappedBy = "productList")
 	private Order order;
+	
+	public ProductList(List<Product> products, User userBean) {
+		this.products = products;
+		this.userBean = userBean;
+		this.isShoppingCart = false;
+	}
 
 	public ProductList() {
 	}
@@ -51,11 +64,11 @@ public class ProductList implements Serializable {
 		this.listId = listId;
 	}
 
-	public byte getIsShoppingCart() {
+	public boolean getIsShoppingCart() {
 		return this.isShoppingCart;
 	}
 
-	public void setIsShoppingCart(byte isShoppingCart) {
+	public void setIsShoppingCart(boolean isShoppingCart) {
 		this.isShoppingCart = isShoppingCart;
 	}
 
