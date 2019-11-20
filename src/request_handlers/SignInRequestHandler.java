@@ -1,6 +1,8 @@
 package request_handlers;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -35,11 +37,14 @@ public class SignInRequestHandler implements RequestHandler {
 
 		UserManager um = new UserManager();
 		User user = um.findById(email);
+		
 		if (user == null || !user.getPassword().equals(password)) {
 			request.setAttribute("errorMessage", "Incorrect credentials. Please try again.");
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		} else {
 			request.getSession().setAttribute(mUserAttrName, user);
+			request.getSession().setAttribute("shoppingcart", new HashMap<Integer, Integer>());
+			request.getSession().setAttribute("wishlist", new HashSet<Integer>());
 			request.getRequestDispatcher(mHomepagePath).forward(request, response);
 		}
 	}

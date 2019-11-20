@@ -1,6 +1,7 @@
 package request_handlers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -17,7 +18,7 @@ public class SearchProductsRequestHandler implements RequestHandler {
 	// //////////////////////////////////////////////////////////////////////////////////////
 	// initial parameters names
 	public static final String PRODUCT_INIT_PARAM_NAME = "product";
-	private static final String MAIN_JSP = "/main.jsp";
+
 
 	public static final String MAX_NUM_OF_RESULTS_INIT_PARAM_NAME = "max_num_of_results";
 	public static final String PRODUCTS_MAINTENANCE_PATH_PARAM_NAME = "search_products";
@@ -28,12 +29,9 @@ public class SearchProductsRequestHandler implements RequestHandler {
 
 	// fields
 	// /////////////////////////////////////////////////////////////////////////////////////
-	private ServletContext mContext;
-	private String mProductsMaintenancePath;
 
 	public SearchProductsRequestHandler(ServletContext context) {
-		mContext = context;
-		mProductsMaintenancePath = context.getInitParameter(PRODUCTS_MAINTENANCE_PATH_PARAM_NAME);
+
 	}
 
 	@Override
@@ -41,37 +39,21 @@ public class SearchProductsRequestHandler implements RequestHandler {
 			throws ServletException, IOException {
 		// int maxNumOfResults = acquireMaxNumOfResults(request);
 		String searchedProduct = request.getParameter(PRODUCT_INIT_PARAM_NAME);
-		// String searchedSurname =
-		// request.getParameter(mContext.getInitParameter(SURNAME_INIT_PARAM_NAME));
-		// String searchedEmail =
-		// request.getParameter(mContext.getInitParameter(EMAIL_INIT_PARAM_NAME));
+		int category = request.getParameter("category") == null ? -1
+				: Integer.parseInt(request.getParameter("category"));
+		System.out.println("CAT" + category);
 
 		// if search was initiated in request handler, not jsp form
-		if (searchedProduct == null)
-			searchedProduct = (String) request.getAttribute(PRODUCT_INIT_PARAM_NAME);
-
 		ProductManager pm = new ProductManager();
-
-		List<Product> searchResult = pm.findByName(searchedProduct);
+		List<Product> searchResult = new ArrayList<>();
+		if (searchedProduct != null) {
+			searchResult = pm.findByName(searchedProduct);
+		} else if (category != -1) {
+			searchResult = pm.findByCategory(category);
+		}
 
 		request.setAttribute(ATTR_FOUND_PRODUCTS, searchResult);
 		request.getRequestDispatcher("/main.jsp").forward(request, response);
-		// response.sendRedirect(request.getContextPath() + MAIN_JSP);
-	}
-
-	/**
-	 * 
-	 * @param request request containting maximum number of results parameters
-	 * @return maximum number of results acquired from request. In case that no such
-	 *         parameter was found or it wasn't greater than 0 then
-	 *         DEFAULT_MAX_NUM_OF_RESULTS is returned
-	 */
-	private int acquireMaxNumOfResults(HttpServletRequest request) {
-		String maxNumOfResultsObj = request.getParameter(mContext.getInitParameter(MAX_NUM_OF_RESULTS_INIT_PARAM_NAME));
-		int maxNumOfResults = maxNumOfResultsObj != null ? Integer.parseInt(maxNumOfResultsObj)
-				: DEFAULT_MAX_NUM_OF_RESULTS;
-
-		return maxNumOfResults > 0 ? maxNumOfResults : DEFAULT_MAX_NUM_OF_RESULTS;
 	}
 
 }

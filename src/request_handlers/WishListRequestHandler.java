@@ -1,7 +1,8 @@
 package request_handlers;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -14,11 +15,10 @@ import javax.servlet.http.HttpSession;
 import entities.Product;
 import manager.ProductManager;
 
-public class ShoppingCartRequestHandler implements RequestHandler {
+public class WishListRequestHandler implements RequestHandler {
 	private static final long serialVersionUID = 1L;
 
-	private static final String SHOPPINGCART_JSP = "/product/shopping_cart.jsp";
-	private static final String CHECKOUT_JSP = "/product/checkout.jsp";
+	private static final String WISHLIST_JSP = "/product/wishlist.jsp";
 
 	private ServletConfig config;
 
@@ -27,7 +27,7 @@ public class ShoppingCartRequestHandler implements RequestHandler {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ShoppingCartRequestHandler(ServletContext context, String requestExtension) {
+	public WishListRequestHandler(ServletContext context, String requestExtension) {
 		super();
 
 		mRequestExtension = requestExtension;
@@ -51,11 +51,11 @@ public class ShoppingCartRequestHandler implements RequestHandler {
 		
 		// request.getSession().setAttribute("shoppingcart", new ArrayList<Product>());
 		
-		if(ms.getAttribute("shoppingcarts") == null) {
-			request.getSession().setAttribute("shoppingcarts", new HashMap<Product, Integer>());
+		if(ms.getAttribute("wishlist") == null) {
+			request.getSession().setAttribute("wishlist", new HashSet<Integer>());
 		}
 		
-		HashMap<Integer, Integer> shoppingcart = ((HashMap<Integer, Integer>) ms.getAttribute("shoppingcarts"));
+		Set<Integer> wishlist = ((HashSet<Integer>) ms.getAttribute("wishlist"));
 		
 		System.out.println(request.getParameter("product"));
 		
@@ -64,27 +64,15 @@ public class ShoppingCartRequestHandler implements RequestHandler {
 		ProductManager pm = new ProductManager();
 
 		
-		if(param.startsWith("increment")) {
+		if(param.startsWith("remove")) {
 			
 			Product product = pm.findById(Integer.parseInt(param.split(" ")[1]));
-			shoppingcart.put(product.getId(), shoppingcart.getOrDefault(product.getId(), 0) + 1);
+			wishlist.remove(product.getId());
 			
-			request.getSession().setAttribute("shoppingcarts", shoppingcart);
+			request.getSession().setAttribute("wishlist", wishlist);
 			
-			response.sendRedirect(request.getContextPath() + SHOPPINGCART_JSP);
+			response.sendRedirect(request.getContextPath() + WISHLIST_JSP);
 			
-		} else if (param.startsWith("decrement")) {
-			Product product = pm.findById(Integer.parseInt(param.split(" ")[1]));
-			shoppingcart.put(product.getId(), shoppingcart.getOrDefault(product.getId(), 0) - 1);
-			
-			if(shoppingcart.get(product.getId()) == 0) {
-				shoppingcart.remove(product.getId());
-			}
-			
-			request.getSession().setAttribute("shoppingcarts", shoppingcart);
-			response.sendRedirect(request.getContextPath() + SHOPPINGCART_JSP);
-		} else {
-			response.sendRedirect(request.getContextPath() + CHECKOUT_JSP);
 		}
 		
 		//response.sendRedirect(request.getContextPath() + CHECKOUT_JSP);

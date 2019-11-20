@@ -1,10 +1,12 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import entities.User;
+import manager.UserManager;
 
 public class UserDataValidator {
 
@@ -46,7 +48,7 @@ public class UserDataValidator {
 		seller.setFirstName(seller.getFirstName().trim());
 		seller.setPassword(seller.getPassword().trim());
 		seller.setPhone(seller.getPhone().replaceAll("\\s+", ""));
-		seller.setFirstName(seller.getLastName().trim());
+		seller.setLastName(seller.getLastName().trim());
 	}
 
 	/**
@@ -280,11 +282,14 @@ public class UserDataValidator {
 
 		public InputValidationResult validateUnusedEmail(String email) {
 			// TODO check with database if email is unused
+			
+			UserManager um = new UserManager();
+			List<User> users = um.findAll();
 			ArrayList<String> emails = new ArrayList<String>();
-			emails.add("admin@shop.com");
-			emails.add("mira@gmail.com");
-			emails.add("jnapal@gmail.com");
-
+			for (User user: users) {
+				emails.add(user.getEmail());
+			}
+			
 			if (emails.contains(email)) {
 				this.mIsValid = false;
 				this.mIsEmailValid = false;

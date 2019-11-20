@@ -49,7 +49,7 @@
 				<div class="pull-left">
 					<!-- Logo -->
 					<div class="header-logo">
-						<a class="logo" href="#"> <img
+						<a class="logo" href="${pageContext.request.contextPath}"> <img
 							src="${pageContext.request.contextPath}/img/logo.png" alt="">
 						</a>
 					</div>
@@ -62,7 +62,7 @@
 						<%= application.getInitParameter("main_front_controller_request_extension") %>"
 							method="get">
 							<input class="input search-input" id="product" type="text"
-								name="<%=application.getInitParameter("product")%>"
+								name="<%=application.getInitParameter("product_attr")%>"
 								placeholder="Enter your keyword" />
 
 							<button class="search-btn">
@@ -77,7 +77,7 @@
 
 						<!-- messaging -------------------------------------------------------------------------------------- -->
 						<li style="display:<%=user != null ? "inline" : "none"%>"><a
-							id="but_messages" href="#"> <b class="text-uppercase">Messages</b>
+							id="but_messages" href="${pageContext.request.contextPath}<%=application.getInitParameter("messages_path")%>"> <b class="text-uppercase">Messages</b>
 						</a></li>
 						<!-- messaging -------------------------------------------------------------------------------------- -->
 
@@ -109,6 +109,14 @@
 								<b class="text-uppercase">Catalog Maintenance</b>
 						</a>
 						</li>
+						
+						<li
+							style="display:<%=user != null && (user.isBuyer()) ? "inline" : "none"%>">
+							<a id="but_catalog_maintenance"
+							href="${pageContext.request.contextPath}/product/orders.jsp">
+								<b class="text-uppercase">My Orders</b>
+						</a>
+						</li>
 						<!-- /catalog maintenance --------------------------------------------------------------------------- -->
 
 						<!-- Account ---------------------------------------------------------------------------------------- -->
@@ -129,8 +137,7 @@
 						<!-- wish list ------------------------------------------------------------------------------------ -->
 						<li
 							style="display:<%=user != null && user.isBuyer() ? "inline" : "none"%>">
-							<a id="but_wish_list" href="#"> <b class="text-uppercase">Wish
-									list</b>
+							<a id="but_wish_list" href="${pageContext.request.contextPath}/product/wishlist.jsp"> <b class="text-uppercase">Wishlist</b>
 						</a>
 						</li>
 						<!-- /wish list ----------------------------------------------------------------------------------- -->

@@ -66,6 +66,8 @@ public class EditProductRequestHandler implements RequestHandler {
 		CategoryManager cm = new CategoryManager();
 		ProductManager pm = new ProductManager();
 		Product p = pm.findById(id);
+		System.out.println(p);
+		System.out.println(request.getParameter("delete"));
 		if (p != null && (passOnlyStr == null || !Boolean.parseBoolean(passOnlyStr))) {
 			String name = request.getParameter(mNameParamName);
 			Price price = obtainPrice(request.getParameter(mPriceParamName));
@@ -79,7 +81,10 @@ public class EditProductRequestHandler implements RequestHandler {
 			filePart.getInputStream().read(data, 0, data.length);
 			pm.edit(p, name, c, price, desc, quantity, data);
 
-
+			request.setAttribute(mResultAttr, new Result(true, "good"));
+		}else if(p != null && request.getParameter("delete") != null) {
+			pm.delete(p);
+			System.out.println("DELETED");
 			request.setAttribute(mResultAttr, new Result(true, "good"));
 		}
 
@@ -103,5 +108,4 @@ public class EditProductRequestHandler implements RequestHandler {
 		return new Price(mainPart, fracPart, "EUR");
 	}
 
-	
 }

@@ -11,7 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jms_handlers.DeleteMessageRequestHandler;
+import jms_handlers.ReadMessageRequestHandler;
+import jms_handlers.SendMessageRequestHandler;
 import request_handlers.AddCategoryRequestHandler;
+import request_handlers.AddToShoppingCartRequestHandler;
+import request_handlers.AddToWishListRequestHandler;
 import request_handlers.CheckoutRequestHandler;
 import request_handlers.CreateProductRequestHandler;
 import request_handlers.CreateSellerRequestHandler;
@@ -25,8 +30,11 @@ import request_handlers.RegisterRequestHandler;
 import request_handlers.RenameCategoryRequestHandler;
 import request_handlers.RequestHandler;
 import request_handlers.SearchProductsRequestHandler;
+import request_handlers.SearchUsersRequestHandler;
+import request_handlers.ShoppingCartRequestHandler;
 import request_handlers.SignInRequestHandler;
 import request_handlers.SignOutRequestHandler;
+import request_handlers.WishListRequestHandler;
 
 @WebServlet(name = "MainFrontController")
 @MultipartConfig
@@ -76,6 +84,14 @@ public class MainFrontController extends HttpServlet {
 		mRequestHandlers.put("/signIn" + mRequestExtension, new SignInRequestHandler(context));
 		mRequestHandlers.put("/product/checkout" + mRequestExtension,
 				new CheckoutRequestHandler(context, mRequestExtension));
+		mRequestHandlers.put("/addToShoppingCart" + mRequestExtension,
+				new AddToShoppingCartRequestHandler(context, mRequestExtension));
+		mRequestHandlers.put("/addToWishList" + mRequestExtension,
+				new AddToWishListRequestHandler(context, mRequestExtension));
+		mRequestHandlers.put("/editShoppingCart" + mRequestExtension,
+				new ShoppingCartRequestHandler(context, mRequestExtension));
+		mRequestHandlers.put("/editWishList" + mRequestExtension,
+				new WishListRequestHandler(context, mRequestExtension));
 		mRequestHandlers.put("/addCategory" + mRequestExtension, new AddCategoryRequestHandler(context));
 		mRequestHandlers.put("/renameCategory" + mRequestExtension, new RenameCategoryRequestHandler(context));
 		mRequestHandlers.put("/deleteCategory" + mRequestExtension, new DeleteCategoryRequestHandler(context));
@@ -85,7 +101,13 @@ public class MainFrontController extends HttpServlet {
 		mRequestHandlers.put("/createProduct" + mRequestExtension, new CreateProductRequestHandler(context));
 		mRequestHandlers.put("/createSeller" + mRequestExtension, new CreateSellerRequestHandler(context));
 		mRequestHandlers.put("/searchProducts" + mRequestExtension, new SearchProductsRequestHandler(context));
+		mRequestHandlers.put("/searchUsers" + mRequestExtension, new SearchUsersRequestHandler(context));
 		mRequestHandlers.put("/getImage" + mRequestExtension, new DisplayImage());
+		mRequestHandlers.put("/users/mailbox/mailbox" + mRequestExtension, new ReadMessageRequestHandler(context));
+		mRequestHandlers.put("/sendMessage" + mRequestExtension, new SendMessageRequestHandler(context));
+		mRequestHandlers.put("/readMessage" + mRequestExtension, new ReadMessageRequestHandler(context));
+		mRequestHandlers.put("/deleteMessage" + mRequestExtension, new DeleteMessageRequestHandler(context));
+
 	}
 
 	@Override
@@ -97,7 +119,6 @@ public class MainFrontController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("GET");
 		handleRequest(request, response);
 	}
 

@@ -57,11 +57,9 @@
 	<%
 		// replace with pulling the products in the shopping cart from db
 		ProductManager pm = new ProductManager();
-		Set<Integer> ms = new HashSet<Integer>();
-		HashMap<Integer, Integer> products = new HashMap<Integer, Integer>();
-		if(request.getSession().getAttribute("shoppingcarts") != null) {
-			products = (HashMap<Integer, Integer>) request.getSession().getAttribute("shoppingcarts");
-			ms = products.keySet();
+		Set<Integer> products = new HashSet<Integer>();
+		if(request.getSession().getAttribute("wishlist") != null) {
+			products = (HashSet<Integer>) request.getSession().getAttribute("wishlist");
 		}
 
 	%>
@@ -70,11 +68,11 @@
 	</div>
 	<div class="container">
 		<div style="margin-top: 100px">
-			<%if(ms.isEmpty()) {%>
-				<h2>Cart is currently empty, please add items to the cart to checkout.</h2>
+			<%if(products.isEmpty()) {%>
+				<h2>Wishlist is currently empty, please add items to the wishlist.</h2>
 			<%} %>	
 			<%
-				for (Integer productId : ms) {
+				for (Integer productId : products) {
 					Product product = pm.findById(productId);
 			%>
 			<div class="row">
@@ -95,34 +93,33 @@
 						<div class="col-md-4">
 							<b><%=product.getPrice()%></b>
 						</div>
-						<div class="col-md-4">
-							<p><%=products.get(productId) + " items"%></p>
-						</div>
-						<div class="col-md-4">
+						<div class="col-md-4">							
 							<form id="product"
-							action="${pageContext.request.contextPath}/editShoppingCart<%= application.getInitParameter("main_front_controller_request_extension") %>"
-							method="post">
-							
-							<input id="show" type="submit" class="btn btn-success" style="margin-bottom: 10px"
-								name="show"
-								value="Add 1 item"/>
-			
-							<input id="product" style="display: none"
-								name="product"
-								value="increment <%=product.getId()%>" />
-							</form>
-							
-							<form id="product"
-							action="${pageContext.request.contextPath}/editShoppingCart<%= application.getInitParameter("main_front_controller_request_extension") %>"
+							action="${pageContext.request.contextPath}/editWishList<%= application.getInitParameter("main_front_controller_request_extension") %>"
 							method="post">
 							
 							<input id="show" type="submit" class="btn btn-danger"
 								name="show"
-								value="Remove 1 item"/>
+								value="Remove"/>
 			
 							<input id="product" style="display: none"
 								name="product"
-								value="decrement <%=product.getId()%>"/>
+								value="remove <%=product.getId()%>"/>
+							</form>
+						</div>
+						<div class="row">
+							<form id="product"
+							action="${pageContext.request.contextPath}/addToShoppingCart<%= application.getInitParameter("main_front_controller_request_extension") %>"
+							method="post">
+							
+							<input id="show" type="submit" class="btn btn-success" style="margin-bottom: 10px"
+										name="show"
+										value="Add to cart"/>
+			
+							<input id="product"
+								style="display: none"
+								name="product"
+								value=<%=product.getId()%> />
 							</form>
 						</div>
 					</div>
@@ -133,17 +130,6 @@
 				}
 			%>
 		</div>
-		<%
-		if(!ms.isEmpty()) {
-		%>
-		<div class="row">
-			<div class="col-md-3 offset-md-10" style="margin-bottom: 10px">
-				<a class="btn btn-primary"
-					href=<%=request.getContextPath() + "/product/checkout.jsp"%>>Check
-					out</a>
-			</div>
-		</div>
-		<%} %>
 	</div>
 
 </body>

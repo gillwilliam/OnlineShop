@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -7,33 +8,38 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import entities.Category;
+import entities.Product;
+import entities.ProductList;
 
-public class CategoryManager {
+public class ProductListManager {
 
 	private EntityManagerFactory emf;
 
-	public CategoryManager() {
+	public ProductListManager() {
 		emf = Persistence.createEntityManagerFactory("OnlineShop");
 	}
 
-	public CategoryManager(String unidadDePersistencia) {
+	public ProductListManager(String unidadDePersistencia) {
 		emf = Persistence.createEntityManagerFactory(unidadDePersistencia);
 	}
 
-	public CategoryManager(EntityManagerFactory factory) {
+	public ProductListManager(EntityManagerFactory factory) {
 		emf = factory;
 	}
 
-	public String create(Category user) {
+	public String create(ProductList user) {
 		EntityManager em = emf.createEntityManager();
 		try {
 			em.getTransaction().begin();
-			if (user.getParent() != null) {
-				Category parent = em.merge(user.getParent());
-				parent.addChild(user);
-				user.setParent(parent);
+			ArrayList<Product> products = new ArrayList<Product>();
+			for (Product p : user.getProducts()) {
+				p = em.merge(p);
+				products.add(p);
+				List<ProductList> l = p.getProductLists();
+				l.add(user);
+				p.setProductLists(l);
 			}
+			user.setProducts(products);
 			em.persist(user);
 			em.getTransaction().commit();
 		} catch (Exception ex) {
@@ -52,13 +58,12 @@ public class CategoryManager {
 		return "";
 	}
 
-	
 	@SuppressWarnings("unchecked")
-	public List<Category> findAllRoots() {
-		List<Category> resultado;
+	public List<ProductList> findAll() {
+		List<ProductList> resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query query = em.createNamedQuery("Category.findAll", Category.class);
+			Query query = em.createNamedQuery("ProductList.findAll", ProductList.class);
 			resultado = query.getResultList();
 		} finally {
 			em.close();
@@ -67,25 +72,22 @@ public class CategoryManager {
 
 	}
 
-	public Category findById(int id) {
-		Category resultado;
+	public ProductList findById(int id) {
+		ProductList resultado;
 		EntityManager em = emf.createEntityManager();
 		try {
-			resultado = em.find(Category.class, id);
+			resultado = em.find(ProductList.class, id);
 		} finally {
 			em.close();
 		}
 		return resultado;
 	}
 
-	public void delete(Category user) {
+	public void delete(ProductList user) {
 		EntityManager em = emf.createEntityManager();
 		try {
 			user = em.merge(user);
 			em.getTransaction().begin();
-			if (user.getParent() != null) {
-				user.getParent().removeChild(user);
-			}
 			em.remove(user);
 			em.getTransaction().commit();
 		} finally {
@@ -93,24 +95,16 @@ public class CategoryManager {
 		}
 	}
 
-	public void edit(Category category, String name) {
-		EntityManager em = emf.createEntityManager();
-		try {
-			em.getTransaction().begin();
-			category = em.merge(category);
-			category.setName(name);
-			em.getTransaction().commit();
-		} finally {
-			em.close();
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Category> getRoots() {
-		EntityManager em = emf.createEntityManager();
-
-		Query query = em.createQuery("SELECT c " + " FROM Category c " + " WHERE c.parent IS NULL");
-		return (List<Category>) query.getResultList();
-	}
+//	public void addProduct(ProductList list, Product p) {
+//		EntityManager em = emf.createEntityManager();
+//		try {
+//			em.getTransaction().begin();
+//			list = em.merge(list);
+//			list.setProducts(products);
+//			em.getTransaction().commit();
+//		} finally {
+//			em.close();
+//		}
+//	}
 
 }

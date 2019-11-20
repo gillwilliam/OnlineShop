@@ -47,7 +47,7 @@ public class UserManager {
 		}
 	}
 
-	public void edit(User user, String name, String surname, String phone, String address, String email,
+	public User edit(User user, String name, String surname, String phone, String address, String email,
 			String newPassword) {
 		EntityManager em = emf.createEntityManager();
 		user = em.merge(user);
@@ -60,6 +60,7 @@ public class UserManager {
 		if (newPassword != null && !newPassword.isEmpty())
 			user.setPassword(newPassword);
 		em.getTransaction().commit();
+		return user;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -68,7 +69,7 @@ public class UserManager {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createNamedQuery("User.findAll", User.class);
-			resultado = (List<User>)query.getResultList();
+			resultado = (List<User>) query.getResultList();
 		} finally {
 			em.close();
 		}
@@ -82,13 +83,14 @@ public class UserManager {
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createQuery("SELECT u " + " FROM User u " + " WHERE u.type = '" + type + "'");
-			resultado = (List<User>)query.getResultList();
+			resultado = (List<User>) query.getResultList();
 		} finally {
 			em.close();
 		}
 		return resultado;
 
 	}
+
 	public User findById(int id) {
 		User resultado;
 		EntityManager em = emf.createEntityManager();
