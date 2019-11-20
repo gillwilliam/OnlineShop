@@ -1,4 +1,4 @@
-	package request_handlers;
+package request_handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import entities.Product;
 import entities.ProductList;
 import entities.User;
 import manager.OrderManager;
+import manager.ProductListManager;
 import manager.ProductManager;
 
 public class CheckoutRequestHandler implements RequestHandler {
@@ -50,30 +51,31 @@ public class CheckoutRequestHandler implements RequestHandler {
 		System.out.println(name);
 
 		// get the other params and insert them?
-		
+
 		HttpSession ms = request.getSession();
-		
+
 		HashMap<Integer, Integer> orderedProductsIds = ((HashMap<Integer, Integer>) ms.getAttribute("shoppingcarts"));
-		
+
 		OrderManager om = new OrderManager();
 		ProductManager pm = new ProductManager();
-		
+		ProductListManager plm = new ProductListManager();
+
 		List<Product> orderedProducts = new ArrayList<Product>();
-		
+
 		for (HashMap.Entry<Integer, Integer> entry : orderedProductsIds.entrySet()) {
-		    int key = entry.getKey();
-		    int value = entry.getValue();
-		    		    
-		    Product cur = pm.findById(key);
-		    orderedProducts.add(cur);
+			int key = entry.getKey();
+			int value = entry.getValue();
+
+			Product cur = pm.findById(key);
+			orderedProducts.add(cur);
 		}
-		
+
 		User self = (User) ms.getAttribute(mContext.getInitParameter("signed_user_attribute_name"));
-		
+
 		ProductList curProductList = new ProductList(orderedProducts, self);
-		
+		plm.create(curProductList);
+
 		Order curOrder = new Order(self, curProductList);
-		
 		om.create(curOrder);
 
 		// redirect to home?

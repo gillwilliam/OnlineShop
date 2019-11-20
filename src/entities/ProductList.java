@@ -3,11 +3,13 @@ package entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
@@ -32,7 +34,9 @@ public class ProductList implements Serializable {
 	private byte isShoppingCart;
 
 	//bi-directional many-to-many association to Product
-	@ManyToMany(mappedBy="productLists")
+	@ManyToMany(mappedBy="productLists", cascade = CascadeType.ALL)
+	@JoinTable(name = "lists_to_products", joinColumns = { @JoinColumn(name = "productId") }, inverseJoinColumns = {
+			@JoinColumn(name = "listId") })
 	private List<Product> products;
 
 	//bi-directional many-to-one association to User
@@ -47,7 +51,6 @@ public class ProductList implements Serializable {
 	public ProductList(List<Product> products, User userBean) {
 		this.products = products;
 		this.userBean = userBean;
-		this.order = order;
 	}
 
 	public ProductList() {
