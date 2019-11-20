@@ -28,6 +28,7 @@ import request_handlers.RegisterRequestHandler;
 import request_handlers.RenameCategoryRequestHandler;
 import request_handlers.RequestHandler;
 import request_handlers.SearchProductsRequestHandler;
+import request_handlers.SearchUsersRequestHandler;
 import request_handlers.SignInRequestHandler;
 import request_handlers.SignOutRequestHandler;
 
@@ -88,6 +89,7 @@ public class MainFrontController extends HttpServlet {
 		mRequestHandlers.put("/createProduct" + mRequestExtension, new CreateProductRequestHandler(context));
 		mRequestHandlers.put("/createSeller" + mRequestExtension, new CreateSellerRequestHandler(context));
 		mRequestHandlers.put("/searchProducts" + mRequestExtension, new SearchProductsRequestHandler(context));
+		mRequestHandlers.put("/searchUsers" + mRequestExtension, new SearchUsersRequestHandler(context));
 		mRequestHandlers.put("/getImage" + mRequestExtension, new DisplayImage());
 		mRequestHandlers.put("/users/mailbox/mailbox" + mRequestExtension, new ReadMessageRequestHandler(context));
 		mRequestHandlers.put("/sendMessage" + mRequestExtension, new SendMessageRequestHandler(context));
