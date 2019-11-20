@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -24,6 +26,7 @@ public class ProductList implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int listId;
 
 	private byte isShoppingCart;
@@ -40,6 +43,12 @@ public class ProductList implements Serializable {
 	//bi-directional one-to-one association to Order
 	@OneToOne(mappedBy="productList")
 	private Order order;
+	
+	public ProductList(List<Product> products, User userBean) {
+		this.products = products;
+		this.userBean = userBean;
+		this.order = order;
+	}
 
 	public ProductList() {
 	}

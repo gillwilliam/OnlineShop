@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import request_handlers.AddCategoryRequestHandler;
+import request_handlers.AddToShoppingCartRequestHandler;
 import request_handlers.CheckoutRequestHandler;
 import request_handlers.CreateProductRequestHandler;
 import request_handlers.CreateSellerRequestHandler;
@@ -25,6 +26,7 @@ import request_handlers.RegisterRequestHandler;
 import request_handlers.RenameCategoryRequestHandler;
 import request_handlers.RequestHandler;
 import request_handlers.SearchProductsRequestHandler;
+import request_handlers.ShoppingCartRequestHandler;
 import request_handlers.SignInRequestHandler;
 import request_handlers.SignOutRequestHandler;
 
@@ -76,6 +78,10 @@ public class MainFrontController extends HttpServlet {
 		mRequestHandlers.put("/signIn" + mRequestExtension, new SignInRequestHandler(context));
 		mRequestHandlers.put("/product/checkout" + mRequestExtension,
 				new CheckoutRequestHandler(context, mRequestExtension));
+		mRequestHandlers.put("/addToShoppingCart" + mRequestExtension,
+				new AddToShoppingCartRequestHandler(context, mRequestExtension));
+		mRequestHandlers.put("/editShoppingCart" + mRequestExtension,
+				new ShoppingCartRequestHandler(context, mRequestExtension));
 		mRequestHandlers.put("/addCategory" + mRequestExtension, new AddCategoryRequestHandler(context));
 		mRequestHandlers.put("/renameCategory" + mRequestExtension, new RenameCategoryRequestHandler(context));
 		mRequestHandlers.put("/deleteCategory" + mRequestExtension, new DeleteCategoryRequestHandler(context));

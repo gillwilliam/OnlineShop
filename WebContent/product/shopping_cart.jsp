@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="entities.Product"%>
-<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.*"%>
 <%@ page import="utils.Price"%>
+<%@ page import="manager.ProductManager"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,15 +56,26 @@
 <body>
 	<%
 		// replace with pulling the products in the shopping cart from db
-		ArrayList<Product> products = new ArrayList<Product>();
+		ProductManager pm = new ProductManager();
+		Set<Integer> ms = new HashSet<Integer>();
+		HashMap<Integer, Integer> products = new HashMap<Integer, Integer>();
+		if(request.getSession().getAttribute("shoppingcarts") != null) {
+			products = (HashMap<Integer, Integer>) request.getSession().getAttribute("shoppingcarts");
+			ms = products.keySet();
+		}
+
 	%>
 	<div class="container">
 		<jsp:include page="../Header.jsp" />
 	</div>
 	<div class="container">
 		<div style="margin-top: 100px">
+			<%if(ms.isEmpty()) {%>
+				<h2>Cart is currently empty, please add items to the cart to checkout.</h2>
+			<%} %>	
 			<%
-				for (Product product : products) {
+				for (Integer productId : ms) {
+					Product product = pm.findById(productId);
 			%>
 			<div class="row">
 				<div class="col-md-6">
@@ -74,7 +86,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-6 text-center">
-					<img id="product_image" src="<%=product.getImage()%>"
+					<img id="product_image" src="${pageContext.request.contextPath}/getImage.main?id=<%=product.getId()%>"
 						alt="product photo" />
 				</div>
 				<div class="col-md-6">
@@ -84,10 +96,34 @@
 							<b><%=product.getPrice()%></b>
 						</div>
 						<div class="col-md-4">
-							<p><%=product.getQuantity() + " items"%></p>
+							<p><%=products.get(productId) + " items"%></p>
 						</div>
 						<div class="col-md-4">
-							<button class="btn btn-danger">Remove</button>
+							<form id="product"
+							action="${pageContext.request.contextPath}/editShoppingCart<%= application.getInitParameter("main_front_controller_request_extension") %>"
+							method="post">
+							
+							<input id="show" type="submit" class="btn btn-success" style="margin-bottom: 10px"
+								name="show"
+								value="Add 1 item"/>
+			
+							<input id="product" style="display: none"
+								name="product"
+								value="increment <%=product.getId()%>" />
+							</form>
+							
+							<form id="product"
+							action="${pageContext.request.contextPath}/editShoppingCart<%= application.getInitParameter("main_front_controller_request_extension") %>"
+							method="post">
+							
+							<input id="show" type="submit" class="btn btn-danger"
+								name="show"
+								value="Remove 1 item"/>
+			
+							<input id="product" style="display: none"
+								name="product"
+								value="decrement <%=product.getId()%>"/>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -97,6 +133,9 @@
 				}
 			%>
 		</div>
+		<%
+		if(!ms.isEmpty()) {
+		%>
 		<div class="row">
 			<div class="col-md-3 offset-md-10" style="margin-bottom: 10px">
 				<a class="btn btn-primary"
@@ -104,6 +143,7 @@
 					out</a>
 			</div>
 		</div>
+		<%} %>
 	</div>
 	<!-- FOOTER TODO: Remove this-->
 	<footer id="footer" class="section section-grey">
