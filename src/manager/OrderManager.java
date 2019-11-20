@@ -7,9 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import entities.Category;
 import entities.Order;
 import entities.ProductList;
+import entities.User;
 
 public class OrderManager {
 
@@ -85,5 +85,14 @@ public class OrderManager {
 		Query query = em.createQuery("SELECT o " + " FROM Order o " + " WHERE o.name LIKE '%" + search + "%'");
 		return (List<Order>) query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Order> findByUserId(User u) {
+		EntityManager em = emf.createEntityManager();
+
+		Query query = em.createQuery("SELECT o " + " FROM Order o " + " WHERE o.user = :u").setParameter("u", u);
+		return (List<Order>) query.getResultList();
+	}
+	
 
 }

@@ -31,7 +31,7 @@ public class ProductList implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int listId;
 
-	private byte isShoppingCart;
+	private boolean isShoppingCart;
 
 	//bi-directional many-to-many association to Product
 	@ManyToMany(mappedBy="productLists", cascade = CascadeType.ALL)
@@ -51,6 +51,7 @@ public class ProductList implements Serializable {
 	public ProductList(List<Product> products, User userBean) {
 		this.products = products;
 		this.userBean = userBean;
+		this.isShoppingCart = false;
 	}
 
 	public ProductList() {
@@ -64,11 +65,11 @@ public class ProductList implements Serializable {
 		this.listId = listId;
 	}
 
-	public byte getIsShoppingCart() {
+	public boolean getIsShoppingCart() {
 		return this.isShoppingCart;
 	}
 
-	public void setIsShoppingCart(byte isShoppingCart) {
+	public void setIsShoppingCart(boolean isShoppingCart) {
 		this.isShoppingCart = isShoppingCart;
 	}
 
