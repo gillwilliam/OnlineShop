@@ -32,6 +32,7 @@ public class CategoryManager {
 			if (user.getParent() != null) {
 				Category parent = em.merge(user.getParent());
 				parent.addChild(user);
+				user.setParent(parent);
 			}
 			em.persist(user);
 			em.getTransaction().commit();
